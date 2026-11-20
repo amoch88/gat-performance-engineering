@@ -1,0 +1,4086 @@
+{
+  "raw_statistics_verified": {
+    "baseline_forward_blocks": 82,
+    "joint_interface_blocks": 972
+  },
+  "scope": "Offline analysis only; no new measurements; no performance model",
+  "source_sha256": {
+    "benchmarks/dgl_baseline/MEASUREMENTS.json": "eab742d909fcdd30a22b587610768b195b2d781ce082fa1b17dfcb3d845d50e0",
+    "benchmarks/joint_tuning/RESULTS.json": "066e0778c6ec92b3614e0418e8f6c1aecd3d28d4db405c02c16558cdf7e3d6ca",
+    "benchmarks/joint_tuning/ANALYSIS.json": "f752be095a6ce853c70e7e2983c3c03cbaa24b40dc2fa20828b06f2678163bc8",
+    "benchmarks/joint_tuning/PILOT.json": "b90d1cecaa904c81ac6b81778b28f704965a3d2da7030de711f11939f1358130"
+  },
+  "datasets": {
+    "citeseer": {
+      "nodes": 3327,
+      "dataset_edges": 9228,
+      "original_features": 3703,
+      "source": "DGL 1.1.3 CiteseerGraphDataset",
+      "loading_ms": 84.529621,
+      "loader_reorder": false,
+      "edges_with_self_loops": 12431,
+      "self_loop_policy": "remove all loops; append exactly one per node",
+      "preprocessing_ms": 1.714099,
+      "feature_sha256": "d00c6fd7410af29646fb4678926e72ece1ef8a9a910b09d100ca0db4abfcb849"
+    },
+    "cora": {
+      "nodes": 2708,
+      "dataset_edges": 10556,
+      "original_features": 1433,
+      "source": "DGL 1.1.3 CoraGraphDataset",
+      "loading_ms": 69.736381,
+      "loader_reorder": false,
+      "edges_with_self_loops": 13264,
+      "self_loop_policy": "remove all loops; append exactly one per node",
+      "preprocessing_ms": 1.220229,
+      "feature_sha256": "f665a31d59f68feb41da8d96a9b001fd22283bd6901982f1e9ecfc9820211fa4"
+    },
+    "pubmed": {
+      "nodes": 19717,
+      "dataset_edges": 88651,
+      "original_features": 500,
+      "source": "DGL 1.1.3 PubmedGraphDataset",
+      "loading_ms": 356.733733,
+      "loader_reorder": false,
+      "edges_with_self_loops": 108365,
+      "self_loop_policy": "remove all loops; append exactly one per node",
+      "preprocessing_ms": 5.119242,
+      "feature_sha256": "d8f35ece8f48972c55c7c5e9c909f74a192ec10fdc20812c06ef31abcd63dd98"
+    },
+    "reddit": {
+      "nodes": 232965,
+      "dataset_edges": 114615892,
+      "original_features": 602,
+      "source": "DGL 1.1.3 RedditDataset",
+      "loading_ms": 4021.810852,
+      "loader_reorder": null,
+      "edges_with_self_loops": 114848857,
+      "self_loop_policy": "remove all loops; append exactly one per node",
+      "preprocessing_ms": 7277.350278,
+      "feature_sha256": "671eac6151e6ee5d20677bfd1a06b392b89ca7325e902a0efba86006b4801a21"
+    }
+  },
+  "opat": [
+    {
+      "dataset": "citeseer",
+      "parameter": "edge_ordering",
+      "status": "completed",
+      "baseline_policy": "original loader edge order after self-loop policy; all formats",
+      "cases": [
+        {
+          "case": "original",
+          "status": "passed",
+          "median": 7.8079065,
+          "mean": 7.79254335,
+          "stddev": 0.24888688675153423,
+          "min": 7.407493,
+          "speedup_vs_control": 0.9901175814541324,
+          "n_samples": 20,
+          "within_block_cv": 0.031939108397970505,
+          "preparation_ms": 0.001448,
+          "distinct_storage": {
+            "csr": {
+              "indices": false,
+              "eid_map": false
+            },
+            "csc": {
+              "indices": false,
+              "eid_map": false
+            },
+            "coo": {
+              "indices": false,
+              "eid_map": false
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 0.0
+          }
+        },
+        {
+          "case": "src",
+          "status": "passed",
+          "median": 7.7844815,
+          "mean": 7.91337255,
+          "stddev": 0.39978696669634,
+          "min": 7.528828,
+          "speedup_vs_control": 0.9930970354287565,
+          "n_samples": 20,
+          "within_block_cv": 0.05052042781637268,
+          "preparation_ms": 8.562128,
+          "distinct_storage": {
+            "csr": {
+              "indices": true,
+              "eid_map": true
+            },
+            "csc": {
+              "indices": true,
+              "eid_map": true
+            },
+            "coo": {
+              "indices": true,
+              "eid_map": false
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 1.862645149230957e-09
+          }
+        },
+        {
+          "case": "dst",
+          "status": "passed",
+          "median": 7.879187,
+          "mean": 8.0070511,
+          "stddev": 0.36058792856460925,
+          "min": 7.558199,
+          "speedup_vs_control": 0.9811603024525245,
+          "n_samples": 20,
+          "within_block_cv": 0.04503379884319825,
+          "preparation_ms": 8.600024,
+          "distinct_storage": {
+            "csr": {
+              "indices": true,
+              "eid_map": true
+            },
+            "csc": {
+              "indices": true,
+              "eid_map": true
+            },
+            "coo": {
+              "indices": true,
+              "eid_map": false
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 1.862645149230957e-09
+          }
+        }
+      ],
+      "baseline_ms": {
+        "median": 7.730745499999999,
+        "mean": 7.8047068,
+        "stddev": 0.266408649964002,
+        "min": 7.518529
+      },
+      "fastest_candidate_block": "src"
+    },
+    {
+      "dataset": "citeseer",
+      "parameter": "node_ordering",
+      "status": "completed",
+      "baseline_policy": "original node IDs; src-grouped edges",
+      "cases": [
+        {
+          "case": "original",
+          "status": "passed",
+          "median": 7.688945,
+          "mean": 7.71253715,
+          "stddev": 0.12966289603846418,
+          "min": 7.526817,
+          "speedup_vs_control": 1.0288774337701727,
+          "n_samples": 20,
+          "within_block_cv": 0.016811963886418903,
+          "preparation_ms": 37.362046,
+          "distinct_storage": {
+            "coo": {
+              "indices": false,
+              "eid_map": false
+            },
+            "csr": {
+              "indices": false,
+              "eid_map": false
+            },
+            "csc": {
+              "indices": false,
+              "eid_map": false
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 0.0
+          }
+        },
+        {
+          "case": "rcmk",
+          "status": "passed",
+          "median": 7.7565705000000005,
+          "mean": 7.804621,
+          "stddev": 0.1983667138511531,
+          "min": 7.506997,
+          "speedup_vs_control": 1.0199071870744938,
+          "n_samples": 20,
+          "within_block_cv": 0.02541657229110204,
+          "preparation_ms": 63.950947,
+          "distinct_storage": {
+            "coo": {
+              "indices": true,
+              "eid_map": false
+            },
+            "csr": {
+              "indices": true,
+              "eid_map": false
+            },
+            "csc": {
+              "indices": true,
+              "eid_map": true
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 3.725290298461914e-09
+          }
+        },
+        {
+          "case": "degree",
+          "status": "passed",
+          "median": 7.554538,
+          "mean": 7.6478283,
+          "stddev": 0.22911473691123688,
+          "min": 7.395442,
+          "speedup_vs_control": 1.0471827661731268,
+          "n_samples": 20,
+          "within_block_cv": 0.029958143400164578,
+          "preparation_ms": 77.653098,
+          "distinct_storage": {
+            "coo": {
+              "indices": true,
+              "eid_map": false
+            },
+            "csr": {
+              "indices": true,
+              "eid_map": false
+            },
+            "csc": {
+              "indices": true,
+              "eid_map": true
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 1.862645149230957e-09
+          }
+        }
+      ],
+      "baseline_ms": {
+        "median": 7.910982000000001,
+        "mean": 7.9547051,
+        "stddev": 0.22985983519159095,
+        "min": 7.648332
+      },
+      "fastest_candidate_block": "degree"
+    },
+    {
+      "dataset": "citeseer",
+      "parameter": "sparse_format",
+      "status": "completed_with_unsupported_cases",
+      "baseline_policy": "original loader edge order after self-loop policy; all formats",
+      "cases": [
+        {
+          "case": "coo",
+          "status": "unsupported_format",
+          "reason": "[05:56:22] /opt/dgl/src/graph/unit_graph.cc:1421: The graph have restricted sparse format coo , cannot create CSC matrix.\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x60799a) [0x7f9e81e0799a]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::GetInCSR(bool) const+0x195) [0x7f9e81e0e4f5]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::GetCSCMatrix(unsigned long) const+0x16) [0x7f9e81e0ea46]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::HeteroGraph::GetCSCMatrix(unsigned long) const+0x23) [0x7f9e81d10f73]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::aten::Edge_softmax_forward(std::string const&, std::shared_ptr<dgl::BaseHeteroGraph>, dgl::runtime::NDArray, dgl::runtime::NDArray, dgl::runtime::NDArray)+0x6cb) [0x7f9e81c5cbbb]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x46741a) [0x7f9e81c6741a]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f9e81ca92a8]\n  [bt] (7) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a63a) [0x7f9e8081a63a]\n  [bt] (8) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f9e8081ac9f]\n\n"
+        },
+        {
+          "case": "csr",
+          "status": "unsupported_format",
+          "reason": "[05:56:22] /opt/dgl/src/graph/unit_graph.cc:1035: Check failed: fmt == SparseFormat::kCSC || fmt == SparseFormat::kCOO: In degree cannot be computed as neither CSC nor COO format is allowed for this graph. Please enable one of them at least.\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x60799a) [0x7f9e81e0799a]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::InDegrees(unsigned long, dgl::runtime::NDArray) const+0x159) [0x7f9e81e10b19]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::HeteroGraph::InDegrees(unsigned long, dgl::runtime::NDArray) const+0x49) [0x7f9e81d11539]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x51ab21) [0x7f9e81d1ab21]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f9e81ca92a8]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a446) [0x7f9e8081a446]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f9e8081ac9f]\n  [bt] (7) /workspace/dgl-performance-model/.venv/bin/python(_PyEval_EvalFrameDefault+0x24c7c) [0x5585765b257c]\n  [bt] (8) /workspace/dgl-performance-model/.venv/bin/python(_PyFunction_Vectorcall+0x1d9) [0x558576516509]\n\n"
+        },
+        {
+          "case": "csc",
+          "status": "unsupported_format",
+          "reason": "[05:56:22] /opt/dgl/src/array/kernel.cc:231: SDDMM only supports CSR and COO formats\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x4537aa) [0x7f9e81c537aa]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::aten::SDDMM(std::string const&, std::shared_ptr<dgl::BaseHeteroGraph>, dgl::runtime::NDArray, dgl::runtime::NDArray, dgl::runtime::NDArray, int, int)+0x5fc) [0x7f9e81c5b5bc]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x469c4f) [0x7f9e81c69c4f]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x46a141) [0x7f9e81c6a141]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f9e81ca92a8]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a63a) [0x7f9e8081a63a]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f9e8081ac9f]\n  [bt] (7) /workspace/dgl-performance-model/.venv/bin/python(_PyEval_EvalFrameDefault+0x24c7c) [0x5585765b257c]\n  [bt] (8) /workspace/dgl-performance-model/.venv/bin/python(_PyFunction_Vectorcall+0x1d9) [0x558576516509]\n\n"
+        }
+      ],
+      "baseline_ms": {
+        "median": 7.9051805,
+        "mean": 7.90270245,
+        "stddev": 0.30064796125324766,
+        "min": 7.41908
+      }
+    },
+    {
+      "dataset": "cora",
+      "parameter": "edge_ordering",
+      "status": "completed",
+      "baseline_policy": "original loader edge order after self-loop policy; all formats",
+      "cases": [
+        {
+          "case": "original",
+          "status": "passed",
+          "median": 3.85808,
+          "mean": 3.893681,
+          "stddev": 0.11795139367151468,
+          "min": 3.749426,
+          "speedup_vs_control": 1.032324627794136,
+          "n_samples": 20,
+          "within_block_cv": 0.03029302957060804,
+          "preparation_ms": 0.001142,
+          "distinct_storage": {
+            "csc": {
+              "indices": false,
+              "eid_map": false
+            },
+            "coo": {
+              "indices": false,
+              "eid_map": false
+            },
+            "csr": {
+              "indices": false,
+              "eid_map": false
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 0.0
+          }
+        },
+        {
+          "case": "src",
+          "status": "passed",
+          "median": 3.866215,
+          "mean": 3.89629645,
+          "stddev": 0.18000922835421956,
+          "min": 3.647672,
+          "speedup_vs_control": 1.0301524876397201,
+          "n_samples": 20,
+          "within_block_cv": 0.046200085302600516,
+          "preparation_ms": 4.455014,
+          "distinct_storage": {
+            "csc": {
+              "indices": true,
+              "eid_map": true
+            },
+            "coo": {
+              "indices": true,
+              "eid_map": false
+            },
+            "csr": {
+              "indices": true,
+              "eid_map": true
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 7.450580596923828e-09
+          }
+        },
+        {
+          "case": "dst",
+          "status": "passed",
+          "median": 3.8200149999999997,
+          "mean": 3.8454042,
+          "stddev": 0.10487306839904875,
+          "min": 3.716781,
+          "speedup_vs_control": 1.0426113510025485,
+          "n_samples": 20,
+          "within_block_cv": 0.027272313375808127,
+          "preparation_ms": 3.718727,
+          "distinct_storage": {
+            "csc": {
+              "indices": true,
+              "eid_map": true
+            },
+            "coo": {
+              "indices": true,
+              "eid_map": false
+            },
+            "csr": {
+              "indices": true,
+              "eid_map": true
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 7.450580596923828e-09
+          }
+        }
+      ],
+      "baseline_ms": {
+        "median": 3.982791,
+        "mean": 4.0392071,
+        "stddev": 0.22126302326580982,
+        "min": 3.641763
+      },
+      "fastest_candidate_block": "dst"
+    },
+    {
+      "dataset": "cora",
+      "parameter": "node_ordering",
+      "status": "completed",
+      "baseline_policy": "original node IDs; src-grouped edges",
+      "cases": [
+        {
+          "case": "original",
+          "status": "passed",
+          "median": 3.8549225,
+          "mean": 3.8650952,
+          "stddev": 0.06953525528868908,
+          "min": 3.762337,
+          "speedup_vs_control": 1.0560165606442153,
+          "n_samples": 20,
+          "within_block_cv": 0.017990567292802795,
+          "preparation_ms": 6.979,
+          "distinct_storage": {
+            "csr": {
+              "indices": false,
+              "eid_map": false
+            },
+            "csc": {
+              "indices": false,
+              "eid_map": false
+            },
+            "coo": {
+              "indices": false,
+              "eid_map": false
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 0.0
+          }
+        },
+        {
+          "case": "rcmk",
+          "status": "passed",
+          "median": 3.9558955,
+          "mean": 3.9576948,
+          "stddev": 0.165879022966993,
+          "min": 3.729011,
+          "speedup_vs_control": 1.0290620669833164,
+          "n_samples": 20,
+          "within_block_cv": 0.04191304063339927,
+          "preparation_ms": 16.346041,
+          "distinct_storage": {
+            "csr": {
+              "indices": true,
+              "eid_map": false
+            },
+            "csc": {
+              "indices": true,
+              "eid_map": true
+            },
+            "coo": {
+              "indices": true,
+              "eid_map": false
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 1.1175870895385742e-08
+          }
+        },
+        {
+          "case": "degree",
+          "status": "passed",
+          "median": 3.766123,
+          "mean": 3.8193101,
+          "stddev": 0.18651609175276615,
+          "min": 3.653821,
+          "speedup_vs_control": 1.0809158383833986,
+          "n_samples": 20,
+          "within_block_cv": 0.04883502173671788,
+          "preparation_ms": 16.049608,
+          "distinct_storage": {
+            "csr": {
+              "indices": true,
+              "eid_map": false
+            },
+            "csc": {
+              "indices": true,
+              "eid_map": true
+            },
+            "coo": {
+              "indices": true,
+              "eid_map": false
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 5.587935447692871e-09
+          }
+        }
+      ],
+      "baseline_ms": {
+        "median": 4.070862,
+        "mean": 4.1049828999999995,
+        "stddev": 0.1824618476697035,
+        "min": 3.877897
+      },
+      "fastest_candidate_block": "degree"
+    },
+    {
+      "dataset": "cora",
+      "parameter": "sparse_format",
+      "status": "completed_with_unsupported_cases",
+      "baseline_policy": "original loader edge order after self-loop policy; all formats",
+      "cases": [
+        {
+          "case": "coo",
+          "status": "unsupported_format",
+          "reason": "[05:56:04] /opt/dgl/src/graph/unit_graph.cc:1421: The graph have restricted sparse format coo , cannot create CSC matrix.\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x60799a) [0x7f550680799a]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::GetInCSR(bool) const+0x195) [0x7f550680e4f5]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::GetCSCMatrix(unsigned long) const+0x16) [0x7f550680ea46]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::HeteroGraph::GetCSCMatrix(unsigned long) const+0x23) [0x7f5506710f73]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::aten::Edge_softmax_forward(std::string const&, std::shared_ptr<dgl::BaseHeteroGraph>, dgl::runtime::NDArray, dgl::runtime::NDArray, dgl::runtime::NDArray)+0x6cb) [0x7f550665cbbb]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x46741a) [0x7f550666741a]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f55066a92a8]\n  [bt] (7) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a63a) [0x7f550521a63a]\n  [bt] (8) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f550521ac9f]\n\n"
+        },
+        {
+          "case": "csr",
+          "status": "unsupported_format",
+          "reason": "[05:56:04] /opt/dgl/src/graph/unit_graph.cc:1035: Check failed: fmt == SparseFormat::kCSC || fmt == SparseFormat::kCOO: In degree cannot be computed as neither CSC nor COO format is allowed for this graph. Please enable one of them at least.\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x60799a) [0x7f550680799a]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::InDegrees(unsigned long, dgl::runtime::NDArray) const+0x159) [0x7f5506810b19]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::HeteroGraph::InDegrees(unsigned long, dgl::runtime::NDArray) const+0x49) [0x7f5506711539]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x51ab21) [0x7f550671ab21]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f55066a92a8]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a446) [0x7f550521a446]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f550521ac9f]\n  [bt] (7) /workspace/dgl-performance-model/.venv/bin/python(_PyEval_EvalFrameDefault+0x24c7c) [0x55ebf7f3857c]\n  [bt] (8) /workspace/dgl-performance-model/.venv/bin/python(_PyFunction_Vectorcall+0x1d9) [0x55ebf7e9c509]\n\n"
+        },
+        {
+          "case": "csc",
+          "status": "unsupported_format",
+          "reason": "[05:56:04] /opt/dgl/src/array/kernel.cc:231: SDDMM only supports CSR and COO formats\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x4537aa) [0x7f55066537aa]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::aten::SDDMM(std::string const&, std::shared_ptr<dgl::BaseHeteroGraph>, dgl::runtime::NDArray, dgl::runtime::NDArray, dgl::runtime::NDArray, int, int)+0x5fc) [0x7f550665b5bc]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x469c4f) [0x7f5506669c4f]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x46a141) [0x7f550666a141]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f55066a92a8]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a63a) [0x7f550521a63a]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f550521ac9f]\n  [bt] (7) /workspace/dgl-performance-model/.venv/bin/python(_PyEval_EvalFrameDefault+0x24c7c) [0x55ebf7f3857c]\n  [bt] (8) /workspace/dgl-performance-model/.venv/bin/python(_PyFunction_Vectorcall+0x1d9) [0x55ebf7e9c509]\n\n"
+        }
+      ],
+      "baseline_ms": {
+        "median": 3.9560125,
+        "mean": 3.9922246,
+        "stddev": 0.15572334432927767,
+        "min": 3.765792
+      }
+    },
+    {
+      "dataset": "pubmed",
+      "parameter": "edge_ordering",
+      "status": "completed",
+      "baseline_policy": "original loader edge order after self-loop policy; all formats",
+      "cases": [
+        {
+          "case": "original",
+          "status": "passed",
+          "median": 19.372352499999998,
+          "mean": 20.683112,
+          "stddev": 5.585459683725574,
+          "min": 18.487265,
+          "speedup_vs_control": 0.9767998749764645,
+          "n_samples": 20,
+          "within_block_cv": 0.2700492887011188,
+          "preparation_ms": 0.001293,
+          "distinct_storage": {
+            "coo": {
+              "indices": false,
+              "eid_map": false
+            },
+            "csc": {
+              "indices": false,
+              "eid_map": false
+            },
+            "csr": {
+              "indices": false,
+              "eid_map": false
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 0.0
+          }
+        },
+        {
+          "case": "src",
+          "status": "passed",
+          "median": 19.7875335,
+          "mean": 20.03299055,
+          "stddev": 0.7816318081385538,
+          "min": 18.608723,
+          "speedup_vs_control": 0.9563047107412351,
+          "n_samples": 20,
+          "within_block_cv": 0.039017230412388616,
+          "preparation_ms": 13.184526,
+          "distinct_storage": {
+            "coo": {
+              "indices": true,
+              "eid_map": false
+            },
+            "csc": {
+              "indices": true,
+              "eid_map": true
+            },
+            "csr": {
+              "indices": true,
+              "eid_map": true
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 1.1175870895385742e-08
+          }
+        },
+        {
+          "case": "dst",
+          "status": "passed",
+          "median": 17.7341715,
+          "mean": 17.70126165,
+          "stddev": 0.6191477296748351,
+          "min": 16.703216,
+          "speedup_vs_control": 1.0670310423015814,
+          "n_samples": 20,
+          "within_block_cv": 0.03497760452994802,
+          "preparation_ms": 12.59619,
+          "distinct_storage": {
+            "coo": {
+              "indices": true,
+              "eid_map": false
+            },
+            "csc": {
+              "indices": true,
+              "eid_map": true
+            },
+            "csr": {
+              "indices": true,
+              "eid_map": true
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 1.4901161193847656e-08
+          }
+        }
+      ],
+      "baseline_ms": {
+        "median": 18.922911499999998,
+        "mean": 18.99820135,
+        "stddev": 0.5603298247765632,
+        "min": 18.109499
+      },
+      "fastest_candidate_block": "dst"
+    },
+    {
+      "dataset": "pubmed",
+      "parameter": "node_ordering",
+      "status": "completed",
+      "baseline_policy": "original node IDs; src-grouped edges",
+      "cases": [
+        {
+          "case": "original",
+          "status": "passed",
+          "median": 19.8624375,
+          "mean": 20.7743389,
+          "stddev": 3.475243883238002,
+          "min": 18.556435,
+          "speedup_vs_control": 0.9793157813586576,
+          "n_samples": 20,
+          "within_block_cv": 0.16728541398917884,
+          "preparation_ms": 33.847952,
+          "distinct_storage": {
+            "csc": {
+              "indices": false,
+              "eid_map": false
+            },
+            "coo": {
+              "indices": false,
+              "eid_map": false
+            },
+            "csr": {
+              "indices": false,
+              "eid_map": false
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 0.0
+          }
+        },
+        {
+          "case": "rcmk",
+          "status": "passed",
+          "median": 17.3483955,
+          "mean": 17.29166845,
+          "stddev": 0.4944768403324952,
+          "min": 16.400498,
+          "speedup_vs_control": 1.1212332863866288,
+          "n_samples": 20,
+          "within_block_cv": 0.028596248057977034,
+          "preparation_ms": 64.581456,
+          "distinct_storage": {
+            "csc": {
+              "indices": true,
+              "eid_map": true
+            },
+            "coo": {
+              "indices": true,
+              "eid_map": false
+            },
+            "csr": {
+              "indices": true,
+              "eid_map": false
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 2.421438694000244e-08
+          }
+        },
+        {
+          "case": "degree",
+          "status": "passed",
+          "median": 18.634942000000002,
+          "mean": 18.70817125,
+          "stddev": 0.4989014144075777,
+          "min": 17.941306,
+          "speedup_vs_control": 1.043823935701007,
+          "n_samples": 20,
+          "within_block_cv": 0.026667567221867167,
+          "preparation_ms": 61.438736,
+          "distinct_storage": {
+            "csc": {
+              "indices": true,
+              "eid_map": true
+            },
+            "coo": {
+              "indices": true,
+              "eid_map": false
+            },
+            "csr": {
+              "indices": true,
+              "eid_map": false
+            }
+          },
+          "correctness": {
+            "annotated_vs_official": "passed",
+            "canonical_graph": "passed",
+            "rtol": 0.0001,
+            "atol": 1e-05,
+            "max_absolute_error": 1.862645149230957e-08
+          }
+        }
+      ],
+      "baseline_ms": {
+        "median": 19.4515985,
+        "mean": 19.6364109,
+        "stddev": 0.7562559361337033,
+        "min": 18.737589
+      },
+      "fastest_candidate_block": "rcmk"
+    },
+    {
+      "dataset": "pubmed",
+      "parameter": "sparse_format",
+      "status": "completed_with_unsupported_cases",
+      "baseline_policy": "original loader edge order after self-loop policy; all formats",
+      "cases": [
+        {
+          "case": "coo",
+          "status": "unsupported_format",
+          "reason": "[05:56:53] /opt/dgl/src/graph/unit_graph.cc:1421: The graph have restricted sparse format coo , cannot create CSC matrix.\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x60799a) [0x7fa0afe0799a]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::GetInCSR(bool) const+0x195) [0x7fa0afe0e4f5]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::GetCSCMatrix(unsigned long) const+0x16) [0x7fa0afe0ea46]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::HeteroGraph::GetCSCMatrix(unsigned long) const+0x23) [0x7fa0afd10f73]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::aten::Edge_softmax_forward(std::string const&, std::shared_ptr<dgl::BaseHeteroGraph>, dgl::runtime::NDArray, dgl::runtime::NDArray, dgl::runtime::NDArray)+0x6cb) [0x7fa0afc5cbbb]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x46741a) [0x7fa0afc6741a]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7fa0afca92a8]\n  [bt] (7) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a63a) [0x7fa0ae81a63a]\n  [bt] (8) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7fa0ae81ac9f]\n\n"
+        },
+        {
+          "case": "csr",
+          "status": "unsupported_format",
+          "reason": "[05:56:53] /opt/dgl/src/graph/unit_graph.cc:1035: Check failed: fmt == SparseFormat::kCSC || fmt == SparseFormat::kCOO: In degree cannot be computed as neither CSC nor COO format is allowed for this graph. Please enable one of them at least.\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x60799a) [0x7fa0afe0799a]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::InDegrees(unsigned long, dgl::runtime::NDArray) const+0x159) [0x7fa0afe10b19]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::HeteroGraph::InDegrees(unsigned long, dgl::runtime::NDArray) const+0x49) [0x7fa0afd11539]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x51ab21) [0x7fa0afd1ab21]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7fa0afca92a8]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a446) [0x7fa0ae81a446]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7fa0ae81ac9f]\n  [bt] (7) /workspace/dgl-performance-model/.venv/bin/python(_PyEval_EvalFrameDefault+0x24c7c) [0x55ee4780557c]\n  [bt] (8) /workspace/dgl-performance-model/.venv/bin/python(_PyFunction_Vectorcall+0x1d9) [0x55ee47769509]\n\n"
+        },
+        {
+          "case": "csc",
+          "status": "unsupported_format",
+          "reason": "[05:56:53] /opt/dgl/src/array/kernel.cc:231: SDDMM only supports CSR and COO formats\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x4537aa) [0x7fa0afc537aa]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::aten::SDDMM(std::string const&, std::shared_ptr<dgl::BaseHeteroGraph>, dgl::runtime::NDArray, dgl::runtime::NDArray, dgl::runtime::NDArray, int, int)+0x5fc) [0x7fa0afc5b5bc]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x469c4f) [0x7fa0afc69c4f]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x46a141) [0x7fa0afc6a141]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7fa0afca92a8]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a63a) [0x7fa0ae81a63a]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7fa0ae81ac9f]\n  [bt] (7) /workspace/dgl-performance-model/.venv/bin/python(_PyEval_EvalFrameDefault+0x24c7c) [0x55ee4780557c]\n  [bt] (8) /workspace/dgl-performance-model/.venv/bin/python(_PyFunction_Vectorcall+0x1d9) [0x55ee47769509]\n\n"
+        }
+      ],
+      "baseline_ms": {
+        "median": 19.1906045,
+        "mean": 19.2348116,
+        "stddev": 0.6702135575191417,
+        "min": 17.948552
+      }
+    },
+    {
+      "dataset": "reddit",
+      "parameter": "edge_ordering",
+      "status": "skipped_memory",
+      "baseline_policy": null,
+      "cases": [
+        {
+          "case": "original",
+          "status": "skipped_memory",
+          "reason": "Conservative configuration working set exceeds 70% of pre-load available memory"
+        },
+        {
+          "case": "src",
+          "status": "skipped_memory",
+          "reason": "Conservative configuration working set exceeds 70% of pre-load available memory"
+        },
+        {
+          "case": "dst",
+          "status": "skipped_memory",
+          "reason": "Conservative configuration working set exceeds 70% of pre-load available memory"
+        }
+      ]
+    },
+    {
+      "dataset": "reddit",
+      "parameter": "node_ordering",
+      "status": "skipped_memory",
+      "baseline_policy": null,
+      "cases": [
+        {
+          "case": "original",
+          "status": "skipped_memory",
+          "reason": "Conservative configuration working set exceeds 70% of pre-load available memory"
+        },
+        {
+          "case": "rcmk",
+          "status": "skipped_memory",
+          "reason": "Conservative configuration working set exceeds 70% of pre-load available memory"
+        },
+        {
+          "case": "degree",
+          "status": "skipped_memory",
+          "reason": "Conservative configuration working set exceeds 70% of pre-load available memory"
+        }
+      ]
+    },
+    {
+      "dataset": "reddit",
+      "parameter": "sparse_format",
+      "status": "skipped_memory",
+      "baseline_policy": null,
+      "cases": [
+        {
+          "case": "coo",
+          "status": "skipped_memory",
+          "reason": "Conservative configuration working set exceeds 70% of pre-load available memory"
+        },
+        {
+          "case": "csr",
+          "status": "skipped_memory",
+          "reason": "Conservative configuration working set exceeds 70% of pre-load available memory"
+        },
+        {
+          "case": "csc",
+          "status": "skipped_memory",
+          "reason": "Conservative configuration working set exceeds 70% of pre-load available memory"
+        }
+      ]
+    }
+  ],
+  "restricted_axis_slices": [
+    {
+      "dataset": "cora",
+      "axis": "edge: node=original, format=all",
+      "context": "post-hoc single-axis slice from existing Milestone 3 data; NOT a new independent experiment",
+      "reference_option": "original",
+      "n_independent_process_rounds": 6,
+      "cases": [
+        {
+          "case": "original",
+          "forward_ms": {
+            "mean_round_median": 4.015904333333333,
+            "sd_round_median": 0.08139144766292501,
+            "round_medians": [
+              3.9617484999999997,
+              3.913558,
+              4.003804499999999,
+              4.153929,
+              4.0261675,
+              4.0362185
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 4.0169041666666665,
+            "sd_round_median": 0.08136780349233123,
+            "round_medians": [
+              3.9627045,
+              3.914543,
+              4.004986000000001,
+              4.1548585,
+              4.0272235,
+              4.0371095
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.000968,
+          "mean_preparation_ms": 0.0
+        },
+        {
+          "case": "src",
+          "forward_ms": {
+            "mean_round_median": 4.054738416666667,
+            "sd_round_median": 0.15612365627905866,
+            "round_medians": [
+              4.350066,
+              3.9491785,
+              4.0037885,
+              4.100699499999999,
+              3.932923,
+              3.991775
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.9959185456492212,
+              "ci95": [
+                0.9383280098806696,
+                1.0570437407002242
+              ],
+              "round_ratios": [
+                0.9148172460504186,
+                0.9845655357121362,
+                1.038903554668278,
+                0.9967323591308003,
+                1.0781775332835115,
+                0.9703309356287287
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 4.05583825,
+            "sd_round_median": 0.15614676318026885,
+            "round_medians": [
+              4.351215,
+              3.9502420000000003,
+              4.0050695,
+              4.101747,
+              3.9339825,
+              3.9927734999999998
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.9959047142680345,
+              "ci95": [
+                0.9383246489510099,
+                1.0570181663778064
+              ],
+              "round_ratios": [
+                0.9148165626726961,
+                0.9845190588327019,
+                1.0388842265199258,
+                0.9967638986286789,
+                1.0781377037285216,
+                0.9703198050423333
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.00109825,
+          "mean_preparation_ms": 1.4322746666666666
+        },
+        {
+          "case": "dst",
+          "forward_ms": {
+            "mean_round_median": 3.9945224166666664,
+            "sd_round_median": 0.0952768067513897,
+            "round_medians": [
+              3.9740845,
+              3.885611,
+              3.9360635,
+              4.072883,
+              3.95554,
+              4.1429525
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0094284028035332,
+              "ci95": [
+                0.9807127623623636,
+                1.0389848480527897
+              ],
+              "round_ratios": [
+                1.01555863860089,
+                1.0167043743218216,
+                1.0244827143823654,
+                1.0018752838935137,
+                1.0399389992825747,
+                0.9599028105410709
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 3.9955858333333336,
+            "sd_round_median": 0.0951857304235604,
+            "round_medians": [
+              3.975074,
+              3.8866425,
+              3.9370435,
+              4.073869,
+              3.957067,
+              4.143819000000001
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0094092002927058,
+              "ci95": [
+                0.9807479452738048,
+                1.0389080482356776
+              ],
+              "round_ratios": [
+                1.0155943949496127,
+                1.0166350732103537,
+                1.0244982509669631,
+                1.0019098863300506,
+                1.0397640133723058,
+                0.9599387061486667
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.0010085833333333333,
+          "mean_preparation_ms": 1.1374900000000001
+        }
+      ],
+      "pairwise": [
+        {
+          "a": "original",
+          "b": "src",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 0.9959047142680345,
+            "ci95": [
+              0.9383246489510099,
+              1.0570181663778064
+            ],
+            "round_ratios": [
+              0.9148165626726961,
+              0.9845190588327019,
+              1.0388842265199258,
+              0.9967638986286789,
+              1.0781377037285216,
+              0.9703198050423333
+            ]
+          }
+        },
+        {
+          "a": "original",
+          "b": "dst",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.0094092002927058,
+            "ci95": [
+              0.9807479452738048,
+              1.0389080482356776
+            ],
+            "round_ratios": [
+              1.0155943949496127,
+              1.0166350732103537,
+              1.0244982509669631,
+              1.0019098863300506,
+              1.0397640133723058,
+              0.9599387061486667
+            ]
+          }
+        },
+        {
+          "a": "src",
+          "b": "dst",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.013560018173623,
+            "ci95": [
+              0.9617206762113509,
+              1.0681936406807075
+            ],
+            "round_ratios": [
+              1.110161792417146,
+              1.0326210184450166,
+              0.9861524747553891,
+              1.0051626947047856,
+              0.9644074312367447,
+              0.989301363488903
+            ]
+          }
+        }
+      ],
+      "fastest_combined_normalized_option": "dst"
+    },
+    {
+      "dataset": "cora",
+      "axis": "node: edge=original EIDs, format=all",
+      "context": "post-hoc single-axis slice from existing Milestone 3 data; NOT a new independent experiment",
+      "reference_option": "original",
+      "n_independent_process_rounds": 6,
+      "cases": [
+        {
+          "case": "original",
+          "forward_ms": {
+            "mean_round_median": 4.015904333333333,
+            "sd_round_median": 0.08139144766292501,
+            "round_medians": [
+              3.9617484999999997,
+              3.913558,
+              4.003804499999999,
+              4.153929,
+              4.0261675,
+              4.0362185
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 4.0169041666666665,
+            "sd_round_median": 0.08136780349233123,
+            "round_medians": [
+              3.9627045,
+              3.914543,
+              4.004986000000001,
+              4.1548585,
+              4.0272235,
+              4.0371095
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.000968,
+          "mean_preparation_ms": 0.0
+        },
+        {
+          "case": "rcmk",
+          "forward_ms": {
+            "mean_round_median": 4.010514916666667,
+            "sd_round_median": 0.07855670453336024,
+            "round_medians": [
+              4.01091,
+              3.9620165,
+              4.026956,
+              3.9059605,
+              4.0152825,
+              4.141964
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0025854802906784,
+              "ci95": [
+                0.9698227115892749,
+                1.036455048204097
+              ],
+              "round_ratios": [
+                0.9783968506433608,
+                0.9820882896418488,
+                1.0125191058031955,
+                1.0632381123865304,
+                0.9998947081968038,
+                0.9819171677544507
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 4.0601942499999994,
+            "sd_round_median": 0.07926063442955152,
+            "round_medians": [
+              4.0565964999999995,
+              4.0148905,
+              4.0744035,
+              3.9532784999999997,
+              4.069004,
+              4.1929925
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.9905857281300688,
+              "ci95": [
+                0.9580815041928702,
+                1.0241927022708104
+              ],
+              "round_ratios": [
+                0.9676613374980298,
+                0.9693790317756639,
+                1.0010422411668851,
+                1.0507968148412443,
+                0.9869427454299016,
+                0.970224591418151
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.04847625,
+          "mean_preparation_ms": 4.042485
+        },
+        {
+          "case": "degree",
+          "forward_ms": {
+            "mean_round_median": 3.9717365,
+            "sd_round_median": 0.0637553049455495,
+            "round_medians": [
+              3.901994,
+              4.0819935,
+              3.9359275,
+              3.9654575000000003,
+              3.941058,
+              4.0039885
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0155795157314231,
+              "ci95": [
+                0.9783090055098723,
+                1.0542699157059574
+              ],
+              "round_ratios": [
+                1.0290797863975025,
+                0.9515327939226845,
+                1.03131110379767,
+                1.0512033637753815,
+                1.0328742391049266,
+                1.0006608429662076
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 4.021827,
+            "sd_round_median": 0.06863877667689013,
+            "round_medians": [
+              3.9516549999999997,
+              4.1450485,
+              3.9860335,
+              4.0133779999999994,
+              3.9853500000000004,
+              4.049497000000001
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0032032908382063,
+              "ci95": [
+                0.9652318777795115,
+                1.0426684674607305
+              ],
+              "round_ratios": [
+                1.0164213576042531,
+                0.9373131019603776,
+                1.0186578203862362,
+                1.038919156201185,
+                1.0216000846484474,
+                0.9896559061763157
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.04758116666666667,
+          "mean_preparation_ms": 2.722269
+        }
+      ],
+      "pairwise": [
+        {
+          "a": "original",
+          "b": "rcmk",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 0.9905857281300688,
+            "ci95": [
+              0.9580815041928702,
+              1.0241927022708104
+            ],
+            "round_ratios": [
+              0.9676613374980298,
+              0.9693790317756639,
+              1.0010422411668851,
+              1.0507968148412443,
+              0.9869427454299016,
+              0.970224591418151
+            ]
+          }
+        },
+        {
+          "a": "original",
+          "b": "degree",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.0032032908382063,
+            "ci95": [
+              0.9652318777795115,
+              1.0426684674607305
+            ],
+            "round_ratios": [
+              1.0164213576042531,
+              0.9373131019603776,
+              1.0186578203862362,
+              1.038919156201185,
+              1.0216000846484474,
+              0.9896559061763157
+            ]
+          }
+        },
+        {
+          "a": "rcmk",
+          "b": "degree",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.0127374767774573,
+            "ci95": [
+              0.9809915452459258,
+              1.0455107404747843
+            ],
+            "round_ratios": [
+              1.050389550782608,
+              0.966921164204935,
+              1.0175972386528036,
+              0.988696522037085,
+              1.0351158558883267,
+              1.0200276461038391
+            ]
+          }
+        }
+      ],
+      "fastest_combined_normalized_option": "degree"
+    },
+    {
+      "dataset": "cora",
+      "axis": "node: edge=src grouped, format=all",
+      "context": "post-hoc single-axis slice from existing Milestone 3 data; NOT a new independent experiment",
+      "reference_option": "original",
+      "n_independent_process_rounds": 6,
+      "cases": [
+        {
+          "case": "original",
+          "forward_ms": {
+            "mean_round_median": 4.054738416666667,
+            "sd_round_median": 0.15612365627905866,
+            "round_medians": [
+              4.350066,
+              3.9491785,
+              4.0037885,
+              4.100699499999999,
+              3.932923,
+              3.991775
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 4.05583825,
+            "sd_round_median": 0.15614676318026885,
+            "round_medians": [
+              4.351215,
+              3.9502420000000003,
+              4.0050695,
+              4.101747,
+              3.9339825,
+              3.9927734999999998
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.00109825,
+          "mean_preparation_ms": 1.4322746666666666
+        },
+        {
+          "case": "rcmk",
+          "forward_ms": {
+            "mean_round_median": 3.9830406666666667,
+            "sd_round_median": 0.07485036167358608,
+            "round_medians": [
+              3.9459204999999997,
+              4.058236,
+              3.952379,
+              4.057059499999999,
+              3.8673375,
+              4.0173115
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0136458609300378,
+              "ci95": [
+                0.9651996792160347,
+                1.064523697537019
+              ],
+              "round_ratios": [
+                1.1105478752508897,
+                0.9939634008324478,
+                1.0032555602694522,
+                0.9962131917170469,
+                0.972032868003481,
+                1.0114979693302433
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 4.033019666666667,
+            "sd_round_median": 0.07742902453774467,
+            "round_medians": [
+              4.0032705,
+              4.1139025,
+              4.0030425,
+              4.1073605,
+              3.909231,
+              4.061311
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.001346572300667,
+              "ci95": [
+                0.9544819357469583,
+                1.050512241568622
+              ],
+              "round_ratios": [
+                1.0948669726642384,
+                0.9807899985207853,
+                0.9908847898022087,
+                0.9842222677734423,
+                0.9618421541543742,
+                1.000803819353559
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.04818816666666667,
+          "mean_preparation_ms": 3.0071263333333333
+        },
+        {
+          "case": "degree",
+          "forward_ms": {
+            "mean_round_median": 4.011274916666666,
+            "sd_round_median": 0.09354310755818213,
+            "round_medians": [
+              4.080626499999999,
+              3.9493685000000003,
+              4.0084055,
+              4.1567025,
+              3.89952,
+              3.9730265
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0178669237745146,
+              "ci95": [
+                0.9688191052969085,
+                1.069397856472577
+              ],
+              "round_ratios": [
+                1.0900414330147183,
+                1.0363574299113776,
+                0.9628394721460418,
+                1.0141717622415103,
+                0.9686377955534904,
+                1.0407984312233145
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 4.06366825,
+            "sd_round_median": 0.09331785282825046,
+            "round_medians": [
+              4.127344,
+              4.0029895,
+              4.058619,
+              4.2098785,
+              3.946807,
+              4.0363715
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0050092500678685,
+              "ci95": [
+                0.9567136442033624,
+                1.0557428535087152
+              ],
+              "round_ratios": [
+                1.0780218333036993,
+                1.0227775282327316,
+                0.9512348183117117,
+                1.0015909282702018,
+                0.9572352664759819,
+                1.0247426416578473
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.04861566666666667,
+          "mean_preparation_ms": 2.1506715
+        }
+      ],
+      "pairwise": [
+        {
+          "a": "original",
+          "b": "rcmk",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.001346572300667,
+            "ci95": [
+              0.9544819357469583,
+              1.050512241568622
+            ],
+            "round_ratios": [
+              1.0948669726642384,
+              0.9807899985207853,
+              0.9908847898022087,
+              0.9842222677734423,
+              0.9618421541543742,
+              1.000803819353559
+            ]
+          }
+        },
+        {
+          "a": "original",
+          "b": "degree",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.0050092500678685,
+            "ci95": [
+              0.9567136442033624,
+              1.0557428535087152
+            ],
+            "round_ratios": [
+              1.0780218333036993,
+              1.0227775282327316,
+              0.9512348183117117,
+              1.0015909282702018,
+              0.9572352664759819,
+              1.0247426416578473
+            ]
+          }
+        },
+        {
+          "a": "rcmk",
+          "b": "degree",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.003657752339219,
+            "ci95": [
+              0.9726433185173887,
+              1.0356611356422987
+            ],
+            "round_ratios": [
+              0.9846144419540318,
+              1.0428099081100657,
+              0.959985285980208,
+              1.0176470915823228,
+              0.9952103495791963,
+              1.0239195952706803
+            ]
+          }
+        }
+      ],
+      "fastest_combined_normalized_option": "degree"
+    },
+    {
+      "dataset": "cora",
+      "axis": "format: node=original, edge=original",
+      "context": "post-hoc single-axis slice from existing Milestone 3 data; NOT a new independent experiment",
+      "reference_option": "all",
+      "n_independent_process_rounds": 6,
+      "cases": [
+        {
+          "case": "all",
+          "forward_ms": {
+            "mean_round_median": 4.015904333333333,
+            "sd_round_median": 0.08139144766292501,
+            "round_medians": [
+              3.9617484999999997,
+              3.913558,
+              4.003804499999999,
+              4.153929,
+              4.0261675,
+              4.0362185
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 4.0169041666666665,
+            "sd_round_median": 0.08136780349233123,
+            "round_medians": [
+              3.9627045,
+              3.914543,
+              4.004986000000001,
+              4.1548585,
+              4.0272235,
+              4.0371095
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.000968,
+          "mean_preparation_ms": 0.0
+        },
+        {
+          "case": "coo+csc",
+          "forward_ms": {
+            "mean_round_median": 4.017583833333333,
+            "sd_round_median": 0.13858469254418634,
+            "round_medians": [
+              4.283861,
+              3.9464855,
+              3.9642135,
+              4.0150135,
+              3.88664,
+              4.0092895
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0020087964782272,
+              "ci95": [
+                0.9597129022871814,
+                1.0461687300722617
+              ],
+              "round_ratios": [
+                0.9370322860824598,
+                0.9814046775857461,
+                1.026672871305392,
+                1.0362779038031453,
+                1.0438543924711632,
+                0.9910105522371025
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 4.01862775,
+            "sd_round_median": 0.13863038059918517,
+            "round_medians": [
+              4.285057999999999,
+              3.947285,
+              3.9654105,
+              4.0159295,
+              3.887832,
+              4.0102515
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.002009007171264,
+              "ci95": [
+                0.9597285394508235,
+                1.0461521244610108
+              ],
+              "round_ratios": [
+                0.9370260561860404,
+                0.9814604573399359,
+                1.0266623935663135,
+                1.0362862799492722,
+                1.0437949780059592,
+                0.9910205791487987
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.0010923333333333334,
+          "mean_preparation_ms": 0.064987
+        }
+      ],
+      "pairwise": [
+        {
+          "a": "all",
+          "b": "coo+csc",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.002009007171264,
+            "ci95": [
+              0.9597285394508235,
+              1.0461521244610108
+            ],
+            "round_ratios": [
+              0.9370260561860404,
+              0.9814604573399359,
+              1.0266623935663135,
+              1.0362862799492722,
+              1.0437949780059592,
+              0.9910205791487987
+            ]
+          }
+        }
+      ],
+      "fastest_combined_normalized_option": "coo+csc"
+    },
+    {
+      "dataset": "citeseer",
+      "axis": "edge: node=original, format=all",
+      "context": "post-hoc single-axis slice from existing Milestone 3 data; NOT a new independent experiment",
+      "reference_option": "original",
+      "n_independent_process_rounds": 6,
+      "cases": [
+        {
+          "case": "original",
+          "forward_ms": {
+            "mean_round_median": 8.15260825,
+            "sd_round_median": 0.101302349314194,
+            "round_medians": [
+              8.1893225,
+              8.27196,
+              8.168949999999999,
+              8.071733,
+              7.995664,
+              8.21802
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 8.153776416666666,
+            "sd_round_median": 0.1016906620120141,
+            "round_medians": [
+              8.190251499999999,
+              8.274495,
+              8.169767,
+              8.072631999999999,
+              7.996568,
+              8.218945
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.00096375,
+          "mean_preparation_ms": 0.0
+        },
+        {
+          "case": "src",
+          "forward_ms": {
+            "mean_round_median": 8.236668666666667,
+            "sd_round_median": 0.12661575830624994,
+            "round_medians": [
+              8.0616415,
+              8.383046,
+              8.223259500000001,
+              8.225781,
+              8.1482575,
+              8.3780265
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.9935611540616086,
+              "ci95": [
+                0.9799567709533162,
+                1.0073544018680622
+              ],
+              "round_ratios": [
+                1.0193868996515936,
+                0.9912599458558636,
+                0.9914913958842018,
+                0.9882459124519789,
+                0.9813144875781795,
+                0.9900994666109034
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 8.237654583333333,
+            "sd_round_median": 0.12662161100910754,
+            "round_medians": [
+              8.06263,
+              8.384102,
+              8.2242465,
+              8.226682499999999,
+              8.1492805,
+              8.378986000000001
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.9935778439250649,
+              "ci95": [
+                0.9799784526127507,
+                1.0073659571868998
+              ],
+              "round_ratios": [
+                1.0193742402916752,
+                0.9914387665399853,
+                0.9914582886296118,
+                0.9882299811376997,
+                0.9812958300944638,
+                0.9901008038976342
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.00094975,
+          "mean_preparation_ms": 1.5333413333333334
+        },
+        {
+          "case": "dst",
+          "forward_ms": {
+            "mean_round_median": 8.23521875,
+            "sd_round_median": 0.19275915184648185,
+            "round_medians": [
+              8.2133955,
+              8.3804275,
+              8.1249845,
+              8.1853975,
+              7.980687,
+              8.5264205
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.9959696053138106,
+              "ci95": [
+                0.9877680046917406,
+                1.0042393051782577
+              ],
+              "round_ratios": [
+                0.9930403981278222,
+                0.9890344174426147,
+                1.0101580775938224,
+                0.99107274587774,
+                1.0000799006264383,
+                0.992587073460396
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 8.236181083333333,
+            "sd_round_median": 0.19274158294395558,
+            "round_medians": [
+              8.214330499999999,
+              8.381191000000001,
+              8.1259815,
+              8.186455500000001,
+              7.981664,
+              8.527464
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.9959940987909454,
+              "ci95": [
+                0.9878443258217263,
+                1.0042111078597336
+              ],
+              "round_ratios": [
+                0.9930311603561663,
+                0.9892530146198637,
+                1.0101231787193956,
+                0.9910447509609716,
+                1.0000621854478595,
+                0.992603322114919
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.00094975,
+          "mean_preparation_ms": 1.2883413333333333
+        }
+      ],
+      "pairwise": [
+        {
+          "a": "original",
+          "b": "src",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 0.9935778439250649,
+            "ci95": [
+              0.9799784526127507,
+              1.0073659571868998
+            ],
+            "round_ratios": [
+              1.0193742402916752,
+              0.9914387665399853,
+              0.9914582886296118,
+              0.9882299811376997,
+              0.9812958300944638,
+              0.9901008038976342
+            ]
+          }
+        },
+        {
+          "a": "original",
+          "b": "dst",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 0.9959940987909454,
+            "ci95": [
+              0.9878443258217263,
+              1.0042111078597336
+            ],
+            "round_ratios": [
+              0.9930311603561663,
+              0.9892530146198637,
+              1.0101231787193956,
+              0.9910447509609716,
+              1.0000621854478595,
+              0.992603322114919
+            ]
+          }
+        },
+        {
+          "a": "src",
+          "b": "dst",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.0024318727321204,
+            "ci95": [
+              0.985130410333948,
+              1.020037193987938
+            ],
+            "round_ratios": [
+              0.974157596990119,
+              0.9977953737599452,
+              1.0188256937319897,
+              1.0028482943009192,
+              1.0191240549260148,
+              1.0025275388197175
+            ]
+          }
+        }
+      ],
+      "fastest_combined_normalized_option": "original"
+    },
+    {
+      "dataset": "citeseer",
+      "axis": "node: edge=original EIDs, format=all",
+      "context": "post-hoc single-axis slice from existing Milestone 3 data; NOT a new independent experiment",
+      "reference_option": "original",
+      "n_independent_process_rounds": 6,
+      "cases": [
+        {
+          "case": "original",
+          "forward_ms": {
+            "mean_round_median": 8.15260825,
+            "sd_round_median": 0.101302349314194,
+            "round_medians": [
+              8.1893225,
+              8.27196,
+              8.168949999999999,
+              8.071733,
+              7.995664,
+              8.21802
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 8.153776416666666,
+            "sd_round_median": 0.1016906620120141,
+            "round_medians": [
+              8.190251499999999,
+              8.274495,
+              8.169767,
+              8.072631999999999,
+              7.996568,
+              8.218945
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.00096375,
+          "mean_preparation_ms": 0.0
+        },
+        {
+          "case": "rcmk",
+          "forward_ms": {
+            "mean_round_median": 8.150589333333333,
+            "sd_round_median": 0.16344443557358096,
+            "round_medians": [
+              8.419526999999999,
+              8.2640815,
+              8.125506000000001,
+              8.089593,
+              8.009522,
+              7.9953065
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0045790259540093,
+              "ci95": [
+                0.9811246805562444,
+                1.0285940608634534
+              ],
+              "round_ratios": [
+                0.9687031029813296,
+                1.0230882277382685,
+                1.0155959653773836,
+                0.9886544074769884,
+                1.0053314758239746,
+                1.0273681719249304
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 8.21136775,
+            "sd_round_median": 0.17024834830909552,
+            "round_medians": [
+              8.4989205,
+              8.31982,
+              8.18142,
+              8.146505000000001,
+              8.063106999999999,
+              8.058434
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.9972952689289598,
+              "ci95": [
+                0.9732822821899108,
+                1.0219007081791471
+              ],
+              "round_ratios": [
+                0.959752398982712,
+                1.0165613358092902,
+                1.0087534583784061,
+                0.9818492150752774,
+                0.9987578158636785,
+                1.0194354552138594
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.05739966666666667,
+          "mean_preparation_ms": 5.187001666666666
+        },
+        {
+          "case": "degree",
+          "forward_ms": {
+            "mean_round_median": 7.911669,
+            "sd_round_median": 0.16959939294761614,
+            "round_medians": [
+              7.886293500000001,
+              7.822767499999999,
+              7.8645415,
+              7.758825,
+              7.8951355,
+              8.242450999999999
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0274862820629258,
+              "ci95": [
+                1.0104595311422684,
+                1.0447999422936338
+              ],
+              "round_ratios": [
+                1.0358479110381003,
+                1.0512674676724059,
+                1.0302372893481924,
+                1.0303224636912816,
+                1.0083818563464435,
+                1.0095120745145885
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 7.9719550833333335,
+            "sd_round_median": 0.16690421179988715,
+            "round_medians": [
+              7.9375055,
+              7.899947,
+              7.934085,
+              7.813483,
+              7.9493985,
+              8.2973115
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0198452362415358,
+              "ci95": [
+                1.0038402101500703,
+                1.0361054432448618
+              ],
+              "round_ratios": [
+                1.0292814735148115,
+                1.0413023527683787,
+                1.021289189456732,
+                1.0232199437966374,
+                1.0015996611738889,
+                1.0029579472641936
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.055919166666666666,
+          "mean_preparation_ms": 3.0989503333333333
+        }
+      ],
+      "pairwise": [
+        {
+          "a": "original",
+          "b": "rcmk",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 0.9972952689289598,
+            "ci95": [
+              0.9732822821899108,
+              1.0219007081791471
+            ],
+            "round_ratios": [
+              0.959752398982712,
+              1.0165613358092902,
+              1.0087534583784061,
+              0.9818492150752774,
+              0.9987578158636785,
+              1.0194354552138594
+            ]
+          }
+        },
+        {
+          "a": "original",
+          "b": "degree",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.0198452362415358,
+            "ci95": [
+              1.0038402101500703,
+              1.0361054432448618
+            ],
+            "round_ratios": [
+              1.0292814735148115,
+              1.0413023527683787,
+              1.021289189456732,
+              1.0232199437966374,
+              1.0015996611738889,
+              1.0029579472641936
+            ]
+          }
+        },
+        {
+          "a": "rcmk",
+          "b": "degree",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.0226111243230835,
+            "ci95": [
+              0.9905735094665709,
+              1.0556849154511048
+            ],
+            "round_ratios": [
+              1.0724448041034298,
+              1.024337948028873,
+              1.0124269522688696,
+              1.0421355215099786,
+              1.0028453797958545,
+              0.9838366344182045
+            ]
+          }
+        }
+      ],
+      "fastest_combined_normalized_option": "degree"
+    },
+    {
+      "dataset": "citeseer",
+      "axis": "node: edge=src grouped, format=all",
+      "context": "post-hoc single-axis slice from existing Milestone 3 data; NOT a new independent experiment",
+      "reference_option": "original",
+      "n_independent_process_rounds": 6,
+      "cases": [
+        {
+          "case": "original",
+          "forward_ms": {
+            "mean_round_median": 8.236668666666667,
+            "sd_round_median": 0.12661575830624994,
+            "round_medians": [
+              8.0616415,
+              8.383046,
+              8.223259500000001,
+              8.225781,
+              8.1482575,
+              8.3780265
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 8.237654583333333,
+            "sd_round_median": 0.12662161100910754,
+            "round_medians": [
+              8.06263,
+              8.384102,
+              8.2242465,
+              8.226682499999999,
+              8.1492805,
+              8.378986000000001
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.00094975,
+          "mean_preparation_ms": 1.5333413333333334
+        },
+        {
+          "case": "rcmk",
+          "forward_ms": {
+            "mean_round_median": 8.149145333333333,
+            "sd_round_median": 0.27260049372656453,
+            "round_medians": [
+              8.036198500000001,
+              8.020476,
+              7.984301,
+              8.120384999999999,
+              8.0354455,
+              8.698066
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.017763254984546,
+              "ci95": [
+                0.9984408710727524,
+                1.0374595764332046
+              ],
+              "round_ratios": [
+                1.002147413916345,
+                1.0372992538291248,
+                1.029297643576102,
+                0.995121301668651,
+                1.0072456625449127,
+                1.0363167559749304
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 8.210445166666666,
+            "sd_round_median": 0.2695827645682615,
+            "round_medians": [
+              8.098332,
+              8.071759499999999,
+              8.0392025,
+              8.191541,
+              8.111017,
+              8.750819
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0102613865858494,
+              "ci95": [
+                0.9898677658136649,
+                1.031075164254302
+              ],
+              "round_ratios": [
+                0.9945583000810345,
+                1.0308433594206752,
+                1.0223841067891741,
+                0.9865771119482951,
+                0.9979784768950908,
+                1.030180440603765
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.057153916666666665,
+          "mean_preparation_ms": 3.2553903333333336
+        },
+        {
+          "case": "degree",
+          "forward_ms": {
+            "mean_round_median": 7.806593333333334,
+            "sd_round_median": 0.07035744820746899,
+            "round_medians": [
+              7.8149655,
+              7.929985,
+              7.7831355,
+              7.7298785,
+              7.8263,
+              7.7552955
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0464975029180799,
+              "ci95": [
+                1.0301190075253481,
+                1.0631364100781606
+              ],
+              "round_ratios": [
+                1.0388363962435658,
+                1.038606742700788,
+                1.0687491724936051,
+                1.0353240191172062,
+                1.0332981782397697,
+                1.0647634600696414
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 7.865347916666666,
+            "sd_round_median": 0.0750478818957714,
+            "round_medians": [
+              7.881907999999999,
+              7.996433,
+              7.839475,
+              7.784928,
+              7.881493,
+              7.8078505
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0388156819269911,
+              "ci95": [
+                1.0222294758398318,
+                1.0556710078535485
+              ],
+              "round_ratios": [
+                1.0301310563770965,
+                1.0300874650025669,
+                1.0611989737935739,
+                1.0281406088844556,
+                1.0262382651788153,
+                1.05771061136909
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.05501841666666667,
+          "mean_preparation_ms": 2.3864276666666666
+        }
+      ],
+      "pairwise": [
+        {
+          "a": "original",
+          "b": "rcmk",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.0102613865858494,
+            "ci95": [
+              0.9898677658136649,
+              1.031075164254302
+            ],
+            "round_ratios": [
+              0.9945583000810345,
+              1.0308433594206752,
+              1.0223841067891741,
+              0.9865771119482951,
+              0.9979784768950908,
+              1.030180440603765
+            ]
+          }
+        },
+        {
+          "a": "original",
+          "b": "degree",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.0388156819269911,
+            "ci95": [
+              1.0222294758398318,
+              1.0556710078535485
+            ],
+            "round_ratios": [
+              1.0301310563770965,
+              1.0300874650025669,
+              1.0611989737935739,
+              1.0281406088844556,
+              1.0262382651788153,
+              1.05771061136909
+            ]
+          }
+        },
+        {
+          "a": "rcmk",
+          "b": "degree",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.0282642647935305,
+            "ci95": [
+              1.0120919560943396,
+              1.0446949922728401
+            ],
+            "round_ratios": [
+              1.0357673917086243,
+              0.9992667223286639,
+              1.0379650531993294,
+              1.042128989647936,
+              1.0283170318178065,
+              1.0267236395491943
+            ]
+          }
+        }
+      ],
+      "fastest_combined_normalized_option": "degree"
+    },
+    {
+      "dataset": "citeseer",
+      "axis": "format: node=original, edge=original",
+      "context": "post-hoc single-axis slice from existing Milestone 3 data; NOT a new independent experiment",
+      "reference_option": "all",
+      "n_independent_process_rounds": 6,
+      "cases": [
+        {
+          "case": "all",
+          "forward_ms": {
+            "mean_round_median": 8.15260825,
+            "sd_round_median": 0.101302349314194,
+            "round_medians": [
+              8.1893225,
+              8.27196,
+              8.168949999999999,
+              8.071733,
+              7.995664,
+              8.21802
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 8.153776416666666,
+            "sd_round_median": 0.1016906620120141,
+            "round_medians": [
+              8.190251499999999,
+              8.274495,
+              8.169767,
+              8.072631999999999,
+              7.996568,
+              8.218945
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.00096375,
+          "mean_preparation_ms": 0.0
+        },
+        {
+          "case": "coo+csc",
+          "forward_ms": {
+            "mean_round_median": 8.272888333333333,
+            "sd_round_median": 0.27391931961905625,
+            "round_medians": [
+              7.9199655,
+              8.6723175,
+              8.2981865,
+              8.0554715,
+              8.2181225,
+              8.4732665
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.9892804860094383,
+              "ci95": [
+                0.9722668581108224,
+                1.0065918341603264
+              ],
+              "round_ratios": [
+                1.0136171761751667,
+                0.9692972525189542,
+                0.9761477291404012,
+                1.0013649690990833,
+                0.9841630375435978,
+                0.9917694340491224
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 8.273863166666667,
+            "sd_round_median": 0.2739361910731522,
+            "round_medians": [
+              7.9209685,
+              8.673384,
+              8.299017,
+              8.056405000000002,
+              8.219184,
+              8.4742205
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.9892958227121258,
+              "ci95": [
+                0.9723308875104557,
+                1.0065567569714147
+              ],
+              "round_ratios": [
+                1.0135894613756593,
+                0.9694796551113103,
+                0.9761218619455451,
+                1.0013667480350485,
+                0.9841299717835719,
+                0.9917600305512785
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.0009681666666666667,
+          "mean_preparation_ms": 0.0853795
+        }
+      ],
+      "pairwise": [
+        {
+          "a": "all",
+          "b": "coo+csc",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 0.9892958227121258,
+            "ci95": [
+              0.9723308875104557,
+              1.0065567569714147
+            ],
+            "round_ratios": [
+              1.0135894613756593,
+              0.9694796551113103,
+              0.9761218619455451,
+              1.0013667480350485,
+              0.9841299717835719,
+              0.9917600305512785
+            ]
+          }
+        }
+      ],
+      "fastest_combined_normalized_option": "all"
+    },
+    {
+      "dataset": "pubmed",
+      "axis": "edge: node=original, format=all",
+      "context": "post-hoc single-axis slice from existing Milestone 3 data; NOT a new independent experiment",
+      "reference_option": "original",
+      "n_independent_process_rounds": 6,
+      "cases": [
+        {
+          "case": "original",
+          "forward_ms": {
+            "mean_round_median": 19.13304816666667,
+            "sd_round_median": 0.15062018444772518,
+            "round_medians": [
+              19.3626305,
+              18.995643,
+              19.258508,
+              18.981472,
+              19.078263999999997,
+              19.1217715
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 19.1660415,
+            "sd_round_median": 0.15482829087896002,
+            "round_medians": [
+              19.3640865,
+              19.0452995,
+              19.319415499999998,
+              18.982899,
+              19.0795685,
+              19.20498
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.0014294166666666667,
+          "mean_preparation_ms": 0.0
+        },
+        {
+          "case": "src",
+          "forward_ms": {
+            "mean_round_median": 19.667852083333333,
+            "sd_round_median": 0.489375160346785,
+            "round_medians": [
+              19.5874835,
+              19.0032235,
+              19.7637445,
+              19.2763865,
+              20.338829,
+              20.0374455
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.9728162709465259,
+              "ci95": [
+                0.9461439238567178,
+                1.000240527002128
+              ],
+              "round_ratios": [
+                0.9750940492336907,
+                1.0084696572850844,
+                0.9889538451449751,
+                0.9735408426021188,
+                0.9329769259641479,
+                0.9595652473381757
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 19.7010925,
+            "sd_round_median": 0.5081549340839853,
+            "round_medians": [
+              19.618334500000003,
+              19.0048585,
+              19.765181,
+              19.3007665,
+              20.340193,
+              20.1772215
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.9717743284566315,
+              "ci95": [
+                0.9430326136582625,
+                1.0013920322267351
+              ],
+              "round_ratios": [
+                0.978054677319623,
+                1.0111901466763382,
+                0.9855935734084492,
+                0.9705799043917053,
+                0.9283472561778474,
+                0.9588638652702381
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.0014404166666666667,
+          "mean_preparation_ms": 5.806539666666667
+        },
+        {
+          "case": "dst",
+          "forward_ms": {
+            "mean_round_median": 17.52228375,
+            "sd_round_median": 0.20107825449280992,
+            "round_medians": [
+              17.427237,
+              17.488497000000002,
+              17.6814365,
+              17.482981000000002,
+              17.814066500000003,
+              17.2394845
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0889982423058,
+              "ci95": [
+                1.0650030355784044,
+                1.1135340765494148
+              ],
+              "round_ratios": [
+                1.0951295462709882,
+                1.0792867236342236,
+                1.1061027062577984,
+                1.0654797740775623,
+                1.0659006510025535,
+                1.1233196328283077
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 17.563417833333332,
+            "sd_round_median": 0.18346029184231263,
+            "round_medians": [
+              17.428054500000002,
+              17.490199,
+              17.773456,
+              17.4844665,
+              17.815768,
+              17.388562999999998
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0883910939419765,
+              "ci95": [
+                1.0642941662679328,
+                1.1130336056676216
+              ],
+              "round_ratios": [
+                1.1006122415425559,
+                1.0799353249226582,
+                1.1040712776631372,
+                1.066689924655497,
+                1.0605214706576718,
+                1.1197550244102639
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.0014059166666666666,
+          "mean_preparation_ms": 7.3009078333333335
+        }
+      ],
+      "pairwise": [
+        {
+          "a": "original",
+          "b": "src",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 0.9717743284566315,
+            "ci95": [
+              0.9430326136582625,
+              1.0013920322267351
+            ],
+            "round_ratios": [
+              0.978054677319623,
+              1.0111901466763382,
+              0.9855935734084492,
+              0.9705799043917053,
+              0.9283472561778474,
+              0.9588638652702381
+            ]
+          }
+        },
+        {
+          "a": "original",
+          "b": "dst",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.0883910939419765,
+            "ci95": [
+              1.0642941662679328,
+              1.1130336056676216
+            ],
+            "round_ratios": [
+              1.1006122415425559,
+              1.0799353249226582,
+              1.1040712776631372,
+              1.066689924655497,
+              1.0605214706576718,
+              1.1197550244102639
+            ]
+          }
+        },
+        {
+          "a": "src",
+          "b": "dst",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.1200039577815926,
+            "ci95": [
+              1.08424974722238,
+              1.156937198887953
+            ],
+            "round_ratios": [
+              1.125307477245346,
+              1.067984422585878,
+              1.12020949349838,
+              1.0990232950722663,
+              1.1423758336120975,
+              1.1677935366713204
+            ]
+          }
+        }
+      ],
+      "fastest_combined_normalized_option": "dst"
+    },
+    {
+      "dataset": "pubmed",
+      "axis": "node: edge=original EIDs, format=all",
+      "context": "post-hoc single-axis slice from existing Milestone 3 data; NOT a new independent experiment",
+      "reference_option": "original",
+      "n_independent_process_rounds": 6,
+      "cases": [
+        {
+          "case": "original",
+          "forward_ms": {
+            "mean_round_median": 19.13304816666667,
+            "sd_round_median": 0.15062018444772518,
+            "round_medians": [
+              19.3626305,
+              18.995643,
+              19.258508,
+              18.981472,
+              19.078263999999997,
+              19.1217715
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 19.1660415,
+            "sd_round_median": 0.15482829087896002,
+            "round_medians": [
+              19.3640865,
+              19.0452995,
+              19.319415499999998,
+              18.982899,
+              19.0795685,
+              19.20498
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.0014294166666666667,
+          "mean_preparation_ms": 0.0
+        },
+        {
+          "case": "rcmk",
+          "forward_ms": {
+            "mean_round_median": 18.7533325,
+            "sd_round_median": 0.2074664160492008,
+            "round_medians": [
+              18.6593095,
+              18.5643825,
+              18.9604705,
+              18.5003185,
+              18.987313,
+              18.848201
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0152923465914303,
+              "ci95": [
+                0.996610128973631,
+                1.0343247766393182
+              ],
+              "round_ratios": [
+                1.034638439557894,
+                1.0043236114696144,
+                1.0373877691601607,
+                1.0101071247674838,
+                0.9906851100898285,
+                1.0154071066374182
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 19.155044166666666,
+            "sd_round_median": 0.19525268822238187,
+            "round_medians": [
+              19.199056,
+              18.9291645,
+              19.346902,
+              18.8976325,
+              19.323366999999998,
+              19.234143000000003
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.9946629264428951,
+              "ci95": [
+                0.9782021399623414,
+                1.0114007083219343
+              ],
+              "round_ratios": [
+                1.008212061757487,
+                0.9900129049287507,
+                1.0132710375805614,
+                0.9866925770065271,
+                0.9702016888496034,
+                1.0002149116814845
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.3757471666666667,
+          "mean_preparation_ms": 20.252166166666665
+        },
+        {
+          "case": "degree",
+          "forward_ms": {
+            "mean_round_median": 18.79774275,
+            "sd_round_median": 0.32610838187767455,
+            "round_medians": [
+              18.4900735,
+              18.492478,
+              19.277867,
+              18.8340175,
+              18.6142865,
+              19.077734
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.012854937685873,
+              "ci95": [
+                0.9954846127827707,
+                1.0305283593755705
+              ],
+              "round_ratios": [
+                1.0312897301804314,
+                1.0299235750917077,
+                1.0040314730296553,
+                0.9871724206061675,
+                1.009686974633966,
+                1.0157122994419856
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 19.22954508333333,
+            "sd_round_median": 0.28102272645489335,
+            "round_medians": [
+              19.086441999999998,
+              18.89792,
+              19.6579035,
+              19.198901499999998,
+              19.0718125,
+              19.464291
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.990485750206052,
+              "ci95": [
+                0.9741690393810025,
+                1.0070757555430248
+              ],
+              "round_ratios": [
+                1.0005842484497647,
+                1.009559262715227,
+                0.9828855226912503,
+                0.9674609468973452,
+                0.9823434688920081,
+                1.0007006186138399
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.37524183333333333,
+          "mean_preparation_ms": 16.080173666666667
+        }
+      ],
+      "pairwise": [
+        {
+          "a": "original",
+          "b": "rcmk",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 0.9946629264428951,
+            "ci95": [
+              0.9782021399623414,
+              1.0114007083219343
+            ],
+            "round_ratios": [
+              1.008212061757487,
+              0.9900129049287507,
+              1.0132710375805614,
+              0.9866925770065271,
+              0.9702016888496034,
+              1.0002149116814845
+            ]
+          }
+        },
+        {
+          "a": "original",
+          "b": "degree",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 0.990485750206052,
+            "ci95": [
+              0.9741690393810025,
+              1.0070757555430248
+            ],
+            "round_ratios": [
+              1.0005842484497647,
+              1.009559262715227,
+              0.9828855226912503,
+              0.9674609468973452,
+              0.9823434688920081,
+              1.0007006186138399
+            ]
+          }
+        },
+        {
+          "a": "rcmk",
+          "b": "degree",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 0.995800410243718,
+            "ci95": [
+              0.9761523327221705,
+              1.015843965947668
+            ],
+            "round_ratios": [
+              0.9924343165519904,
+              1.0197435383813336,
+              0.9700124510004113,
+              0.9805089948405938,
+              1.0125146968738032,
+              1.0004856025706903
+            ]
+          }
+        }
+      ],
+      "fastest_combined_normalized_option": "original"
+    },
+    {
+      "dataset": "pubmed",
+      "axis": "node: edge=src grouped, format=all",
+      "context": "post-hoc single-axis slice from existing Milestone 3 data; NOT a new independent experiment",
+      "reference_option": "original",
+      "n_independent_process_rounds": 6,
+      "cases": [
+        {
+          "case": "original",
+          "forward_ms": {
+            "mean_round_median": 19.667852083333333,
+            "sd_round_median": 0.489375160346785,
+            "round_medians": [
+              19.5874835,
+              19.0032235,
+              19.7637445,
+              19.2763865,
+              20.338829,
+              20.0374455
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 19.7010925,
+            "sd_round_median": 0.5081549340839853,
+            "round_medians": [
+              19.618334500000003,
+              19.0048585,
+              19.765181,
+              19.3007665,
+              20.340193,
+              20.1772215
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.0014404166666666667,
+          "mean_preparation_ms": 5.806539666666667
+        },
+        {
+          "case": "rcmk",
+          "forward_ms": {
+            "mean_round_median": 17.3293405,
+            "sd_round_median": 0.23301508534384632,
+            "round_medians": [
+              17.322539499999998,
+              17.075682,
+              17.549304,
+              17.120856,
+              17.248592000000002,
+              17.6590695
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.1235988940424277,
+              "ci95": [
+                1.0963657272545142,
+                1.1515085188359702
+              ],
+              "round_ratios": [
+                1.1338988778782515,
+                1.1067286393622964,
+                1.088768603662449,
+                1.1121372787621358,
+                1.161850481996935,
+                1.13974609906103
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 17.74434541666667,
+            "sd_round_median": 0.24249034873009115,
+            "round_medians": [
+              17.7375495,
+              17.4719765,
+              17.9833135,
+              17.4904435,
+              17.725627000000003,
+              18.057162499999997
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.1005471551138377,
+              "ci95": [
+                1.0731117216102461,
+                1.128684009537891
+              ],
+              "round_ratios": [
+                1.106392318959547,
+                1.0842428181980235,
+                1.0641570267977731,
+                1.0901555557457823,
+                1.1344247855113507,
+                1.1255021542440349
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.3623199166666667,
+          "mean_preparation_ms": 15.5706195
+        },
+        {
+          "case": "degree",
+          "forward_ms": {
+            "mean_round_median": 18.9693385,
+            "sd_round_median": 0.38884658305557995,
+            "round_medians": [
+              18.659515,
+              18.558981,
+              18.735290499999998,
+              19.035377,
+              19.275514,
+              19.551353499999998
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0432046444985996,
+              "ci95": [
+                1.021180471408918,
+                1.0657038209925422
+              ],
+              "round_ratios": [
+                1.0543773293702314,
+                1.0212971342921033,
+                1.054812591903409,
+                1.0162494425238715,
+                1.0710716262167608,
+                1.0424968668652856
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 19.42850075,
+            "sd_round_median": 0.3480850508769001,
+            "round_medians": [
+              19.200067500000003,
+              18.919729500000003,
+              19.3628405,
+              19.5168285,
+              19.6687405,
+              19.902798
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0204171772116521,
+              "ci95": [
+                0.9973909435255297,
+                1.0439750052953474
+              ],
+              "round_ratios": [
+                1.0262347196167712,
+                0.9998193175903834,
+                1.0229445094882403,
+                0.9916190455430987,
+                1.0533386490148986,
+                1.0297537503925942
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.366099,
+          "mean_preparation_ms": 11.210691166666667
+        }
+      ],
+      "pairwise": [
+        {
+          "a": "original",
+          "b": "rcmk",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.1005471551138377,
+            "ci95": [
+              1.0731117216102461,
+              1.128684009537891
+            ],
+            "round_ratios": [
+              1.106392318959547,
+              1.0842428181980235,
+              1.0641570267977731,
+              1.0901555557457823,
+              1.1344247855113507,
+              1.1255021542440349
+            ]
+          }
+        },
+        {
+          "a": "original",
+          "b": "degree",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 1.0204171772116521,
+            "ci95": [
+              0.9973909435255297,
+              1.0439750052953474
+            ],
+            "round_ratios": [
+              1.0262347196167712,
+              0.9998193175903834,
+              1.0229445094882403,
+              0.9916190455430987,
+              1.0533386490148986,
+              1.0297537503925942
+            ]
+          }
+        },
+        {
+          "a": "rcmk",
+          "b": "degree",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 0.9271907818489639,
+            "ci95": [
+              0.9085196828847033,
+              0.9462455928484182
+            ],
+            "round_ratios": [
+              0.9275504737612819,
+              0.9221359835724353,
+              0.9612721466177334,
+              0.9096124312871348,
+              0.928522245342249,
+              0.9149282802432732
+            ]
+          }
+        }
+      ],
+      "fastest_combined_normalized_option": "rcmk"
+    },
+    {
+      "dataset": "pubmed",
+      "axis": "format: node=original, edge=original",
+      "context": "post-hoc single-axis slice from existing Milestone 3 data; NOT a new independent experiment",
+      "reference_option": "all",
+      "n_independent_process_rounds": 6,
+      "cases": [
+        {
+          "case": "all",
+          "forward_ms": {
+            "mean_round_median": 19.13304816666667,
+            "sd_round_median": 0.15062018444772518,
+            "round_medians": [
+              19.3626305,
+              18.995643,
+              19.258508,
+              18.981472,
+              19.078263999999997,
+              19.1217715
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 19.1660415,
+            "sd_round_median": 0.15482829087896002,
+            "round_medians": [
+              19.3640865,
+              19.0452995,
+              19.319415499999998,
+              18.982899,
+              19.0795685,
+              19.20498
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 1.0,
+              "ci95": [
+                1.0,
+                1.0
+              ],
+              "round_ratios": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.0014294166666666667,
+          "mean_preparation_ms": 0.0
+        },
+        {
+          "case": "coo+csc",
+          "forward_ms": {
+            "mean_round_median": 19.150741916666668,
+            "sd_round_median": 0.5374565103949727,
+            "round_medians": [
+              19.0432785,
+              18.912855,
+              19.1178675,
+              18.7955865,
+              20.217439,
+              18.817425
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.9907188338467127,
+              "ci95": [
+                0.9621813512046553,
+                1.0201027140151055
+              ],
+              "round_ratios": [
+                1.006559238161261,
+                0.9902912230172897,
+                1.0003786596239412,
+                0.9990569285083846,
+                0.9378506771384925,
+                1.0120731301317174
+              ]
+            }
+          },
+          "combined_ms": {
+            "mean_round_median": 19.190303416666666,
+            "sd_round_median": 0.5593079344607427,
+            "round_medians": [
+              19.044821499999998,
+              19.006019000000002,
+              19.1190195,
+              18.8461225,
+              20.307155,
+              18.818683
+            ],
+            "speedup_vs_axis_reference": {
+              "geomean": 0.989143889779963,
+              "ci95": [
+                0.956833383883787,
+                1.022545462113463
+              ],
+              "round_ratios": [
+                1.0088117215632166,
+                0.9861324681238979,
+                0.9982408566512291,
+                0.9981134474067456,
+                0.930402916141084,
+                1.0156057405304568
+              ]
+            }
+          },
+          "mean_restoration_ms": 0.0013788333333333333,
+          "mean_preparation_ms": 0.08042933333333334
+        }
+      ],
+      "pairwise": [
+        {
+          "a": "all",
+          "b": "coo+csc",
+          "a_over_b_combined_relative_latency": {
+            "geomean": 0.989143889779963,
+            "ci95": [
+              0.956833383883787,
+              1.022545462113463
+            ],
+            "round_ratios": [
+              1.0088117215632166,
+              0.9861324681238979,
+              0.9982408566512291,
+              0.9981134474067456,
+              0.930402916141084,
+              1.0156057405304568
+            ]
+          }
+        }
+      ],
+      "fastest_combined_normalized_option": "all"
+    }
+  ],
+  "pilot": [
+    {
+      "policy": "coo",
+      "allowed": [
+        "coo"
+      ],
+      "before": {
+        "formats": {
+          "created": [
+            "coo"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          }
+        }
+      },
+      "status": "unsupported",
+      "error_type": "DGLError",
+      "error": "[06:50:53] /opt/dgl/src/graph/unit_graph.cc:1421: The graph have restricted sparse format coo , cannot create CSC matrix.\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x60799a) [0x7f1c6280799a]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::GetInCSR(bool) const+0x195) [0x7f1c6280e4f5]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::GetCSCMatrix(unsigned long) const+0x16) [0x7f1c6280ea46]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::HeteroGraph::GetCSCMatrix(unsigned long) const+0x23) [0x7f1c62710f73]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::aten::Edge_softmax_forward(std::string const&, std::shared_ptr<dgl::BaseHeteroGraph>, dgl::runtime::NDArray, dgl::runtime::NDArray, dgl::runtime::NDArray)+0x6cb) [0x7f1c6265cbbb]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x46741a) [0x7f1c6266741a]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f1c626a92a8]\n  [bt] (7) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a63a) [0x7f1c6121a63a]\n  [bt] (8) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f1c6121ac9f]\n\n",
+      "numerical_equivalence": false,
+      "after": {
+        "formats": {
+          "created": [
+            "coo"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          }
+        }
+      }
+    },
+    {
+      "policy": "csr",
+      "allowed": [
+        "csr"
+      ],
+      "before": {
+        "formats": {
+          "created": [
+            "csr"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "csr"
+        ],
+        "sparse_hashes": {
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          }
+        }
+      },
+      "status": "unsupported",
+      "error_type": "DGLError",
+      "error": "[06:50:53] /opt/dgl/src/graph/unit_graph.cc:1035: Check failed: fmt == SparseFormat::kCSC || fmt == SparseFormat::kCOO: In degree cannot be computed as neither CSC nor COO format is allowed for this graph. Please enable one of them at least.\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x60799a) [0x7f1c6280799a]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::InDegrees(unsigned long, dgl::runtime::NDArray) const+0x159) [0x7f1c62810b19]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::HeteroGraph::InDegrees(unsigned long, dgl::runtime::NDArray) const+0x49) [0x7f1c62711539]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x51ab21) [0x7f1c6271ab21]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f1c626a92a8]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a446) [0x7f1c6121a446]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f1c6121ac9f]\n  [bt] (7) /workspace/dgl-performance-model/.venv/bin/python(_PyEval_EvalFrameDefault+0x24c7c) [0x5605009e057c]\n  [bt] (8) /workspace/dgl-performance-model/.venv/bin/python(_PyFunction_Vectorcall+0x1d9) [0x560500944509]\n\n",
+      "numerical_equivalence": false,
+      "after": {
+        "formats": {
+          "created": [
+            "csr"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "csr"
+        ],
+        "sparse_hashes": {
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          }
+        }
+      }
+    },
+    {
+      "policy": "csc",
+      "allowed": [
+        "csc"
+      ],
+      "before": {
+        "formats": {
+          "created": [
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "csc"
+        ],
+        "sparse_hashes": {
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      },
+      "status": "unsupported",
+      "error_type": "DGLError",
+      "error": "[06:50:53] /opt/dgl/src/array/kernel.cc:231: SDDMM only supports CSR and COO formats\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x4537aa) [0x7f1c626537aa]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::aten::SDDMM(std::string const&, std::shared_ptr<dgl::BaseHeteroGraph>, dgl::runtime::NDArray, dgl::runtime::NDArray, dgl::runtime::NDArray, int, int)+0x5fc) [0x7f1c6265b5bc]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x469c4f) [0x7f1c62669c4f]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x46a141) [0x7f1c6266a141]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f1c626a92a8]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a63a) [0x7f1c6121a63a]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f1c6121ac9f]\n  [bt] (7) /workspace/dgl-performance-model/.venv/bin/python(_PyEval_EvalFrameDefault+0x24c7c) [0x5605009e057c]\n  [bt] (8) /workspace/dgl-performance-model/.venv/bin/python(_PyFunction_Vectorcall+0x1d9) [0x560500944509]\n\n",
+      "numerical_equivalence": false,
+      "after": {
+        "formats": {
+          "created": [
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "csc"
+        ],
+        "sparse_hashes": {
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      }
+    },
+    {
+      "policy": "coo+csr",
+      "allowed": [
+        "coo",
+        "csr"
+      ],
+      "before": {
+        "formats": {
+          "created": [
+            "coo",
+            "csr"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo",
+          "csr"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          },
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          }
+        }
+      },
+      "status": "unsupported",
+      "error_type": "DGLError",
+      "error": "[06:50:53] /opt/dgl/src/graph/unit_graph.cc:1421: The graph have restricted sparse format coo csr , cannot create CSC matrix.\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x60799a) [0x7f1c6280799a]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::GetInCSR(bool) const+0x195) [0x7f1c6280e4f5]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::GetCSCMatrix(unsigned long) const+0x16) [0x7f1c6280ea46]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::HeteroGraph::GetCSCMatrix(unsigned long) const+0x23) [0x7f1c62710f73]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::aten::Edge_softmax_forward(std::string const&, std::shared_ptr<dgl::BaseHeteroGraph>, dgl::runtime::NDArray, dgl::runtime::NDArray, dgl::runtime::NDArray)+0x6cb) [0x7f1c6265cbbb]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x46741a) [0x7f1c6266741a]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f1c626a92a8]\n  [bt] (7) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a63a) [0x7f1c6121a63a]\n  [bt] (8) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f1c6121ac9f]\n\n",
+      "numerical_equivalence": false,
+      "after": {
+        "formats": {
+          "created": [
+            "coo",
+            "csr"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo",
+          "csr"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          },
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          }
+        }
+      }
+    },
+    {
+      "policy": "coo+csc",
+      "allowed": [
+        "coo",
+        "csc"
+      ],
+      "before": {
+        "formats": {
+          "created": [
+            "coo",
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo",
+          "csc"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          },
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      },
+      "status": "supported",
+      "numerical_equivalence": true,
+      "max_absolute_error": 0.0,
+      "after": {
+        "formats": {
+          "created": [
+            "coo",
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo",
+          "csc"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          },
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      }
+    },
+    {
+      "policy": "csr+csc",
+      "allowed": [
+        "csr",
+        "csc"
+      ],
+      "before": {
+        "formats": {
+          "created": [
+            "csr",
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "csc",
+          "csr"
+        ],
+        "sparse_hashes": {
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          },
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      },
+      "status": "unsupported",
+      "error_type": "DGLError",
+      "error": "[06:50:53] /opt/dgl/src/array/kernel.cc:231: SDDMM only supports CSR and COO formats\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x4537aa) [0x7f1c626537aa]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::aten::SDDMM(std::string const&, std::shared_ptr<dgl::BaseHeteroGraph>, dgl::runtime::NDArray, dgl::runtime::NDArray, dgl::runtime::NDArray, int, int)+0x5fc) [0x7f1c6265b5bc]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x469c4f) [0x7f1c62669c4f]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x46a141) [0x7f1c6266a141]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f1c626a92a8]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a63a) [0x7f1c6121a63a]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f1c6121ac9f]\n  [bt] (7) /workspace/dgl-performance-model/.venv/bin/python(_PyEval_EvalFrameDefault+0x24c7c) [0x5605009e057c]\n  [bt] (8) /workspace/dgl-performance-model/.venv/bin/python(_PyFunction_Vectorcall+0x1d9) [0x560500944509]\n\n",
+      "numerical_equivalence": false,
+      "after": {
+        "formats": {
+          "created": [
+            "csr",
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "csc",
+          "csr"
+        ],
+        "sparse_hashes": {
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          },
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      }
+    },
+    {
+      "policy": "coo+csr+csc",
+      "allowed": [
+        "coo",
+        "csr",
+        "csc"
+      ],
+      "before": {
+        "formats": {
+          "created": [
+            "coo",
+            "csr",
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo",
+          "csc",
+          "csr"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          },
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          },
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      },
+      "status": "supported",
+      "numerical_equivalence": true,
+      "max_absolute_error": 0.0,
+      "after": {
+        "formats": {
+          "created": [
+            "coo",
+            "csr",
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo",
+          "csc",
+          "csr"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          },
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          },
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      }
+    }
+  ],
+  "format_representation_evidence": {
+    "cora": {
+      "all_allowed": [
+        "coo",
+        "csc",
+        "csr"
+      ],
+      "coo_csc_allowed": [
+        "coo",
+        "csc"
+      ],
+      "shared_hashes_equal": {
+        "coo": true,
+        "csc": true
+      }
+    },
+    "citeseer": {
+      "all_allowed": [
+        "coo",
+        "csc",
+        "csr"
+      ],
+      "coo_csc_allowed": [
+        "coo",
+        "csc"
+      ],
+      "shared_hashes_equal": {
+        "coo": true,
+        "csc": true
+      }
+    },
+    "pubmed": {
+      "all_allowed": [
+        "coo",
+        "csc",
+        "csr"
+      ],
+      "coo_csc_allowed": [
+        "coo",
+        "csc"
+      ],
+      "shared_hashes_equal": {
+        "coo": true,
+        "csc": true
+      }
+    }
+  },
+  "analytical_sizes_not_measurements": {
+    "citeseer": {
+      "mean_in_degree_after_loops": 3.7363991584009617,
+      "fixed_four_head_EH": 49724,
+      "int32_saves_bytes_for_nonsharing_coo_csr_csc_explicit_eid": 324968,
+      "one_float32_edge_tensor_bytes_at_four_heads": 198896
+    },
+    "cora": {
+      "mean_in_degree_after_loops": 4.89807976366322,
+      "fixed_four_head_EH": 53056,
+      "int32_saves_bytes_for_nonsharing_coo_csr_csc_explicit_eid": 340008,
+      "one_float32_edge_tensor_bytes_at_four_heads": 212224
+    },
+    "pubmed": {
+      "mean_in_degree_after_loops": 5.496018664096972,
+      "fixed_four_head_EH": 433460,
+      "int32_saves_bytes_for_nonsharing_coo_csr_csc_explicit_eid": 2758504,
+      "one_float32_edge_tensor_bytes_at_four_heads": 1733840
+    },
+    "reddit": {
+      "mean_in_degree_after_loops": 492.9876032880476,
+      "fixed_four_head_EH": 459395428,
+      "int32_saves_bytes_for_nonsharing_coo_csr_csc_explicit_eid": 2758236296,
+      "one_float32_edge_tensor_bytes_at_four_heads": 1837581712
+    }
+  }
+}

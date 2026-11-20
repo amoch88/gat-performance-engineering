@@ -1,0 +1,149 @@
+{
+  "repository_commit": "53a85fe32872c69195d7cb290fb00c72f608dc10",
+  "local_files_inspected": {
+    "benchmarks/dgl_baseline/baseline.py": "181cc14fc18c4f53e0c5e0b5d9120265a887af6d2bb4e2469f167af7cc7b50c6",
+    "benchmarks/dgl_baseline/common.py": "f6a0b4e2e283fd0eddaf57a5a128d0735bb6ea73abc064ba75ea3b0d10146a3f",
+    "benchmarks/dgl_baseline/edge_ordering.py": "94f361f6f4234e9637a28d48b3ae1ad7c402d148073c6b7e26b63f8d2ef846ed",
+    "benchmarks/dgl_baseline/node_ordering.py": "99c632a3962843129f7ed4c81f2cf6b186c0aa8660cc707053d738d9cfbbf8dd",
+    "benchmarks/dgl_baseline/sparse_format.py": "04f917eb96f341d7231ccd375c024ad42a7f323150a154e1032f5b7371df4163",
+    "benchmarks/dgl_baseline/input_features.py": "d20601a6c040bc8c188502cee7afe8cb79d711d8900a76c2cac0b94553dc97a2",
+    "benchmarks/dgl_baseline/output_features.py": "e9e6a5bdfe1be65ce53bdfc86bac7df5720a66456289d73362ee21a455737906",
+    "benchmarks/dgl_baseline/attention_heads.py": "0516493814885ba37982b72864e733fc09b042a317282a4b11458396620489b7",
+    "benchmarks/dgl_baseline/tests.py": "c185b6db10fb245a62c5f55231860ba7d42a3cb471ed275d1e2510f0f12317e8",
+    "benchmarks/dgl_baseline/REPORT.md": "eba8925f16c62aeba16511949184746e6bb50bc74886fe36f0789b6cf477748d",
+    "benchmarks/dgl_baseline/MEASUREMENTS.json": "eab742d909fcdd30a22b587610768b195b2d781ce082fa1b17dfcb3d845d50e0",
+    "benchmarks/joint_tuning/core.py": "8d1853edaf74a4fe193ec22433a72a29e7f6c62a73a2ef2da3add7e95fcea082",
+    "benchmarks/joint_tuning/worker.py": "2c8b91181f71f9c7c0a193a65e323cf6513ff83734d71004f2a66ae2a32d3ebf",
+    "benchmarks/joint_tuning/run.py": "b704d53f5f2d67ea0cab3843bdb39aaef0a3bf79253375ebcfa05a2de7e16e15",
+    "benchmarks/joint_tuning/analysis.py": "6b482d3ecebc72f75a1cf4f27f4cd8e9488380c26d6fd09c08e124542cb48437",
+    "benchmarks/joint_tuning/tests.py": "450c066a8963a94a0e01f6dae6f7d98e757cfd1a46629efa52d67d900d59911b",
+    "benchmarks/joint_tuning/REPORT.md": "4ef3c5d16716ae5069ab227895176ec9241536b7e45c088c9dab1e87dc54c028",
+    "benchmarks/joint_tuning/RESULTS.json": "066e0778c6ec92b3614e0418e8f6c1aecd3d28d4db405c02c16558cdf7e3d6ca",
+    "benchmarks/joint_tuning/ANALYSIS.json": "f752be095a6ce853c70e7e2983c3c03cbaa24b40dc2fa20828b06f2678163bc8",
+    "benchmarks/joint_tuning/PILOT.json": "b90d1cecaa904c81ac6b81778b28f704965a3d2da7030de711f11939f1358130"
+  },
+  "upstream_tag": "v1.1.3",
+  "upstream_sources": [
+    {
+      "path": "src/array/kernel.cc",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/src/array/kernel.cc",
+      "sha256": "8f9e1dbbffa703ea63863450cfe4dfce1591a35b252f182a7afd5ca802c34fe8",
+      "bytes": 31720
+    },
+    {
+      "path": "src/array/cpu/sddmm.cc",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/src/array/cpu/sddmm.cc",
+      "sha256": "f87fbeba225355952af71fe13ca9ace3b262e263214759c837525eb26429bfa8",
+      "bytes": 11817
+    },
+    {
+      "path": "src/array/cpu/spmm.cc",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/src/array/cpu/spmm.cc",
+      "sha256": "323879867d161b125bf251940d05c85ba6adc6674c0796327d42d8dacf20b134",
+      "bytes": 14180
+    },
+    {
+      "path": "src/array/cpu/softmax.cc",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/src/array/cpu/softmax.cc",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "src/array/cpu/edge_softmax.cc",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/src/array/cpu/edge_softmax.cc",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "src/graph/unit_graph.cc",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/src/graph/unit_graph.cc",
+      "sha256": "09eeb57f82365322559d76097063a0db84922cbda3502e13a358c9b5c8bffe5b",
+      "bytes": 61602
+    },
+    {
+      "path": "python/dgl/backend/pytorch/sparse.py",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/python/dgl/backend/pytorch/sparse.py",
+      "sha256": "2d1ef7b7e0c4c28d6553d4f518131fc08da7215227df625409ead807a7e27c7e",
+      "bytes": 40333
+    },
+    {
+      "path": "python/dgl/_sparse_ops.py",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/python/dgl/_sparse_ops.py",
+      "sha256": "41c531185a6d98a01414d0e37324de91bd5c8ced7e790c096d4a04ed194ec24c",
+      "bytes": 32827
+    },
+    {
+      "path": "include/dgl/aten/macro.h",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/include/dgl/aten/macro.h",
+      "sha256": "df912a9c9188ef3c8f6d8eba8802e4dcfbb31fefd80404267a87a847c61a09c4",
+      "bytes": 23437
+    },
+    {
+      "path": "src/array/cpu/sddmm.h",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/src/array/cpu/sddmm.h",
+      "sha256": "fee73e29f3169b7fd89d32abdd2bd054e015c954961db1bdec21c1ee91029b54",
+      "bytes": 8189
+    },
+    {
+      "path": "src/array/cpu/spmm.h",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/src/array/cpu/spmm.h",
+      "sha256": "58bbcc1107f692819ed10f8e7d062da867265c005aefdf119aaa034110356fa5",
+      "bytes": 23326
+    },
+    {
+      "path": "python/dgl/backend/pytorch/tensor.py",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/python/dgl/backend/pytorch/tensor.py",
+      "sha256": "2fce02fb394d959053df43890631d8d8178947c8f1552aac40b25ddee43ada66",
+      "bytes": 12183
+    },
+    {
+      "path": "include/dgl/aten/types.h",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/include/dgl/aten/types.h",
+      "sha256": "2918be6eb4a9919fa9bc7969d56eaffe2b3a9ada1d59ee0b42948713885458b9",
+      "bytes": 971
+    },
+    {
+      "path": "python/dgl/heterograph.py",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/python/dgl/heterograph.py",
+      "sha256": "27bbe7de12c1bdb45db7a57bf5e5dbca4cf134920998e315255df3ed10c488ea",
+      "bytes": 244116
+    },
+    {
+      "path": "python/dgl/nn/pytorch/conv/gatconv.py",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/python/dgl/nn/pytorch/conv/gatconv.py",
+      "sha256": "1de5cd791dfb4871fbff91d7fb4565ceb67c07a31d21ec3eba132f385429ae1f",
+      "bytes": 15099
+    }
+  ],
+  "installed_python_source_comparisons": {
+    "python/dgl/backend/pytorch/sparse.py": {
+      "matches_upstream": true
+    },
+    "python/dgl/_sparse_ops.py": {
+      "matches_upstream": true
+    },
+    "python/dgl/backend/pytorch/tensor.py": {
+      "matches_upstream": true
+    },
+    "python/dgl/heterograph.py": {
+      "matches_upstream": true
+    },
+    "python/dgl/nn/pytorch/conv/gatconv.py": {
+      "matches_upstream": true
+    }
+  },
+  "ModelingWithTensors": {
+    "source_available_in_workspace": false,
+    "inspection_scope": "Existing checkout plus workspace project directories; excluded dataset/virtualenv/cache/git object stores. No reference implementation source located. Conceptual relationships only; exact loop-order collapsing not independently verified."
+  },
+  "hardware_observed_now": {
+    "virtual_machine": "KVM",
+    "logical_cpus": 5,
+    "allowed_cpus": "0-4",
+    "cpu_max": "400000 100000",
+    "memory_max": "34359738368",
+    "numa_nodes_exposed": [
+      "node0"
+    ],
+    "sockets_exposed": 1
+  },
+  "no_benchmark_executed": true
+}

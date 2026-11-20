@@ -1,0 +1,55 @@
+{
+  "tag": "v1.1.3",
+  "retrieved_utc": "2026-11-04T14:11:15.245695+00:00",
+  "sources": [
+    {
+      "path": "src/array/kernel.cc",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/src/array/kernel.cc",
+      "sha256": "8f9e1dbbffa703ea63863450cfe4dfce1591a35b252f182a7afd5ca802c34fe8",
+      "bytes": 31720
+    },
+    {
+      "path": "src/array/cpu/sddmm.h",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/src/array/cpu/sddmm.h",
+      "sha256": "fee73e29f3169b7fd89d32abdd2bd054e015c954961db1bdec21c1ee91029b54",
+      "bytes": 8189
+    },
+    {
+      "path": "src/array/cpu/spmm.h",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/src/array/cpu/spmm.h",
+      "sha256": "58bbcc1107f692819ed10f8e7d062da867265c005aefdf119aaa034110356fa5",
+      "bytes": 23326
+    },
+    {
+      "path": "src/array/cpu/spmm.cc",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/src/array/cpu/spmm.cc",
+      "sha256": "323879867d161b125bf251940d05c85ba6adc6674c0796327d42d8dacf20b134",
+      "bytes": 14180
+    },
+    {
+      "path": "python/dgl/_sparse_ops.py",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/python/dgl/_sparse_ops.py",
+      "sha256": "41c531185a6d98a01414d0e37324de91bd5c8ced7e790c096d4a04ed194ec24c",
+      "bytes": 32827
+    },
+    {
+      "path": "python/dgl/nn/pytorch/conv/gatconv.py",
+      "url": "https://raw.githubusercontent.com/dmlc/dgl/v1.1.3/python/dgl/nn/pytorch/conv/gatconv.py",
+      "sha256": "1de5cd791dfb4871fbff91d7fb4565ceb67c07a31d21ec3eba132f385429ae1f",
+      "bytes": 15099
+    }
+  ],
+  "evidence": "Version-pinned dispatch source plus successful exclusive-format primitive calls and recorded representations; not dynamic machine-code tracing",
+  "historical_source_manifest": "../parameter_evaluation/SOURCES.json",
+  "source_dispatch_lines": {
+    "src/array/kernel.cc": {
+      "gspmm": "20-39: CSC -> transposed CSR interface, COO -> edge route",
+      "gsddmm": "224-243: CSR or COO; additive op unchanged",
+      "edge_softmax": "308-325: CPU forward directly requests CSC"
+    },
+    "src/array/cpu/spmm.h": {
+      "coo": "163-209: edge loop and OpenMP atomic accumulation",
+      "csc": "35-155: row-oriented CSR on reversed adjacency; optimized build-dependent path not dynamically traced"
+    }
+  }
+}

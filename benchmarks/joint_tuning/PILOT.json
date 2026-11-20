@@ -1,0 +1,485 @@
+{
+  "kind": "synthetic compatibility pilot, NOT dataset performance",
+  "model": {
+    "input_features": 11,
+    "heads": 4,
+    "out_features": 8,
+    "seed": 0
+  },
+  "environment": {
+    "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "logical_cpus": 5,
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "os": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "architecture": "x86_64",
+    "python": "3.11.17",
+    "dgl": "1.1.3",
+    "torch": "2.2.2+cpu",
+    "numpy": "1.26.4",
+    "torch_threads": 1,
+    "torch_interop_threads": 1,
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "OMP_DYNAMIC": null,
+      "OMP_PROC_BIND": null,
+      "OMP_PLACES": null,
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "torch_build": "PyTorch built with:\n  - GCC 9.3\n  - C++ Version: 201703\n  - Intel(R) oneAPI Math Kernel Library Version 2022.2-Product Build 20220804 for Intel(R) 64 architecture applications\n  - Intel(R) MKL-DNN v3.3.2 (Git Hash 2dc95a2ad0841e29db8b22fbccaf3e5da7992b01)\n  - OpenMP 201511 (a.k.a. OpenMP 4.5)\n  - LAPACK is enabled (usually provided by MKL)\n  - NNPACK is enabled\n  - CPU capability usage: AVX512\n  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -D_GLIBCXX_USE_CXX11_ABI=0 -fabi-version=11 -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOROCTRACER -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=pedantic -Wno-error=old-style-cast -Wno-missing-braces -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=2.2.2, USE_CUDA=0, USE_CUDNN=OFF, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, \n",
+    "docker_image": null,
+    "git_commit": "cd6d04549a2c24537b631e1d4170d9351bec597c",
+    "git_dirty": true
+  },
+  "policies": [
+    {
+      "policy": "coo",
+      "allowed": [
+        "coo"
+      ],
+      "before": {
+        "formats": {
+          "created": [
+            "coo"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          }
+        }
+      },
+      "status": "unsupported",
+      "error_type": "DGLError",
+      "error": "[06:50:53] /opt/dgl/src/graph/unit_graph.cc:1421: The graph have restricted sparse format coo , cannot create CSC matrix.\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x60799a) [0x7f1c6280799a]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::GetInCSR(bool) const+0x195) [0x7f1c6280e4f5]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::GetCSCMatrix(unsigned long) const+0x16) [0x7f1c6280ea46]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::HeteroGraph::GetCSCMatrix(unsigned long) const+0x23) [0x7f1c62710f73]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::aten::Edge_softmax_forward(std::string const&, std::shared_ptr<dgl::BaseHeteroGraph>, dgl::runtime::NDArray, dgl::runtime::NDArray, dgl::runtime::NDArray)+0x6cb) [0x7f1c6265cbbb]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x46741a) [0x7f1c6266741a]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f1c626a92a8]\n  [bt] (7) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a63a) [0x7f1c6121a63a]\n  [bt] (8) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f1c6121ac9f]\n\n",
+      "numerical_equivalence": false,
+      "after": {
+        "formats": {
+          "created": [
+            "coo"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          }
+        }
+      }
+    },
+    {
+      "policy": "csr",
+      "allowed": [
+        "csr"
+      ],
+      "before": {
+        "formats": {
+          "created": [
+            "csr"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "csr"
+        ],
+        "sparse_hashes": {
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          }
+        }
+      },
+      "status": "unsupported",
+      "error_type": "DGLError",
+      "error": "[06:50:53] /opt/dgl/src/graph/unit_graph.cc:1035: Check failed: fmt == SparseFormat::kCSC || fmt == SparseFormat::kCOO: In degree cannot be computed as neither CSC nor COO format is allowed for this graph. Please enable one of them at least.\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x60799a) [0x7f1c6280799a]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::InDegrees(unsigned long, dgl::runtime::NDArray) const+0x159) [0x7f1c62810b19]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::HeteroGraph::InDegrees(unsigned long, dgl::runtime::NDArray) const+0x49) [0x7f1c62711539]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x51ab21) [0x7f1c6271ab21]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f1c626a92a8]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a446) [0x7f1c6121a446]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f1c6121ac9f]\n  [bt] (7) /workspace/dgl-performance-model/.venv/bin/python(_PyEval_EvalFrameDefault+0x24c7c) [0x5605009e057c]\n  [bt] (8) /workspace/dgl-performance-model/.venv/bin/python(_PyFunction_Vectorcall+0x1d9) [0x560500944509]\n\n",
+      "numerical_equivalence": false,
+      "after": {
+        "formats": {
+          "created": [
+            "csr"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "csr"
+        ],
+        "sparse_hashes": {
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          }
+        }
+      }
+    },
+    {
+      "policy": "csc",
+      "allowed": [
+        "csc"
+      ],
+      "before": {
+        "formats": {
+          "created": [
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "csc"
+        ],
+        "sparse_hashes": {
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      },
+      "status": "unsupported",
+      "error_type": "DGLError",
+      "error": "[06:50:53] /opt/dgl/src/array/kernel.cc:231: SDDMM only supports CSR and COO formats\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x4537aa) [0x7f1c626537aa]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::aten::SDDMM(std::string const&, std::shared_ptr<dgl::BaseHeteroGraph>, dgl::runtime::NDArray, dgl::runtime::NDArray, dgl::runtime::NDArray, int, int)+0x5fc) [0x7f1c6265b5bc]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x469c4f) [0x7f1c62669c4f]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x46a141) [0x7f1c6266a141]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f1c626a92a8]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a63a) [0x7f1c6121a63a]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f1c6121ac9f]\n  [bt] (7) /workspace/dgl-performance-model/.venv/bin/python(_PyEval_EvalFrameDefault+0x24c7c) [0x5605009e057c]\n  [bt] (8) /workspace/dgl-performance-model/.venv/bin/python(_PyFunction_Vectorcall+0x1d9) [0x560500944509]\n\n",
+      "numerical_equivalence": false,
+      "after": {
+        "formats": {
+          "created": [
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "csc"
+        ],
+        "sparse_hashes": {
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      }
+    },
+    {
+      "policy": "coo+csr",
+      "allowed": [
+        "coo",
+        "csr"
+      ],
+      "before": {
+        "formats": {
+          "created": [
+            "coo",
+            "csr"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo",
+          "csr"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          },
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          }
+        }
+      },
+      "status": "unsupported",
+      "error_type": "DGLError",
+      "error": "[06:50:53] /opt/dgl/src/graph/unit_graph.cc:1421: The graph have restricted sparse format coo csr , cannot create CSC matrix.\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x60799a) [0x7f1c6280799a]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::GetInCSR(bool) const+0x195) [0x7f1c6280e4f5]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::UnitGraph::GetCSCMatrix(unsigned long) const+0x16) [0x7f1c6280ea46]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::HeteroGraph::GetCSCMatrix(unsigned long) const+0x23) [0x7f1c62710f73]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::aten::Edge_softmax_forward(std::string const&, std::shared_ptr<dgl::BaseHeteroGraph>, dgl::runtime::NDArray, dgl::runtime::NDArray, dgl::runtime::NDArray)+0x6cb) [0x7f1c6265cbbb]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x46741a) [0x7f1c6266741a]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f1c626a92a8]\n  [bt] (7) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a63a) [0x7f1c6121a63a]\n  [bt] (8) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f1c6121ac9f]\n\n",
+      "numerical_equivalence": false,
+      "after": {
+        "formats": {
+          "created": [
+            "coo",
+            "csr"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo",
+          "csr"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          },
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          }
+        }
+      }
+    },
+    {
+      "policy": "coo+csc",
+      "allowed": [
+        "coo",
+        "csc"
+      ],
+      "before": {
+        "formats": {
+          "created": [
+            "coo",
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo",
+          "csc"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          },
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      },
+      "status": "supported",
+      "numerical_equivalence": true,
+      "max_absolute_error": 0.0,
+      "after": {
+        "formats": {
+          "created": [
+            "coo",
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo",
+          "csc"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          },
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      }
+    },
+    {
+      "policy": "csr+csc",
+      "allowed": [
+        "csr",
+        "csc"
+      ],
+      "before": {
+        "formats": {
+          "created": [
+            "csr",
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "csc",
+          "csr"
+        ],
+        "sparse_hashes": {
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          },
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      },
+      "status": "unsupported",
+      "error_type": "DGLError",
+      "error": "[06:50:53] /opt/dgl/src/array/kernel.cc:231: SDDMM only supports CSR and COO formats\nStack trace:\n  [bt] (0) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x4537aa) [0x7f1c626537aa]\n  [bt] (1) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(dgl::aten::SDDMM(std::string const&, std::shared_ptr<dgl::BaseHeteroGraph>, dgl::runtime::NDArray, dgl::runtime::NDArray, dgl::runtime::NDArray, int, int)+0x5fc) [0x7f1c6265b5bc]\n  [bt] (2) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x469c4f) [0x7f1c62669c4f]\n  [bt] (3) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(+0x46a141) [0x7f1c6266a141]\n  [bt] (4) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x7f1c626a92a8]\n  [bt] (5) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1a63a) [0x7f1c6121a63a]\n  [bt] (6) /workspace/dgl-performance-model/.venv/lib/python3.11/site-packages/dgl/_ffi/_cy3/core.cpython-311-x86_64-linux-gnu.so(+0x1ac9f) [0x7f1c6121ac9f]\n  [bt] (7) /workspace/dgl-performance-model/.venv/bin/python(_PyEval_EvalFrameDefault+0x24c7c) [0x5605009e057c]\n  [bt] (8) /workspace/dgl-performance-model/.venv/bin/python(_PyFunction_Vectorcall+0x1d9) [0x560500944509]\n\n",
+      "numerical_equivalence": false,
+      "after": {
+        "formats": {
+          "created": [
+            "csr",
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "csc",
+          "csr"
+        ],
+        "sparse_hashes": {
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          },
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      }
+    },
+    {
+      "policy": "coo+csr+csc",
+      "allowed": [
+        "coo",
+        "csr",
+        "csc"
+      ],
+      "before": {
+        "formats": {
+          "created": [
+            "coo",
+            "csr",
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo",
+          "csc",
+          "csr"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          },
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          },
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      },
+      "status": "supported",
+      "numerical_equivalence": true,
+      "max_absolute_error": 0.0,
+      "after": {
+        "formats": {
+          "created": [
+            "coo",
+            "csr",
+            "csc"
+          ],
+          "not created": []
+        },
+        "allowed_formats": [
+          "coo",
+          "csc",
+          "csr"
+        ],
+        "sparse_hashes": {
+          "coo": {
+            "indices": [
+              "c7b706aa0551f76128ecac7541abe89d120c0efc29e5bb6346b9b33fa9fb4a82",
+              "d12862bd002610ede971f63cac96d6347a57308dde1b976970c2bea251c2387c"
+            ],
+            "eid_map": null
+          },
+          "csr": {
+            "indices": [
+              "ea4f54d9383d0d87c76c5cf853736045b50365b5960f192d60e20a2c64d1907e",
+              "319faaa81830b52593f94739b2672f71821c322943ea3a41404073c5bd39d03c"
+            ],
+            "eid_map": "6f4aa6faabb742ed1b353ec3db4bcc71347a4333d7ca4a9a2a003a4526c04c03"
+          },
+          "csc": {
+            "indices": [
+              "e7e45e3a3858458820224f9f3a9a7832b3e327733928724a9222724bd4bf6599",
+              "5a61e3205f2b9b20048cf8dc00548d39dd7fb36e4b9c4905a8cf46e77500c124"
+            ],
+            "eid_map": "e99931c858b2cc69f40de30f972531c7b60d56d2aa001c018480a900680cbb28"
+          }
+        }
+      }
+    }
+  ]
+}

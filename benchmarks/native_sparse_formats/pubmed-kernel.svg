@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1090" height="520" viewBox="0 0 1090 520">
+<rect width="1090" height="520" fill="white"/><g font-family="Arial,sans-serif" font-size="12" fill="#20303d">
+<text x="25" y="30" font-size="20" font-weight="bold">Pubmed: isolated kernel latency</text>
+<text x="25" y="52">Median of process medians, ms. Whiskers: process-median range. Blue: native; brown: blocked.</text>
+<text x="25" y="72" font-weight="bold">Score</text>
+<text x="25" y="94.00">6.263</text>
+<path d="M65 180H1070" stroke="#aab5bd"/><text x="38" y="184">0</text>
+<text x="86" y="196" text-anchor="middle" font-size="10">COO</text>
+<rect x="76" y="169.75" width="20" height="10.25" fill="#225b7b"/>
+<path d="M86 170.20V169.42" stroke="#17242c"/>
+<text x="133" y="196" text-anchor="middle" font-size="10">CSR</text>
+<rect x="123" y="168.64" width="20" height="11.36" fill="#225b7b"/>
+<path d="M133 169.09V168.42" stroke="#17242c"/>
+<text x="180" y="196" text-anchor="middle" font-size="10">CSC</text>
+<text x="180" y="174" text-anchor="middle">N/A</text>
+<text x="227" y="196" text-anchor="middle" font-size="10">BCSR2</text>
+<rect x="217" y="144.45" width="20" height="35.55" fill="#a6603f"/>
+<path d="M227 145.35V143.42" stroke="#17242c"/>
+<text x="274" y="196" text-anchor="middle" font-size="10">BCSR4</text>
+<rect x="264" y="139.85" width="20" height="40.15" fill="#a6603f"/>
+<path d="M274 140.52V139.76" stroke="#17242c"/>
+<text x="321" y="196" text-anchor="middle" font-size="10">BCSR8</text>
+<rect x="311" y="134.81" width="20" height="45.19" fill="#a6603f"/>
+<path d="M321 135.16V133.29" stroke="#17242c"/>
+<text x="368" y="196" text-anchor="middle" font-size="10">BCSR16</text>
+<rect x="358" y="126.15" width="20" height="53.85" fill="#a6603f"/>
+<path d="M368 126.69V125.22" stroke="#17242c"/>
+<text x="415" y="196" text-anchor="middle" font-size="10">BCSR32</text>
+<rect x="405" y="109.80" width="20" height="70.20" fill="#a6603f"/>
+<path d="M415 112.22V106.37" stroke="#17242c"/>
+<text x="462" y="196" text-anchor="middle" font-size="10">BCSR64</text>
+<rect x="452" y="96.46" width="20" height="83.54" fill="#a6603f"/>
+<path d="M462 97.35V94.29" stroke="#17242c"/>
+<text x="509" y="196" text-anchor="middle" font-size="10">BCSC2</text>
+<rect x="499" y="145.18" width="20" height="34.82" fill="#a6603f"/>
+<path d="M509 145.79V144.28" stroke="#17242c"/>
+<text x="556" y="196" text-anchor="middle" font-size="10">BCSC4</text>
+<rect x="546" y="140.57" width="20" height="39.43" fill="#a6603f"/>
+<path d="M556 141.74V139.55" stroke="#17242c"/>
+<text x="603" y="196" text-anchor="middle" font-size="10">BCSC8</text>
+<rect x="593" y="134.77" width="20" height="45.23" fill="#a6603f"/>
+<path d="M603 135.86V132.66" stroke="#17242c"/>
+<text x="650" y="196" text-anchor="middle" font-size="10">BCSC16</text>
+<rect x="640" y="126.90" width="20" height="53.10" fill="#a6603f"/>
+<path d="M650 127.76V125.67" stroke="#17242c"/>
+<text x="697" y="196" text-anchor="middle" font-size="10">BCSC32</text>
+<rect x="687" y="113.12" width="20" height="66.88" fill="#a6603f"/>
+<path d="M697 113.62V111.13" stroke="#17242c"/>
+<text x="744" y="196" text-anchor="middle" font-size="10">BCSC64</text>
+<rect x="734" y="99.44" width="20" height="80.56" fill="#a6603f"/>
+<path d="M744 101.60V98.21" stroke="#17242c"/>
+<text x="791" y="196" text-anchor="middle" font-size="10">CSB2</text>
+<rect x="781" y="151.18" width="20" height="28.82" fill="#a6603f"/>
+<path d="M791 151.40V150.49" stroke="#17242c"/>
+<text x="838" y="196" text-anchor="middle" font-size="10">CSB4</text>
+<rect x="828" y="150.41" width="20" height="29.59" fill="#a6603f"/>
+<path d="M838 150.76V149.82" stroke="#17242c"/>
+<text x="885" y="196" text-anchor="middle" font-size="10">CSB8</text>
+<rect x="875" y="149.98" width="20" height="30.02" fill="#a6603f"/>
+<path d="M885 150.51V149.71" stroke="#17242c"/>
+<text x="932" y="196" text-anchor="middle" font-size="10">CSB16</text>
+<rect x="922" y="149.86" width="20" height="30.14" fill="#a6603f"/>
+<path d="M932 150.35V149.37" stroke="#17242c"/>
+<text x="979" y="196" text-anchor="middle" font-size="10">CSB32</text>
+<rect x="969" y="149.57" width="20" height="30.43" fill="#a6603f"/>
+<path d="M979 150.09V148.72" stroke="#17242c"/>
+<text x="1026" y="196" text-anchor="middle" font-size="10">CSB64</text>
+<rect x="1016" y="149.31" width="20" height="30.69" fill="#a6603f"/>
+<path d="M1026 149.76V148.51" stroke="#17242c"/>
+<text x="25" y="230" font-weight="bold">Softmax</text>
+<text x="25" y="252.00">10.462</text>
+<path d="M65 338H1070" stroke="#aab5bd"/><text x="38" y="342">0</text>
+<text x="86" y="354" text-anchor="middle" font-size="10">COO</text>
+<text x="86" y="332" text-anchor="middle">N/A</text>
+<text x="133" y="354" text-anchor="middle" font-size="10">CSR</text>
+<text x="133" y="332" text-anchor="middle">N/A</text>
+<text x="180" y="354" text-anchor="middle" font-size="10">CSC</text>
+<rect x="170" y="309.84" width="20" height="28.16" fill="#225b7b"/>
+<path d="M180 310.56V307.59" stroke="#17242c"/>
+<text x="227" y="354" text-anchor="middle" font-size="10">BCSR2</text>
+<rect x="217" y="312.41" width="20" height="25.59" fill="#a6603f"/>
+<path d="M227 312.90V312.18" stroke="#17242c"/>
+<text x="274" y="354" text-anchor="middle" font-size="10">BCSR4</text>
+<rect x="264" y="308.21" width="20" height="29.79" fill="#a6603f"/>
+<path d="M274 308.76V307.54" stroke="#17242c"/>
+<text x="321" y="354" text-anchor="middle" font-size="10">BCSR8</text>
+<rect x="311" y="303.31" width="20" height="34.69" fill="#a6603f"/>
+<path d="M321 303.68V302.14" stroke="#17242c"/>
+<text x="368" y="354" text-anchor="middle" font-size="10">BCSR16</text>
+<rect x="358" y="293.99" width="20" height="44.01" fill="#a6603f"/>
+<path d="M368 295.05V292.65" stroke="#17242c"/>
+<text x="415" y="354" text-anchor="middle" font-size="10">BCSR32</text>
+<rect x="405" y="274.13" width="20" height="63.87" fill="#a6603f"/>
+<path d="M415 275.69V272.35" stroke="#17242c"/>
+<text x="462" y="354" text-anchor="middle" font-size="10">BCSR64</text>
+<rect x="452" y="255.32" width="20" height="82.68" fill="#a6603f"/>
+<path d="M462 256.59V252.29" stroke="#17242c"/>
+<text x="509" y="354" text-anchor="middle" font-size="10">BCSC2</text>
+<rect x="499" y="311.38" width="20" height="26.62" fill="#a6603f"/>
+<path d="M509 311.72V310.96" stroke="#17242c"/>
+<text x="556" y="354" text-anchor="middle" font-size="10">BCSC4</text>
+<rect x="546" y="307.77" width="20" height="30.23" fill="#a6603f"/>
+<path d="M556 308.32V307.07" stroke="#17242c"/>
+<text x="603" y="354" text-anchor="middle" font-size="10">BCSC8</text>
+<rect x="593" y="302.84" width="20" height="35.16" fill="#a6603f"/>
+<path d="M603 303.38V300.82" stroke="#17242c"/>
+<text x="650" y="354" text-anchor="middle" font-size="10">BCSC16</text>
+<rect x="640" y="294.22" width="20" height="43.78" fill="#a6603f"/>
+<path d="M650 294.96V290.83" stroke="#17242c"/>
+<text x="697" y="354" text-anchor="middle" font-size="10">BCSC32</text>
+<rect x="687" y="276.83" width="20" height="61.17" fill="#a6603f"/>
+<path d="M697 277.79V274.86" stroke="#17242c"/>
+<text x="744" y="354" text-anchor="middle" font-size="10">BCSC64</text>
+<rect x="734" y="260.48" width="20" height="77.52" fill="#a6603f"/>
+<path d="M744 261.84V258.70" stroke="#17242c"/>
+<text x="791" y="354" text-anchor="middle" font-size="10">CSB2</text>
+<rect x="781" y="320.39" width="20" height="17.61" fill="#a6603f"/>
+<path d="M791 320.95V320.07" stroke="#17242c"/>
+<text x="838" y="354" text-anchor="middle" font-size="10">CSB4</text>
+<rect x="828" y="321.10" width="20" height="16.90" fill="#a6603f"/>
+<path d="M838 321.34V320.25" stroke="#17242c"/>
+<text x="885" y="354" text-anchor="middle" font-size="10">CSB8</text>
+<rect x="875" y="321.11" width="20" height="16.89" fill="#a6603f"/>
+<path d="M885 321.45V320.17" stroke="#17242c"/>
+<text x="932" y="354" text-anchor="middle" font-size="10">CSB16</text>
+<rect x="922" y="321.00" width="20" height="17.00" fill="#a6603f"/>
+<path d="M932 321.26V320.17" stroke="#17242c"/>
+<text x="979" y="354" text-anchor="middle" font-size="10">CSB32</text>
+<rect x="969" y="320.24" width="20" height="17.76" fill="#a6603f"/>
+<path d="M979 320.86V320.02" stroke="#17242c"/>
+<text x="1026" y="354" text-anchor="middle" font-size="10">CSB64</text>
+<rect x="1016" y="319.12" width="20" height="18.88" fill="#a6603f"/>
+<path d="M1026 319.52V318.46" stroke="#17242c"/>
+<text x="25" y="388" font-weight="bold">Aggregation</text>
+<text x="25" y="410.00">7.665</text>
+<path d="M65 496H1070" stroke="#aab5bd"/><text x="38" y="500">0</text>
+<text x="86" y="512" text-anchor="middle" font-size="10">COO</text>
+<rect x="76" y="413.18" width="20" height="82.82" fill="#225b7b"/>
+<path d="M86 414.43V410.29" stroke="#17242c"/>
+<text x="133" y="512" text-anchor="middle" font-size="10">CSR</text>
+<text x="133" y="490" text-anchor="middle">N/A</text>
+<text x="180" y="512" text-anchor="middle" font-size="10">CSC</text>
+<rect x="170" y="454.05" width="20" height="41.95" fill="#225b7b"/>
+<path d="M180 455.12V451.08" stroke="#17242c"/>
+<text x="227" y="512" text-anchor="middle" font-size="10">BCSR2</text>
+<rect x="217" y="475.61" width="20" height="20.39" fill="#a6603f"/>
+<path d="M227 476.10V474.66" stroke="#17242c"/>
+<text x="274" y="512" text-anchor="middle" font-size="10">BCSR4</text>
+<rect x="264" y="473.61" width="20" height="22.39" fill="#a6603f"/>
+<path d="M274 474.79V472.85" stroke="#17242c"/>
+<text x="321" y="512" text-anchor="middle" font-size="10">BCSR8</text>
+<rect x="311" y="472.14" width="20" height="23.86" fill="#a6603f"/>
+<path d="M321 472.75V470.94" stroke="#17242c"/>
+<text x="368" y="512" text-anchor="middle" font-size="10">BCSR16</text>
+<rect x="358" y="467.65" width="20" height="28.35" fill="#a6603f"/>
+<path d="M368 468.84V466.18" stroke="#17242c"/>
+<text x="415" y="512" text-anchor="middle" font-size="10">BCSR32</text>
+<rect x="405" y="460.44" width="20" height="35.56" fill="#a6603f"/>
+<path d="M415 461.13V458.50" stroke="#17242c"/>
+<text x="462" y="512" text-anchor="middle" font-size="10">BCSR64</text>
+<rect x="452" y="454.08" width="20" height="41.92" fill="#a6603f"/>
+<path d="M462 455.34V447.92" stroke="#17242c"/>
+<text x="509" y="512" text-anchor="middle" font-size="10">BCSC2</text>
+<rect x="499" y="474.80" width="20" height="21.20" fill="#a6603f"/>
+<path d="M509 475.08V472.56" stroke="#17242c"/>
+<text x="556" y="512" text-anchor="middle" font-size="10">BCSC4</text>
+<rect x="546" y="473.00" width="20" height="23.00" fill="#a6603f"/>
+<path d="M556 474.29V471.53" stroke="#17242c"/>
+<text x="603" y="512" text-anchor="middle" font-size="10">BCSC8</text>
+<rect x="593" y="471.38" width="20" height="24.62" fill="#a6603f"/>
+<path d="M603 472.37V468.93" stroke="#17242c"/>
+<text x="650" y="512" text-anchor="middle" font-size="10">BCSC16</text>
+<rect x="640" y="465.57" width="20" height="30.43" fill="#a6603f"/>
+<path d="M650 466.71V462.07" stroke="#17242c"/>
+<text x="697" y="512" text-anchor="middle" font-size="10">BCSC32</text>
+<rect x="687" y="451.52" width="20" height="44.48" fill="#a6603f"/>
+<path d="M697 452.75V448.38" stroke="#17242c"/>
+<text x="744" y="512" text-anchor="middle" font-size="10">BCSC64</text>
+<rect x="734" y="441.04" width="20" height="54.96" fill="#a6603f"/>
+<path d="M744 442.63V431.95" stroke="#17242c"/>
+<text x="791" y="512" text-anchor="middle" font-size="10">CSB2</text>
+<rect x="781" y="478.32" width="20" height="17.68" fill="#a6603f"/>
+<path d="M791 478.46V477.12" stroke="#17242c"/>
+<text x="838" y="512" text-anchor="middle" font-size="10">CSB4</text>
+<rect x="828" y="478.62" width="20" height="17.38" fill="#a6603f"/>
+<path d="M838 479.16V477.88" stroke="#17242c"/>
+<text x="885" y="512" text-anchor="middle" font-size="10">CSB8</text>
+<rect x="875" y="478.52" width="20" height="17.48" fill="#a6603f"/>
+<path d="M885 479.00V477.30" stroke="#17242c"/>
+<text x="932" y="512" text-anchor="middle" font-size="10">CSB16</text>
+<rect x="922" y="478.46" width="20" height="17.54" fill="#a6603f"/>
+<path d="M932 478.91V477.75" stroke="#17242c"/>
+<text x="979" y="512" text-anchor="middle" font-size="10">CSB32</text>
+<rect x="969" y="477.93" width="20" height="18.07" fill="#a6603f"/>
+<path d="M979 478.75V477.18" stroke="#17242c"/>
+<text x="1026" y="512" text-anchor="middle" font-size="10">CSB64</text>
+<rect x="1016" y="477.91" width="20" height="18.09" fill="#a6603f"/>
+<path d="M1026 478.94V474.93" stroke="#17242c"/>
+</g></svg>

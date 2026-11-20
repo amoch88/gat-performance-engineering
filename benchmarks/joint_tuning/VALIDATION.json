@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "native_unit_tests": 8,
+  "docker_unit_tests": 8,
+  "native_end_to_end_smoke": "4 fresh Cora workers, report and plots, separate ignored output",
+  "docker_integration": "7-policy pilot, 18 complete Cora configs, original smoke test",
+  "baseline_regression": "7 original verification entrypoints and original tests.py passed",
+  "independent_dataset_processes": 18,
+  "measured_configurations_per_round": 18,
+  "timed_blocks_including_controls": 972,
+  "timed_samples_including_controls": 19440,
+  "old_tracked_files_unchanged": true,
+  "frozen_lock_check": "passed",
+  "cpu_only_packages": true,
+  "timing_source_hash_matches_measured_versions": true,
+  "reporting_source_note": "Report prose/tables expanded after measurements; timed and analysis code unchanged",
+  "figure_renderer": {
+    "matplotlib": "3.10.8",
+    "python": "3.12.14",
+    "analysis_sha256": "f752be095a6ce853c70e7e2983c3c03cbaa24b40dc2fa20828b06f2678163bc8",
+    "files": [
+      "cora-ranking.svg",
+      "cora-interactions.svg",
+      "citeseer-ranking.svg",
+      "citeseer-interactions.svg",
+      "pubmed-ranking.svg",
+      "pubmed-interactions.svg"
+    ]
+  },
+  "protected_baseline_artifacts_sha256": {
+    "benchmarks/dgl_baseline/baseline.py": "181cc14fc18c4f53e0c5e0b5d9120265a887af6d2bb4e2469f167af7cc7b50c6",
+    "benchmarks/dgl_baseline/REPORT.md": "eba8925f16c62aeba16511949184746e6bb50bc74886fe36f0789b6cf477748d",
+    "benchmarks/dgl_baseline/MEASUREMENTS.json": "eab742d909fcdd30a22b587610768b195b2d781ce082fa1b17dfcb3d845d50e0"
+  }
+}

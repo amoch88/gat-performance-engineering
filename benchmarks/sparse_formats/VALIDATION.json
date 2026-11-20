@@ -1,0 +1,11 @@
+{
+  "measured_samples": 52560,
+  "max_absolute_errors": {
+    "output": 1.4901161193847656e-08,
+    "normalization": 4.7171488404273987e-07,
+    "isolated": 4.470348358154297e-08
+  },
+  "substitutions": 108,
+  "raw_sha256": "d41ac32f5b54b532bbc55d53bc64436256b189980dee27eee435f5bbc6cfc399",
+  "checks": "full randomized blocks, data/weight/CPU/storage identity, source hashes, all correctness records"
+}

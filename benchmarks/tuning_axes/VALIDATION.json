@@ -1,0 +1,871 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-11-04T14:30:51.333482+00:00",
+  "base_commit": "ede88f3acafc02761b4325bb387082ea1695ad20",
+  "checks": [
+    {
+      "command": "uv sync --frozen",
+      "result": "passed; original 20 locked packages; no dependency changes"
+    },
+    {
+      "command": "uv run --frozen python benchmarks/tuning_axes/tests.py",
+      "result": "passed: 7 tests covering all four families"
+    },
+    {
+      "command": "uv run --frozen python benchmarks/dgl_baseline/tests.py",
+      "result": "passed: original pipeline/statistics/report and memory-control regression fixtures"
+    },
+    {
+      "command": "uv run --frozen python benchmarks/joint_tuning/tests.py",
+      "result": "passed: 8 original tests"
+    },
+    {
+      "command": "uv run --frozen python benchmarks/gat.py --smoke-test",
+      "result": "passed before and after primary measurements"
+    },
+    {
+      "command": "baseline.py, input_features.py, output_features.py, attention_heads.py, sparse_format.py, edge_ordering.py, node_ordering.py --verify-only --warmup 1 --repetitions 2",
+      "result": "all 7 passed; expected whole-layer sole-format unsupported errors retained"
+    },
+    {
+      "command": "python -m compileall -q benchmarks/tuning_axes",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --exit-code ede88f3acafc02761b4325bb387082ea1695ad20 -- . :!benchmarks/tuning_axes",
+      "result": "passed: every previously tracked file preserved"
+    }
+  ],
+  "offline_measurement_audit": {
+    "status": "passed",
+    "results_sha256": "e927669354a77fe84ae85329124f510cfdeef85dc073208531f4e5e524c22b88",
+    "independent_worker_processes": 36,
+    "validated_candidate_process_cases": 252,
+    "ordinary_forward_samples": 20160,
+    "instrumented_stage_samples": 38880,
+    "timing_and_stage_blocks_audited": 2952,
+    "timing_and_stage_samples_audited": 59040,
+    "largest_output_absolute_error": 0.0,
+    "randomized_orders": {
+      "cora/index_dtype": [
+        [
+          "int32",
+          "int64"
+        ],
+        [
+          "int32",
+          "int64"
+        ],
+        [
+          "int64",
+          "int32"
+        ],
+        [
+          "int64",
+          "int32"
+        ],
+        [
+          "int64",
+          "int32"
+        ],
+        [
+          "int32",
+          "int64"
+        ]
+      ],
+      "cora/score_traversal": [
+        [
+          "csr",
+          "coo"
+        ],
+        [
+          "csr",
+          "coo"
+        ],
+        [
+          "coo",
+          "csr"
+        ],
+        [
+          "coo",
+          "csr"
+        ],
+        [
+          "coo",
+          "csr"
+        ],
+        [
+          "csr",
+          "coo"
+        ]
+      ],
+      "cora/aggregation_traversal": [
+        [
+          "coo",
+          "csc"
+        ],
+        [
+          "coo",
+          "csc"
+        ],
+        [
+          "csc",
+          "coo"
+        ],
+        [
+          "csc",
+          "coo"
+        ],
+        [
+          "csc",
+          "coo"
+        ],
+        [
+          "coo",
+          "csc"
+        ]
+      ],
+      "cora/projected_layout": [
+        [
+          "hnf",
+          "nhf"
+        ],
+        [
+          "nhf",
+          "hnf"
+        ],
+        [
+          "nhf",
+          "hnf"
+        ],
+        [
+          "nhf",
+          "hnf"
+        ],
+        [
+          "nhf",
+          "hnf"
+        ],
+        [
+          "hnf",
+          "nhf"
+        ]
+      ],
+      "cora/attention_layout": [
+        [
+          "he",
+          "eh"
+        ],
+        [
+          "he",
+          "eh"
+        ],
+        [
+          "eh",
+          "he"
+        ],
+        [
+          "eh",
+          "he"
+        ],
+        [
+          "he",
+          "eh"
+        ],
+        [
+          "eh",
+          "he"
+        ]
+      ],
+      "cora/softmax_schedule": [
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "degree_balanced",
+          "static"
+        ],
+        [
+          "degree_balanced",
+          "static"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "degree_balanced",
+          "static"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ]
+      ],
+      "cora/aggregation_schedule": [
+        [
+          "degree_balanced",
+          "static"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "degree_balanced",
+          "static"
+        ]
+      ],
+      "citeseer/index_dtype": [
+        [
+          "int64",
+          "int32"
+        ],
+        [
+          "int64",
+          "int32"
+        ],
+        [
+          "int32",
+          "int64"
+        ],
+        [
+          "int32",
+          "int64"
+        ],
+        [
+          "int32",
+          "int64"
+        ],
+        [
+          "int64",
+          "int32"
+        ]
+      ],
+      "citeseer/score_traversal": [
+        [
+          "csr",
+          "coo"
+        ],
+        [
+          "csr",
+          "coo"
+        ],
+        [
+          "csr",
+          "coo"
+        ],
+        [
+          "coo",
+          "csr"
+        ],
+        [
+          "csr",
+          "coo"
+        ],
+        [
+          "coo",
+          "csr"
+        ]
+      ],
+      "citeseer/aggregation_traversal": [
+        [
+          "coo",
+          "csc"
+        ],
+        [
+          "coo",
+          "csc"
+        ],
+        [
+          "coo",
+          "csc"
+        ],
+        [
+          "coo",
+          "csc"
+        ],
+        [
+          "coo",
+          "csc"
+        ],
+        [
+          "coo",
+          "csc"
+        ]
+      ],
+      "citeseer/projected_layout": [
+        [
+          "hnf",
+          "nhf"
+        ],
+        [
+          "hnf",
+          "nhf"
+        ],
+        [
+          "nhf",
+          "hnf"
+        ],
+        [
+          "hnf",
+          "nhf"
+        ],
+        [
+          "nhf",
+          "hnf"
+        ],
+        [
+          "hnf",
+          "nhf"
+        ]
+      ],
+      "citeseer/attention_layout": [
+        [
+          "he",
+          "eh"
+        ],
+        [
+          "eh",
+          "he"
+        ],
+        [
+          "he",
+          "eh"
+        ],
+        [
+          "eh",
+          "he"
+        ],
+        [
+          "eh",
+          "he"
+        ],
+        [
+          "eh",
+          "he"
+        ]
+      ],
+      "citeseer/softmax_schedule": [
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ]
+      ],
+      "citeseer/aggregation_schedule": [
+        [
+          "degree_balanced",
+          "static"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "degree_balanced",
+          "static"
+        ],
+        [
+          "degree_balanced",
+          "static"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ]
+      ],
+      "pubmed/index_dtype": [
+        [
+          "int64",
+          "int32"
+        ],
+        [
+          "int32",
+          "int64"
+        ],
+        [
+          "int64",
+          "int32"
+        ],
+        [
+          "int32",
+          "int64"
+        ],
+        [
+          "int64",
+          "int32"
+        ],
+        [
+          "int64",
+          "int32"
+        ]
+      ],
+      "pubmed/score_traversal": [
+        [
+          "coo",
+          "csr"
+        ],
+        [
+          "csr",
+          "coo"
+        ],
+        [
+          "csr",
+          "coo"
+        ],
+        [
+          "csr",
+          "coo"
+        ],
+        [
+          "coo",
+          "csr"
+        ],
+        [
+          "csr",
+          "coo"
+        ]
+      ],
+      "pubmed/aggregation_traversal": [
+        [
+          "csc",
+          "coo"
+        ],
+        [
+          "coo",
+          "csc"
+        ],
+        [
+          "csc",
+          "coo"
+        ],
+        [
+          "coo",
+          "csc"
+        ],
+        [
+          "csc",
+          "coo"
+        ],
+        [
+          "csc",
+          "coo"
+        ]
+      ],
+      "pubmed/projected_layout": [
+        [
+          "hnf",
+          "nhf"
+        ],
+        [
+          "nhf",
+          "hnf"
+        ],
+        [
+          "hnf",
+          "nhf"
+        ],
+        [
+          "nhf",
+          "hnf"
+        ],
+        [
+          "nhf",
+          "hnf"
+        ],
+        [
+          "hnf",
+          "nhf"
+        ]
+      ],
+      "pubmed/attention_layout": [
+        [
+          "he",
+          "eh"
+        ],
+        [
+          "eh",
+          "he"
+        ],
+        [
+          "he",
+          "eh"
+        ],
+        [
+          "eh",
+          "he"
+        ],
+        [
+          "eh",
+          "he"
+        ],
+        [
+          "eh",
+          "he"
+        ]
+      ],
+      "pubmed/softmax_schedule": [
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "degree_balanced",
+          "static"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "degree_balanced",
+          "static"
+        ]
+      ],
+      "pubmed/aggregation_schedule": [
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "degree_balanced",
+          "static"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "degree_balanced",
+          "static"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ],
+        [
+          "static",
+          "degree_balanced"
+        ]
+      ]
+    },
+    "control_drift_ratio_range": [
+      0.6870214652017189,
+      1.6701300380640094
+    ],
+    "control_brackets_exceeding_10_percent_drift": 16,
+    "control_bracket_count": 252,
+    "data_filtering": "None; all declared rounds and samples retained",
+    "source_scope": "All measured implementation/driver sources match. Reporting/analysis/audit code is postprocessing, not a timed implementation."
+  },
+  "invalid_cli_checks": [
+    {
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "python",
+        "benchmarks/tuning_axes/run.py",
+        "--rounds",
+        "1"
+      ],
+      "exit_code": 2,
+      "diagnostic": "run.py: error: Require rounds>=2, warmup>=1, repetitions>=2, valid seed"
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "python",
+        "benchmarks/tuning_axes/run.py",
+        "--warmup",
+        "0"
+      ],
+      "exit_code": 2,
+      "diagnostic": "run.py: error: Require rounds>=2, warmup>=1, repetitions>=2, valid seed"
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "python",
+        "benchmarks/tuning_axes/worker.py",
+        "--dataset",
+        "cora",
+        "--round",
+        "0",
+        "--threads",
+        "3",
+        "--output",
+        "/tmp/invalid-axis.json"
+      ],
+      "exit_code": 2,
+      "diagnostic": "worker.py: error: argument --threads: invalid choice: 3 (choose from 1, 4)"
+    }
+  ],
+  "regeneration": {
+    "status": "passed; byte-identical report, analysis and figure regeneration",
+    "sha256": {
+      "REPORT.md": "a0286b1da66578177aa728457c56579803fbea0bf8c7e794738f0825903ce347",
+      "ANALYSIS.json": "07b667b6cc1d9bd1c8c0443aef0dab604cc46c76432740ae0f4eb4fb56be093c",
+      "figures/axis-effects.svg": "0c54de8db247f900067766b559629b4f36682889e2c82a39ff54779587aa3074",
+      "figures/manifest.json": "2f3d92ebf4452ffb5a6bdc6c15bfc52e5600fcf2527e13795a93a1ecf66d36ce"
+    }
+  },
+  "docker": {
+    "status": "passed",
+    "base_image": "sha256:ffe7cca20db90b31809deb73331755266657825c8005345d9d393aaed1cf7c70",
+    "extension_image": "sha256:433b69063213471bb24806129ff1a6fad615541037dcc3aa2383f095df59e615",
+    "build_commands": [
+      "docker build --secret id=proxy_ca,src=/etc/ssl/certs/ca-certificates.crt --build-arg GIT_COMMIT=ede88f3acafc02761b4325bb387082ea1695ad20 -t dgl-performance-model:cpu .",
+      "docker build -f benchmarks/tuning_axes/Dockerfile --secret id=proxy_ca,src=/etc/ssl/certs/ca-certificates.crt -t dgl-performance-model:axes ."
+    ],
+    "runtime_limit": "--cpus=4 --memory=8g; datasets mounted read-only",
+    "runtime_checks": [
+      "new axes tests: 7 passed",
+      "official CPU smoke: passed",
+      "Cora one/four-thread workers: all 14 candidates passed"
+    ],
+    "workers": [
+      {
+        "threads": 1,
+        "dataset": "cora",
+        "purpose": "Short real-data correctness/integration only; not pooled with primary timings",
+        "python": "3.11.11",
+        "dgl": "1.1.3",
+        "torch": "2.2.2+cpu",
+        "compiler": {
+          "compiler": "g++ (Debian 12.2.0-14+deb12u1) 12.2.0",
+          "flags": [
+            "-std=c++17",
+            "-O3",
+            "-fPIC",
+            "-shared",
+            "-fopenmp",
+            "-ffp-contract=off"
+          ],
+          "source_sha256": "e67b29dcc181b98e493bdce2a8366c545dd3de2820faac7d77f1dcbbb895fcf3",
+          "binary_sha256": "b5811a3dbef724210ed775bae9bd921119ec454ec4afe002ef3458c53c2301f6",
+          "build_seconds": 4.807499863090925e-05,
+          "cache_hit": true,
+          "initial_compilation": {
+            "compiler": "g++ (Debian 12.2.0-14+deb12u1) 12.2.0",
+            "flags": [
+              "-std=c++17",
+              "-O3",
+              "-fPIC",
+              "-shared",
+              "-fopenmp",
+              "-ffp-contract=off"
+            ],
+            "source_sha256": "e67b29dcc181b98e493bdce2a8366c545dd3de2820faac7d77f1dcbbb895fcf3",
+            "binary_sha256": "b5811a3dbef724210ed775bae9bd921119ec454ec4afe002ef3458c53c2301f6",
+            "build_seconds": 0.5492571389986551,
+            "cache_hit": false
+          }
+        },
+        "cases": {
+          "projected_layout": {
+            "nhf": {
+              "status": "passed",
+              "output_max_absolute": 0.0,
+              "bitwise_repeatable": true
+            },
+            "hnf": {
+              "status": "passed",
+              "output_max_absolute": 0.0,
+              "bitwise_repeatable": true
+            }
+          },
+          "attention_layout": {
+            "eh": {
+              "status": "passed",
+              "output_max_absolute": 0.0,
+              "bitwise_repeatable": true
+            },
+            "he": {
+              "status": "passed",
+              "output_max_absolute": 0.0,
+              "bitwise_repeatable": true
+            }
+          },
+          "score_traversal": {
+            "coo": {
+              "status": "passed",
+              "output_max_absolute": 0.0,
+              "bitwise_repeatable": true
+            },
+            "csr": {
+              "status": "passed",
+              "output_max_absolute": 0.0,
+              "bitwise_repeatable": true
+            }
+          },
+          "aggregation_traversal": {
+            "csc": {
+              "status": "passed",
+              "output_max_absolute": 0.0,
+              "bitwise_repeatable": true
+            },
+            "coo": {
+              "status": "passed",
+              "output_max_absolute": 0.0,
+              "bitwise_repeatable": true
+            }
+          },
+          "index_dtype": {
+            "int64": {
+              "status": "passed",
+              "output_max_absolute": 0.0,
+              "bitwise_repeatable": true
+            },
+            "int32": {
+              "status": "passed",
+              "output_max_absolute": 0.0,
+              "bitwise_repeatable": true
+            }
+          }
+        },
+        "identical_weights_to_native": true,
+        "feature_sha256": "f665a31d59f68feb41da8d96a9b001fd22283bd6901982f1e9ecfc9820211fa4"
+      },
+      {
+        "threads": 4,
+        "dataset": "cora",
+        "purpose": "Short real-data correctness/integration only; not pooled with primary timings",
+        "python": "3.11.11",
+        "dgl": "1.1.3",
+        "torch": "2.2.2+cpu",
+        "compiler": {
+          "compiler": "g++ (Debian 12.2.0-14+deb12u1) 12.2.0",
+          "flags": [
+            "-std=c++17",
+            "-O3",
+            "-fPIC",
+            "-shared",
+            "-fopenmp",
+            "-ffp-contract=off"
+          ],
+          "source_sha256": "e67b29dcc181b98e493bdce2a8366c545dd3de2820faac7d77f1dcbbb895fcf3",
+          "binary_sha256": "b5811a3dbef724210ed775bae9bd921119ec454ec4afe002ef3458c53c2301f6",
+          "build_seconds": 8.444599734502845e-05,
+          "cache_hit": true,
+          "initial_compilation": {
+            "compiler": "g++ (Debian 12.2.0-14+deb12u1) 12.2.0",
+            "flags": [
+              "-std=c++17",
+              "-O3",
+              "-fPIC",
+              "-shared",
+              "-fopenmp",
+              "-ffp-contract=off"
+            ],
+            "source_sha256": "e67b29dcc181b98e493bdce2a8366c545dd3de2820faac7d77f1dcbbb895fcf3",
+            "binary_sha256": "b5811a3dbef724210ed775bae9bd921119ec454ec4afe002ef3458c53c2301f6",
+            "build_seconds": 0.5492571389986551,
+            "cache_hit": false
+          }
+        },
+        "cases": {
+          "softmax_schedule": {
+            "static": {
+              "status": "passed",
+              "output_max_absolute": 0.0,
+              "bitwise_repeatable": true
+            },
+            "degree_balanced": {
+              "status": "passed",
+              "output_max_absolute": 0.0,
+              "bitwise_repeatable": true
+            }
+          },
+          "aggregation_schedule": {
+            "static": {
+              "status": "passed",
+              "output_max_absolute": 0.0,
+              "bitwise_repeatable": true
+            },
+            "degree_balanced": {
+              "status": "passed",
+              "output_max_absolute": 0.0,
+              "bitwise_repeatable": true
+            }
+          }
+        },
+        "identical_weights_to_native": true,
+        "feature_sha256": "f665a31d59f68feb41da8d96a9b001fd22283bd6901982f1e9ecfc9820211fa4"
+      }
+    ],
+    "scope": "Build/numerical reproducibility checked with unchanged measured kernels/drivers. Docker compiler and Python patch differ from primary host; timings are not combined. Documentation/postprocessing were refined after primary measurement."
+  },
+  "preservation": {
+    "historical_files_unchanged": true,
+    "uv_lock_sha256": "0003b42e4bde11c9e2da48fadb04f8e6288fb689b9e6ed10b20198fb85e19992",
+    "all_new_files_under": "benchmarks/tuning_axes/"
+  },
+  "omissions": {
+    "reddit": {
+      "status": "skipped_memory",
+      "available_bytes": 27779923968,
+      "budget_bytes": 19445946777.6,
+      "estimate_bytes": 31704865312,
+      "reason": "Retained conservative four-head full-forward guard; no shape/topology reduction; all four families unrun"
+    },
+    "custom_scope": "Inference-only validated layouts; int64 native sparse arrays; no backward, high-degree row splitting or arbitrary-stride API"
+  },
+  "artifact_sha256": {
+    "RESULTS.json": "e927669354a77fe84ae85329124f510cfdeef85dc073208531f4e5e524c22b88",
+    "ANALYSIS.json": "07b667b6cc1d9bd1c8c0443aef0dab604cc46c76432740ae0f4eb4fb56be093c",
+    "REPORT.md": "a0286b1da66578177aa728457c56579803fbea0bf8c7e794738f0825903ce347",
+    "SOURCES.json": "16067370bfba70b242de9a287bf5086ece2656d829d0523e41e52ce2c13c11d3",
+    "figures/axis-effects.svg": "0c54de8db247f900067766b559629b4f36682889e2c82a39ff54779587aa3074",
+    "figures/manifest.json": "2f3d92ebf4452ffb5a6bdc6c15bfc52e5600fcf2527e13795a93a1ecf66d36ce"
+  }
+}

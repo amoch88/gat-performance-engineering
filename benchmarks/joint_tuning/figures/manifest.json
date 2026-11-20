@@ -1,0 +1,13 @@
+{
+  "matplotlib": "3.10.8",
+  "python": "3.12.14",
+  "analysis_sha256": "f752be095a6ce853c70e7e2983c3c03cbaa24b40dc2fa20828b06f2678163bc8",
+  "files": [
+    "cora-ranking.svg",
+    "cora-interactions.svg",
+    "citeseer-ranking.svg",
+    "citeseer-interactions.svg",
+    "pubmed-ranking.svg",
+    "pubmed-interactions.svg"
+  ]
+}

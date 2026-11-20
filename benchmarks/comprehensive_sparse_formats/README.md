@@ -1,9 +1,9 @@
-# Milestone 8 — Comprehensive sparse format comparison
+# Sparse Storage Format Evaluation
 
 The [report](REPORT.md) gives the three complete timing tables. The
 [N/A notes](NA_EXPLANATIONS.md) identify each native hybrid's fallback. This
-milestone uses each custom format in all three sparse stages of the same
-forward. Milestone 7 used one substitution at a time.
+evaluation uses each custom format in all three sparse stages of the same
+forward. The native-versus-blocked benchmark used one substitution at a time.
 
 ## Layouts
 
@@ -24,16 +24,16 @@ across all incoming edges, including edges split across tiles.
 ## Reproduction
 
 Follow the frozen CPU Docker build and dataset cache instructions in
-[Milestone 6](../sparse_formats/README.md). With the same DGL 1.1.3 and Torch
+[the sparse kernel reference](../sparse_formats/README.md). With the same DGL 1.1.3 and Torch
 2.2.2+cpu environment, run from the repository root on Linux:
 
 ~~~sh
 uv run --frozen python benchmarks/gat.py --smoke-test
 uv run --frozen python benchmarks/comprehensive_sparse_formats/tests.py
 uv run --frozen python benchmarks/comprehensive_sparse_formats/benchmark.py \
-  --data-dir results/datasets --output results/m8/RESULTS.json
+  --data-dir results/datasets --output results/storage-formats/RESULTS.json
 uv run --frozen python benchmarks/comprehensive_sparse_formats/report.py \
-  --input results/m8/RESULTS.json --output results/m8
+  --input results/storage-formats/RESULTS.json --output results/storage-formats
 ~~~
 
 With the compiler image, mount the checkout as /checkout, override the

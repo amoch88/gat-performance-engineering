@@ -1,65 +1,93 @@
-# Performance Engineering of Graph Attention Networks Through Sparse Storage, Graph Ordering, and Loop-Nest Optimization
+# Graph Attention Network Performance Engineering
 
-**CS 598 APE · Fall 2026 · final project artifact**
+A reproducible framework for evaluating sparse storage formats, graph reordering strategies, and loop-nest optimizations in CPU Graph Attention Networks.
 
-This project measures three ways to change how a single CPU GAT layer
-executes while preserving its output: sparse storage, node/edge ordering,
-and loop order. Experiments use Cora, CiteSeer, and PubMed with one pinned
-CPU thread, FP32, four attention heads, and eight channels per head.
-The artifact includes the implementations, raw measurements, saved graph
-permutations, analyses, and correctness checks. A joint tensor cost model
-and automatic configuration selector are future work.
+## Overview
 
-Start with the [technical report handoff](docs/FINAL_REPORT_HANDOFF.md),
-[25 source-linked claims](docs/REPORT_CLAIMS.md), and
-[submission QA log](docs/SUBMISSION_QA.md).
+Sparse access patterns can change the cost of graph attention without
+changing its mathematical result. This repository measures those effects
+on Cora, CiteSeer, and PubMed. It includes benchmark implementations, raw
+timing samples, saved permutations, analysis scripts, and correctness tests.
+The [technical analysis](docs/TECHNICAL_ANALYSIS.md) explains the design;
+the [experimental findings](docs/EXPERIMENTAL_FINDINGS.md) link quantitative
+claims to their measured comparisons.
 
-## Verified findings
+## Graph attention computation
 
-| Experiment | Main result |
+The layer projects node features, computes separate source and destination
+attention terms, adds them at each directed edge and applies LeakyReLU,
+normalizes scores across each destination's incoming edges, then aggregates
+weighted source features and adds bias. The experiments use FP32, four
+attention heads, eight output channels per head, and one pinned CPU thread.
+The stock reference is the untouched DGL 1.1.3 `GATConv`.
+
+## Optimization strategies
+
+- **Sparse storage formats.** Compare native DGL COO/CSR/CSC hybrids and
+  custom blocked or padded layouts. The [backend and timing controls](benchmarks/sparse_format_validation/README.md)
+  separate storage choices from implementation effects more closely.
+- **Graph reordering.** Change node order or edge order independently,
+  using stock DGL throughout. Preserve the graph and restore the canonical
+  node and edge IDs when checking outputs.
+- **Loop-nest optimization.** Change one kernel's traversal in a matched
+  serial C++ family with fixed storage and FP32 layouts. Compare loop orders
+  against the custom default; report stock DGL separately for context.
+
+## Key experimental findings
+
+| Experiment | Measured finding |
 |---|---|
-| [M8 · Sparse storage](benchmarks/comprehensive_sparse_formats/REPORT.md) | Fastest observed forwards were CSB 64×64 on Cora (3.353 ms), CSB 2×2 on CiteSeer (9.126 ms), and SELL 2 on PubMed (14.344 ms). All beat stock DGL after Holm adjustment. CiteSeer's CSB 16×16, not CSB 2×2, cleared the stronger comparison against stock and all native hybrids. [M9 controls](benchmarks/sparse_format_validation/REPORT.md) limit any claim that blocking alone caused those gains. |
-| [M10 · Ordering](benchmarks/ordering_baselines/REPORT.md) and [seven-policy extension](benchmarks/ordering_baselines/extended/REPORT.md) | Stable destination grouping qualified on PubMed in both runs. In the extension it gained 1.0280× and destination-then-source gained 1.0365× versus Original. Their head-to-head comparison was inconclusive; no node order qualified. |
-| [M11 · Loop ordering](benchmarks/loop_ordering/REPORT.md) | D2 aggregation qualified on Cora and PubMed. On PubMed it gained 1.9770× in isolation and 1.0761× in direct whole-forward timing, versus the same custom family's default. PubMed C3 softmax and D4 aggregation also qualified. |
+| [Sparse Storage Format Evaluation](benchmarks/comprehensive_sparse_formats/REPORT.md) | The fastest observed whole forwards were CSB 64×64 on Cora (3.353 ms), CSB 2×2 on CiteSeer (9.126 ms), and SELL 2 on PubMed (14.344 ms). All beat stock DGL after Holm adjustment. CiteSeer's CSB 16×16, rather than CSB 2×2, cleared the comparison against stock and all three native hybrids. Matched controls do not establish a blocking-only advantage. |
+| [Graph Reordering Experiments](benchmarks/ordering_baselines/REPORT.md) and [extended sweeps](benchmarks/ordering_baselines/extended/REPORT.md) | On PubMed, stable destination grouping qualified in both acquisitions. The extension measured 1.0280× for stable destination grouping and 1.0365× for destination-then-source versus the original edge order. The head-to-head comparison was inconclusive, and no node order met the practical criterion. |
+| [Loop-Nest Optimization](benchmarks/loop_ordering/REPORT.md) | D2 aggregation qualified on Cora and PubMed. On PubMed it gained 1.9770× in isolation and 1.0761× in direct whole-forward timing versus the same custom family's default. PubMed C3 softmax and D4 aggregation also qualified. |
 
-These are separately acquired experiments. The stage and direct-forward
-timings have distinct boundaries, and the independent speedups must not
-be combined into a predicted joint speedup. See the handoff for intervals,
-controls, and limitations.
+## Repository structure
 
-## Install and validate
+| Directory | Purpose |
+|---|---|
+| [`benchmarks/comprehensive_sparse_formats/`](benchmarks/comprehensive_sparse_formats/) | Sparse format runners, raw data, analysis, native dispatch notes, and tests. |
+| [`benchmarks/ordering_baselines/`](benchmarks/ordering_baselines/) | Matched-allocation reordering, an archived allocation-sensitivity run, and extended sweeps with saved METIS plans. |
+| [`benchmarks/loop_ordering/`](benchmarks/loop_ordering/) | Compiled loop variants, execution fingerprints, timing samples, and analysis. |
+| [`benchmarks/sparse_format_validation/`](benchmarks/sparse_format_validation/) | Matched backend and storage controls and distinct isolated/in-forward measurements. |
+| [`benchmarks/dgl_baseline/`](benchmarks/dgl_baseline/), [`benchmarks/tuning_axes/`](benchmarks/tuning_axes/), [`benchmarks/sparse_formats/`](benchmarks/sparse_formats/), [`benchmarks/native_sparse_formats/`](benchmarks/native_sparse_formats/) | Shared loaders, baseline validation, compilation, and sparse kernels. |
+| [`docs/`](docs/), [`tools/`](tools/) | Research documentation, experiment verification, and generated evidence tables. |
 
-The tested setup is Linux x86-64 (including Docker Desktop on WSL2).
-Docker BuildKit uses the preserved pinned CPU base and the preserved GNU
-C++ compiler extension. This builds separate tags for the course checkout:
+## Installation and requirements
+
+Use Linux x86-64 (including Docker Desktop on WSL2). The pinned CPU stack
+uses Python 3.11, uv 0.13.4, DGL 1.1.3, CPU PyTorch 2.2.2+cpu, NumPy 1.26.4,
+and SciPy 1.12.0. Compiled experiments require GNU C++, binutils, and the
+OpenMP runtime (`libgomp1` on Debian). Exercise Docker with BuildKit and
+a native x86-64 daemon for performance measurement.
 
 ```sh
-docker build -t cs598ape-gat:cpu .
-docker run --rm --network none cs598ape-gat:cpu --smoke-test
-docker build --build-context dgl-performance-model:cpu=docker-image://cs598ape-gat:cpu \
-  -f benchmarks/tuning_axes/Dockerfile -t cs598ape-gat:compiler .
-docker run --rm --network none -v "$PWD:/submission" --entrypoint sh \
-  cs598ape-gat:compiler /submission/tools/validate_submission.sh
+docker build -t gat-performance:cpu .
+docker build --build-context dgl-performance-model:cpu=docker-image://gat-performance:cpu \
+  -f benchmarks/tuning_axes/Dockerfile -t gat-performance:compiler .
 ```
 
-For native Linux without Docker, install Python 3.11, uv **0.13.4**,
-GNU C++ and binutils, then run `uv sync --frozen` and
-`sh tools/validate_submission.sh` from the checkout root. The lock
-installs DGL **1.1.3**, CPU PyTorch **2.2.2+cpu**, NumPy **1.26.4** and
-SciPy **1.12.0**. Use a checkout that preserves LF bytes; when cloning
-from GitHub on a host configured to translate line endings, use
-`git -c core.autocrlf=false clone <repository-url>`.
+On native Linux, install the system tools and
+[uv](https://docs.astral.sh/uv/getting-started/installation/), then run
+`uv sync --frozen --python 3.11` at the repository root. Keep LF bytes
+in the checkout for artifact replay. On a system that translates line
+endings, use `git clone --config core.autocrlf=false <repository-url>`.
 
-The validation script runs the stock smoke test; M8, M9, both M10
-suites, and M11 correctness tests; then regenerates all five historical
-reports and analyses to a temporary directory and compares their bytes
-with the committed versions. It does not replace raw benchmark data.
-To regenerate the course claim table and handoff tables, use
-`python tools/build_course_evidence.py`; use `--check` to verify them
-without modifying anything. The evidence builder uses only the Python
-standard library and committed measurements.
+## Running tests
 
-### Small real-data smoke
+```sh
+docker run --rm --network none gat-performance:cpu --smoke-test
+docker run --rm --network none -v "$PWD:/workspace" --entrypoint sh \
+  gat-performance:compiler /workspace/tools/validate_experiments.sh
+```
+
+On native Linux, run `sh tools/validate_experiments.sh` from the root after
+synchronizing dependencies. The suite runs the stock smoke test and the
+experiment correctness suites, regenerates five archived reports and
+analyses in a temporary directory, compares their bytes, and verifies the
+generated evidence. It needs no dataset download. In PowerShell, use
+`"${PWD}:/workspace"` for the bind mount.
+
+## Reproducing experiments
 
 DGL downloads its citation-graph datasets from `data.dgl.ai/dataset` on
 first use. Put the cache under the ignored `results/datasets/` directory.
@@ -70,33 +98,38 @@ native features and graph order, remove pre-existing self-loops, and
 append one per node.
 
 ```sh
-docker run --rm -v "$PWD:/submission" --entrypoint uv cs598ape-gat:compiler \
-  run --frozen --no-sync python /submission/benchmarks/loop_ordering/acquire_loops.py \
+docker run --rm -v "$PWD:/workspace" --entrypoint uv gat-performance:compiler \
+  run --frozen --no-sync python /workspace/benchmarks/loop_ordering/acquire_loops.py \
   --datasets cora --rounds 2 --warmup 1 --repetitions 2 \
-  --data-dir /submission/results/datasets --output /submission/results/cora-smoke.json
+  --data-dir /workspace/results/datasets --output /workspace/results/cora-smoke.json
 ```
 
 Choose a fresh output path when repeating the command. With a populated
-cache, a fully offline form runs `tools/validate_submission.sh --real-data`
-inside the compiler image. This short run is a correctness and protocol
-check only. For full acquisition commands and exact schemas, use the
-milestone READMEs. The committed runs use eight fresh processes per
-dataset, ten warmups and thirty measured blocks.
+cache, add `--real-data` to the offline validation command above. The
+short run checks correctness and the measurement protocol; use the
+experiment READMEs for full acquisition. To regenerate the evidence
+tables from committed JSON, run `python tools/build_experiment_evidence.py`
+with Python 3.11. Add `--check` to verify without writing.
 
-## Artifact map
+## Experimental methodology and limitations
 
-| Path | Contents |
-|---|---|
-| [benchmarks/comprehensive_sparse_formats/](benchmarks/comprehensive_sparse_formats/) | M8 code, raw data, analysis, native-route notes, tests, and reproduction. |
-| [benchmarks/sparse_format_validation/](benchmarks/sparse_format_validation/) | M9 matched backend/storage controls and distinct isolated/in-forward measurements. |
-| [benchmarks/ordering_baselines/](benchmarks/ordering_baselines/) | Original matched M10, archive for allocation sensitivity, and M10 extension with METIS maps. |
-| [benchmarks/loop_ordering/](benchmarks/loop_ordering/) | M11 C++ loop variants, raw blocks, symbol fingerprints, analysis, and tests. |
-| [benchmarks/dgl_baseline/](benchmarks/dgl_baseline/), [benchmarks/tuning_axes/](benchmarks/tuning_axes/), [benchmarks/sparse_formats/](benchmarks/sparse_formats/), [benchmarks/native_sparse_formats/](benchmarks/native_sparse_formats/) | Preserved shared loader, model, compiler, measurement, validation, and storage dependencies. |
-| [docs/](docs/), [tools/](tools/) | Technical handoff, exact claims, verification log, and standalone QA/evidence helpers. |
+The reported acquisitions used eight fresh processes per dataset, ten
+warmup blocks, and thirty measured blocks per process. Complete forwards
+were timed directly. Isolated kernels use prepared inputs; instrumented
+regions run inside a forward with freshly produced intermediates. These
+measurements are distinct. Reported latencies are medians of process
+medians, with paired speedups, confidence intervals, and Holm-adjusted
+tests. A nonsignificant contrast is inconclusive.
 
-The course repository is a tracked snapshot of research commit
-`9659684473a0531aa06e40f614e1fbfbbcfc5b76`. Earlier research files
-remain present, and the prior top-level README is preserved as
-[RESEARCH_README.md](RESEARCH_README.md). See [attribution](docs/ATTRIBUTION.md)
-for upstream source and data references. The benchmarks cover three graphs
-on a single CPU/compiler environment, not general performance portability.
+The benchmarks cover three citation graphs and one CPU/compiler setup.
+The strongest independent choices were not benchmarked together in a
+single storage × reordering × loop-nest run. Do not combine their speedups.
+A fitted tensor cost model and automatic configuration selector remain
+future work.
+
+## References and attribution
+
+See [references in the technical analysis](docs/TECHNICAL_ANALYSIS.md#related-work-and-references),
+[source and license attribution](docs/ATTRIBUTION.md), and
+[verification](docs/VERIFICATION.md). Archived benchmark reports retain
+their original wording so they can still be regenerated byte for byte.

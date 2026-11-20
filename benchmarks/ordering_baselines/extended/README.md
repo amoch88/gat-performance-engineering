@@ -1,6 +1,6 @@
-# Milestone 10 Extension — Independent seven-policy sweeps
+# Graph Reordering Experiments: Extended Sweeps
 
-Read the [extension report](REPORT.md) alongside the [original Milestone 10
+Read the [extension report](REPORT.md) alongside the [matched-allocation reordering
 report](../REPORT.md). The extension does not pool either historical run
 with new data. Existing cases use the same maps and seed-0 weights. The
 workload, stage profiler, graph formats, feature allocation control, and
@@ -26,13 +26,13 @@ EID. All edge cases share the unchanged input feature tensor.
 ## Reproduction
 
 Use the frozen CPU environment and existing DGL citation datasets, as in
-[Milestone 6](../../sparse_formats/README.md). Run from the repository root.
+[the sparse kernel reference](../../sparse_formats/README.md). Run from the repository root.
 CPU 0 is the logical CPU used for the committed measurements; it must be
 available in your affinity mask for the commands below.
 
 ~~~sh
 ext=benchmarks/ordering_baselines/extended
-out=results/m10-extended
+out=results/graph-reordering-extended
 uv run --frozen python benchmarks/gat.py --smoke-test
 uv run --frozen python "$ext/tests.py"
 uv run --frozen python "$ext/benchmark_extended.py" --cpu 0 +  --data-dir results/datasets --metis "$ext/METIS.json" +  --output "$out/RESULTS.json" --maps "$out/PERMUTATIONS.json"
@@ -40,7 +40,7 @@ uv run --frozen python "$ext/report_extended.py" --input "$out/RESULTS.json" +  
 ~~~
 
 To generate another native METIS plan explicitly, run
-`benchmark_extended.py --prepare-metis --cpu 0 --data-dir results/datasets --metis results/m10-extended/METIS.json`
+`benchmark_extended.py --prepare-metis --cpu 0 --data-dir results/datasets --metis results/graph-reordering-extended/METIS.json`
 through the same interpreter before acquiring timings, then pass that path
 to the benchmark and report. The output plan path must be fresh. This
 regenerates a partition assignment rather than promising an identical
@@ -54,11 +54,11 @@ smoke use distinct fresh files and `--rounds 2 --warmup 1 --repetitions 2 --buil
 To check both committed reports from their raw data:
 
 ~~~sh
-uv run --frozen python "$ext/report_extended.py" --output results/m10-extended-replay
-uv run --frozen python benchmarks/ordering_baselines/report.py --output results/m10-historical-replay
+uv run --frozen python "$ext/report_extended.py" --output results/graph-reordering-extended-replay
+uv run --frozen python benchmarks/ordering_baselines/report.py --output results/graph-reordering-archived-replay
 for f in REPORT.md ANALYSIS.json; do
-  cmp "$ext/$f" "results/m10-extended-replay/$f"
-  cmp "benchmarks/ordering_baselines/$f" "results/m10-historical-replay/$f"
+  cmp "$ext/$f" "results/graph-reordering-extended-replay/$f"
+  cmp "benchmarks/ordering_baselines/$f" "results/graph-reordering-archived-replay/$f"
 done
 ~~~
 

@@ -1,7 +1,7 @@
-# Milestone 6: sparse storage formats
+# Sparse Kernel Reference
 
 See [REPORT.md](REPORT.md) for the measured results. This benchmark substitutes
-one sparse kernel at a time into Milestone 5's fixed-stage GAT pipeline. It does
+one sparse kernel at a time into the independent CPU tuning pipeline. It does
 not implement tuning, format selection, a tensor model, or GPU execution.
 
 ## Layout definitions
@@ -24,7 +24,7 @@ softmax uses destination-global max and sum reductions, including for edges
 spread across many tiles. Outputs are written directly in canonical EID order;
 the index lookup is part of the timed kernel. There is no runtime resort, gather,
 or format conversion. Projection, node terms, bias, and untuned sparse stages
-are inherited from Milestone 5. The isolated benchmark uses precomputed inputs,
+use the same implementation as the independent CPU tuning experiments. The isolated benchmark uses precomputed inputs,
 not stages intercepted inside a timed complete forward. Stock GATConv is an
 independent oracle and an additional full-forward reference, not a format case.
 
@@ -34,18 +34,18 @@ Linux x86-64, Python 3.11, uv 0.13.4 and the unchanged repository lockfile.
 Build the existing CPU and tuning-axes images:
 
 ```sh
-docker build -t dgl-performance-model:cpu .
-docker build -f benchmarks/tuning_axes/Dockerfile -t dgl-performance-model:axes .
-docker run --rm -v "$PWD:/checkout" --entrypoint uv dgl-performance-model:axes \
+docker build -t gat-performance:cpu .
+docker build --build-context dgl-performance-model:cpu=docker-image://gat-performance:cpu -f benchmarks/tuning_axes/Dockerfile -t gat-performance:compiler .
+docker run --rm -v "$PWD:/checkout" --entrypoint uv gat-performance:compiler \
   run --frozen --no-sync python /checkout/benchmarks/gat.py --smoke-test
-docker run --rm -v "$PWD:/checkout" --entrypoint uv dgl-performance-model:axes \
+docker run --rm -v "$PWD:/checkout" --entrypoint uv gat-performance:compiler \
   run --frozen --no-sync python /checkout/benchmarks/sparse_formats/tests.py
-docker run --rm -v "$PWD:/checkout" --entrypoint uv dgl-performance-model:axes \
+docker run --rm -v "$PWD:/checkout" --entrypoint uv gat-performance:compiler \
   run --frozen --no-sync python /checkout/benchmarks/sparse_formats/run.py \
-  --data-dir /checkout/results/datasets --output /checkout/results/m6-trial/RESULTS.json
-docker run --rm -v "$PWD:/checkout" --entrypoint uv dgl-performance-model:axes \
+  --data-dir /checkout/results/datasets --output /checkout/results/sparse-kernel-trial/RESULTS.json
+docker run --rm -v "$PWD:/checkout" --entrypoint uv gat-performance:compiler \
   run --frozen --no-sync python /checkout/benchmarks/sparse_formats/report.py \
-  --input /checkout/results/m6-trial/RESULTS.json --output /checkout/results/m6-trial
+  --input /checkout/results/sparse-kernel-trial/RESULTS.json --output /checkout/results/sparse-kernel-trial
 ```
 
 Use the standard DGL cache if already populated. For this acquisition the
@@ -53,7 +53,7 @@ Cora archive came from the official DGL S3 bucket; CiteSeer and PubMed raw
 files came from [upstream Planetoid](https://github.com/kimiyoung/planetoid/tree/af6abf468a772cc055bec88c52e4d6f51b7c37e3/data)
 because their DGL archive endpoints were unavailable. The unchanged DGL parser
 and repository loader were used; exact feature, EID and seed-0 weight hashes
-are checked against Milestone 5 before timing. The cache, source dataset files,
+are checked against the recorded CPU tuning baseline before timing. The cache, source dataset files,
 and compiled binaries are not committed. No trained-weight claim is made.
 
 For offline reproduction, extract the contents of the trusted

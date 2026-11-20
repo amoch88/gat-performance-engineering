@@ -1,4 +1,4 @@
-# Milestone 3: joint public-API tuning
+# Exploratory Joint DGL Parameter Study
 
 This module is independent of the preserved `benchmarks/dgl_baseline/` work.
 It uses untouched official DGL 1.1.3 GATConv, native dataset features, four heads,

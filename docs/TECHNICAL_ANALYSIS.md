@@ -1,28 +1,27 @@
-# Performance Engineering of Graph Attention Networks Through Sparse Storage, Graph Ordering, and Loop-Nest Optimization
+# Graph Attention Network Performance Engineering
 
-**CS 598 APE · Fall 2026 · technical report handoff**
+A reproducible framework for evaluating sparse storage formats, graph reordering strategies, and loop-nest optimizations in CPU Graph Attention Networks.
 
-This is the evidence package for a five-page ACM paper, not the paper itself.
+This technical analysis documents the experimental design, measured results, and limits of the evidence.
 Measured results come from the preserved research snapshot
 `9659684473a0531aa06e40f614e1fbfbbcfc5b76` of
 [amoch88/dgl-performance-model](https://github.com/amoch88/dgl-performance-model).
-Use [REPORT_CLAIMS.md](REPORT_CLAIMS.md) for 25 exact contrasts, including the
+See [Experimental Findings](EXPERIMENTAL_FINDINGS.md) for 25 exact contrasts, including the
 numbers, controls, confidence intervals, correction families, interpretation,
 and source selectors. The tables below are generated from the committed
-analysis and raw JSON by [build_course_evidence.py](../tools/build_course_evidence.py).
+analysis and raw JSON by [build_experiment_evidence.py](../tools/build_experiment_evidence.py).
 Data from different acquisitions are deliberately not pooled.
 
-**Recommended paper thesis.** CPU GAT performance depends on the way sparse
-structure is represented, ordered, and traversed, but gains in a single
-region do not guarantee a faster complete layer. Show this with (1) the
-storage winners and the matched-backend caveat, (2) the reproducible PubMed
-edge-order result with an inconclusive comparison between the two winning
-edge orders, and (3) the measured PubMed D2 isolated/in-forward/whole-layer
-gap. The evidence supports a narrowed set of choices for future modeling.
+**Research question.** Which storage formats, graph orders, and loop nests
+improve CPU GAT, and do gains in individual kernels survive in a complete
+forward? The storage evaluation and matched-backend controls, reproducible
+PubMed edge-order result, and PubMed D2 isolated/in-forward/whole-layer gap
+illustrate why both measurement boundaries matter. The evidence supports a
+narrowed set of choices for future modeling.
 It does not establish a completed automatic tensor cost model or a combined
 storage × ordering × loop-order speedup.
 
-## A. Project background and motivation
+## Background and motivation
 
 ### What a GAT layer computes
 
@@ -67,7 +66,7 @@ group, and a self-loop is just another record. There is no edge sampling.
    $O_{v,h,f}=Y_{v,h,f}+b_{h,f}$ with learned-parameter *shapes* preserved.
    Bias is broadcast across nodes. There is no residual connection or
    extra activation. Output shape is $[N,H,F]$, not $[N,H]$ or final
-   class logits. Bias/output is its own timed region in M9–M11, which is
+   class logits. Bias/output is its own timed region in the timing-validation, reordering, and loop-nest experiments, which is
    why those reports display six instrumented regions for five conceptual
    stages.
 
@@ -103,7 +102,7 @@ or shuffling values than doing the mathematical add and multiply.
   stride, SIMD opportunities, and access to adjacent features and heads
   with all logical and physical representations held fixed. A compiler
   can produce different code from equivalent sources with the same
-  flags. M11 checks the actual compiled definitions.
+  flags. Loop-Nest Optimization checks the actual compiled definitions.
 
 A single-stage gain is upper-bounded in its impact by the stage's share
 of total runtime under a simplifying no-interaction model. If fraction
@@ -120,23 +119,22 @@ complete-forward latency, then use stages as diagnostics.
 The original research goal was to represent measured costs over workload,
 kernel, and implementation-choice axes, learn or interpolate missing
 costs, model cross-stage dependencies, and select a compatible
-configuration. This submission delivers **experiment design, exact
+configuration. This project delivers **experiment design, exact
 implementations, stock-backed validation, measured cost evidence, and
 independent replay**, not a fitted tensor or an automatic dispatch system.
 The repository retains an earlier exploratory joint DGL graph
 node/edge/format experiment in [joint_tuning](../benchmarks/joint_tuning/REPORT.md).
-That does not establish a tested combination of the M8 custom storage,
-M10 winning edge order, and M11 custom loop nest. It is background,
-not a fourth principal contribution or a completed tuner.
+That does not establish a tested combination of custom storage, the winning
+edge order, and a custom loop nest. It is a separate exploratory study, not a
+completed tuner.
 
-## B. Related work and references
+## Related work and references
 
-Use the published work to explain motivation and vocabulary. Do not
-transfer speedups reported on other kernels or hardware into this
-paper. The readings below were checked against publication or author
-records. The historical reports primarily cite implementation sources;
-the literature entries are suggested citations for the paper, verified
-rather than placeholders.
+These references give algorithm and implementation context. Speedups
+reported for other kernels or hardware are not evidence for these
+experiments. Titles and publication details were checked against
+publication or author records; the archived reports also cite the
+implementation sources used in acquisition.
 
 1. Petar Veličković, Guillem Cucurull, Arantxa Casanova, Adriana Romero,
    Pietro Liò, and Yoshua Bengio. 2018. **Graph Attention Networks.**
@@ -174,13 +172,13 @@ rather than placeholders.
    Processors with Wide SIMD Units.** SIAM Journal on Scientific
    Computing 36(5), C401–C423.
    [DOI: 10.1137/130930352](https://doi.org/10.1137/130930352).
-   Cite for sliced ELLPACK and padding/vectorization tradeoffs. M8
+   Cite for sliced ELLPACK and padding/vectorization tradeoffs. Sparse Storage
    uses fixed original row order, not an independent SELL sorting-window
    experiment.
 6. E. Cuthill and J. McKee. 1969. **Reducing the bandwidth of sparse
    symmetric matrices.** 24th ACM National Conference, 157–172.
    [DOI: 10.1145/800195.805928](https://doi.org/10.1145/800195.805928).
-   The M10 RCMK policy uses SciPy's reverse Cuthill–McKee on a symmetric
+   The Graph Reordering RCMK policy uses SciPy's reverse Cuthill–McKee on a symmetric
    structural adjacency; it does not synthesize a new mathematical graph.
 7. George Karypis and Vipin Kumar. 1998. **A Fast and High Quality
    Multilevel Scheme for Partitioning Irregular Graphs.** SIAM Journal
@@ -203,14 +201,14 @@ rather than placeholders.
     and Applications.** SIAM Review 51(3), 455–500.
     [DOI: 10.1137/07070111X](https://doi.org/10.1137/07070111X).
     Background for proposed low-rank cost modeling, not an implemented
-    result in the course project.
+    result in this study.
 11. Sture Holm. 1979. **A Simple Sequentially Rejective Multiple Test
     Procedure.** Scandinavian Journal of Statistics 6(2), 65–70.
     [JSTOR 4615733](https://www.jstor.org/stable/4615733).
     Reference for familywise adjustment, which is separate from the
     pointwise confidence intervals.
 
-## C. Experimental environment and analysis
+## Experimental environment and analysis
 
 ### Recorded controls
 
@@ -225,8 +223,8 @@ rather than placeholders.
   uv **0.13.4**. The preserved Dockerfile pins the linux/amd64
   Python and uv images by digest. The compiler image adds GNU C++
   and binutils. These are benchmark environments, not workstation
-  Windows Python. Submission smoke runs are separate and do not
-  generate paper data.
+  Windows Python. Verification smoke runs do not replace the
+  archived performance measurements.
 - PyTorch intra-op and inter-op threads both one. The workload setup
   also sets DGL threads to one. Recorded environment includes
   `OMP_NUM_THREADS=1`, `OMP_DYNAMIC=FALSE`, `MKL_NUM_THREADS=1`,
@@ -235,20 +233,20 @@ rather than placeholders.
   Affinity is recorded and validated per process. Stock GATConv is
   evaluated with gradients off, dropout zero, bias enabled, no
   residual, and no output activation.
-- Native arrays are canonical EID ordered. M8 DGL indices are int64;
-  custom M8 coordinate/EID data are int32 (occupancy bits are
-  uint64). M10 uses native DGL and enables/materializes COO, CSR, and
-  CSC identically for every policy. M11 fixes int64 COO for scores and
+- Native arrays are canonical EID ordered. Sparse Storage DGL indices are int64;
+  custom Sparse Storage coordinate/EID data are int32 (occupancy bits are
+  uint64). Graph Reordering uses native DGL and enables/materializes COO, CSR, and
+  CSC identically for every policy. Loop-Nest Optimization fixes int64 COO for scores and
   int64 incoming CSC for softmax/aggregation; all variants retain
   contiguous FP32 NHF, NH and EH. The layouts are controlled variables
-  in M11, not additional tunable axes.
-- M8 native extensions were built with
+  in Loop-Nest Optimization, not additional tunable axes.
+- Sparse Storage native extensions were built with
   `g++ (Debian 12.2.0-14+deb12u1) 12.2.0` and
   `-std=c++17 -O3 -fPIC -shared -fopenmp -ffp-contract=off`.
-  M10 changes graph data via DGL/PyTorch APIs, no new timed kernels.
-  M11 uses the same GNU C++ version with
+  Graph Reordering changes graph data via DGL/PyTorch APIs, no new timed kernels.
+  Loop-Nest Optimization uses the same GNU C++ version with
   `-std=c++17 -O3 -fPIC -shared -ffp-contract=off -fno-loop-interchange -fno-loop-unroll-and-jam`.
-  No fast math and no linked OpenMP runtime in the M11 custom library.
+  No fast math and no linked OpenMP runtime in the Loop-Nest Optimization custom library.
   Recorded build hashes, symbol offsets, and normalized disassembly
   correspond to the actual loaded ELF. The dry-run harness below is
   a different diagnostic build and should not be cited as timed code.
@@ -259,11 +257,11 @@ rather than placeholders.
 
 | Acquisition | Fresh processes per graph | Warmup blocks | Measured blocks | Build observations | Order seed |
 | --- | --- | --- | --- | --- | --- |
-| M8 | 8 | 10 | 30 | 5 | 2026111800 |
-| M9 | 8 | 10 | 30 | 5 | 2026111900 |
-| M10 matched | 8 | 10 | 30 | 5 | 2026112000 |
-| M10 extension | 8 | 10 | 30 | 5 | 2026112100 |
-| M11 | 8 | 10 | 30 | not swept | 2026112200 |
+| Sparse Storage Format Evaluation | 8 | 10 | 30 | 5 | 2026111800 |
+| Sparse Backend and Timing Validation | 8 | 10 | 30 | 5 | 2026111900 |
+| Graph Reordering (matched allocation) | 8 | 10 | 30 | 5 | 2026112000 |
+| Graph Reordering (extended sweeps) | 8 | 10 | 30 | 5 | 2026112100 |
+| Loop-Nest Optimization | 8 | 10 | 30 | not swept | 2026112200 |
 
 <!-- evidence:protocol:end -->
 
@@ -274,10 +272,10 @@ within a sweep/phase; the schedule is saved and replayed. Retain raw
 warmups and observations but omit warmups from statistics.
 Loading, verification, graph/format construction, and metadata
 serialization are outside the repeated forward. Runtime tensor
-allocations in a forward are inside its timer. M8 separately randomizes
+allocations in a forward are inside its timer. Sparse Storage separately randomizes
 forward and isolated-stage phases, and five format-construction samples.
-M10/M11 distinguish direct execution from an instrumented copy of the
-same forward with six stage timing regions. M11 also interleaves an
+the reordering and loop-nest experiments distinguish direct execution from an instrumented copy of the
+same forward with six stage timing regions. Loop-Nest Optimization also interleaves an
 isolated target call and a bare allocator diagnostic using the same
 allocation factories. These are separate measured calls, not
 alternative definitions of total forward.
@@ -294,21 +292,21 @@ excluding one can coexist with a Holm-adjusted p-value above .05.
 Ranking many candidates by the same sample is descriptive, not a
 held-out guarantee.
 
-M8 adjusts separately per sparse endpoint or whole forward, across
+Sparse Storage adjusts separately per sparse endpoint or whole forward, across
 datasets, native controls, and the planned within-family size
 comparisons. A format in its stronger selection table must beat
 untouched GATConv **and all three native hybrids** after correction.
-M10 primary adjusts separately by node/edge sweep and endpoint,
+The graph reordering study adjusts its primary tests separately by node/edge sweep and endpoint,
 across datasets and candidates including random controls; its
 extension also has nine secondary forward contrasts to
-Destination-grouped. M11 adjusts separately by sweep and endpoint
+Destination-grouped. Loop-Nest Optimization adjusts separately by sweep and endpoint
 (isolated, in-forward target, whole-forward), across all three
-datasets and alternatives in that sweep. M10 and M11 require both
+datasets and alternatives in that sweep. Graph Reordering and Loop-Nest Optimization require both
 adjusted p < .05 and a confidence lower speedup bound **strictly
 above 1.01×** for practical qualification. A nonsignificant finding is
 **inconclusive**, not proof of equal performance.
 
-## D. Datasets and setup
+## Datasets and setup
 
 <!-- evidence:datasets:start -->
 
@@ -352,7 +350,7 @@ and workload fingerprints are checked when running the supplied
 acquisition scripts. Benchmarks are inference-only and report no
 accuracy, training-time, or end-to-end data-ingestion metric.
 
-## E. Milestone 8 — sparse storage
+## Sparse Storage Format Evaluation
 
 ### Study design and layouts
 
@@ -362,7 +360,7 @@ it, and uses a verified, prebuilt DGL fallback for the unsupported ones.
 A custom row uses its selected representation across score,
 destination softmax, and aggregation. This is a *whole sparse
 representation choice*, not three independently substituted kernels in
-the same forward. M7 contains related one-substitution controls.
+the same forward. The native-versus-blocked study contains related one-substitution controls.
 Production timing does not include preparing the representation. Every
 custom sparse output that has an edge dimension is indexed by original EID,
 so no undocumented edge-ID conversion is hidden between kernels.
@@ -407,7 +405,7 @@ combination. Design and storage code are
 
 ### Direct forward observations
 
-<!-- evidence:m8-forward:start -->
+<!-- evidence:storage-forward:start -->
 
 | Dataset | Observed winner | Stock ms | Candidate ms | Raw median ratio | Paired speedup | 95% CI | Holm p |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -415,12 +413,12 @@ combination. Design and storage code are
 | CiteSeer | CSB 2×2 | 10.007215 | 9.125802 | 1.09658× | 1.08408× | [1.06245, 1.10614] | 0.0095558 |
 | PubMed | SELL 2 | 16.553568 | 14.344164 | 1.15403× | 1.14637× | [1.12324, 1.16997] | 0.00041784 |
 
-<!-- evidence:m8-forward:end -->
+<!-- evidence:storage-forward:end -->
 
 The following is the full grid of direct complete-forward medians from
 the same acquisition. These values are not a sum of stage cells.
 
-<!-- evidence:m8-grid:start -->
+<!-- evidence:storage-grid:start -->
 
 | Implementation | Cora ms | CiteSeer ms | PubMed ms |
 | --- | --- | --- | --- |
@@ -459,14 +457,14 @@ the same acquisition. These values are not a sum of stage cells.
 | SELL 32 | 3.563250 | 9.507414 | 16.160204 |
 | SELL 64 | 3.583723 | 9.456531 | 16.542315 |
 
-<!-- evidence:m8-grid:end -->
+<!-- evidence:storage-grid:end -->
 
 The highest confidence in these rows is a paired comparison against a
 specified control, not an inference that the lowest-looking size beats
-all alternatives. The stronger Milestone 8 decision is that all four
+all alternatives. The stronger storage evaluation decision is that all four
 stock/native comparisons favor a candidate after Holm correction:
 
-<!-- evidence:m8-eligibility:start -->
+<!-- evidence:storage-eligibility:start -->
 
 | Dataset | Number beating all four controls | Best qualifying minimum over controls | Limiting control by speedup | Paired speedup | 95% CI | Holm p |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -474,14 +472,14 @@ stock/native comparisons favor a candidate after Holm correction:
 | CiteSeer | 1 | CSB 16×16 | Native CSC hybrid | 1.03260× | [1.02236, 1.04295] | 0.034099 |
 | PubMed | 8 | SELL 2 | Native CSC hybrid | 1.11820× | [1.09497, 1.14193] | 0.0017719 |
 
-<!-- evidence:m8-eligibility:end -->
+<!-- evidence:storage-eligibility:end -->
 
 On CiteSeer, **CSB 2×2 is fastest by raw median and beats stock**
 but is inconclusive against the strongest native comparisons after
 adjustment. The only custom row passing the four-control gate is
 **CSB 16×16**. Its minimum paired ratio is against native CSC. The
 original size analysis did not establish that CSB 64×64 in Cora or
-CSB 2×2 in CiteSeer outruns other CSB sizes: all 45 M8 whole-forward
+CSB 2×2 in CiteSeer outruns other CSB sizes: all 45 Sparse Storage whole-forward
 within-CSB size comparisons across the three datasets were inconclusive
 after correction. On PubMed, SELL 2 beat SELL 8, 16, 32, and 64
 after correction. This is better evidence for avoiding large slices
@@ -489,7 +487,7 @@ on that graph than simply pointing to the smallest median.
 
 ### Where the time changed
 
-<!-- evidence:m8-sparse:start -->
+<!-- evidence:storage-sparse:start -->
 
 | Dataset | Isolated stage | Fastest observed | ms | Native comparator | ms | Paired speedup | 95% CI | Holm p |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -503,10 +501,10 @@ on that graph than simply pointing to the smallest median.
 | PubMed | softmax | CSB 8×8 | 2.024847 | Native CSC hybrid | 3.319920 | 1.62964× | [1.60705, 1.65255] | 3.2395e-09 |
 | PubMed | aggregation | CSB 4×4 | 1.551239 | Native CSC hybrid | 3.689200 | 2.34281× | [2.28911, 2.39776] | 2.506e-09 |
 
-<!-- evidence:m8-sparse:end -->
+<!-- evidence:storage-sparse:end -->
 
 These sparse values are **isolated** timings on prepared tensors.
-Projection and terms are independently timed common controls in M8,
+Projection and terms are independently timed common controls in Sparse Storage,
 not per-row full-pass regions. Native COO is fastest by observed score
 median on all three. Strong isolated gains appear in the custom softmax
 and aggregation against native CSC; the best sparse row often differs
@@ -521,7 +519,7 @@ cost of scoring, not just savings in aggregate.
 
 ### Memory, construction, and important regressions
 
-<!-- evidence:m8-storage:start -->
+<!-- evidence:storage-storage:start -->
 
 | Dataset | Format | Index KiB | Build ms | Padded slots per original edge |
 | --- | --- | --- | --- | --- |
@@ -550,7 +548,7 @@ cost of scoring, not just savings in aggregate.
 | PubMed | SELL 2 | 1290.14 | 6.156717 | 1.48 |
 | PubMed | SELL 64 | 6077.21 | 6.161192 | 7.18 |
 
-<!-- evidence:m8-storage:end -->
+<!-- evidence:storage-storage:end -->
 
 “Index KiB” counts exposed representation arrays, masks, sentinel
 slots and any sidecars, not transient Python building memory, allocator
@@ -578,18 +576,18 @@ every difference to padding. Tile sizes 32 and 64 are not interchangeable:
 the number of nonempty tiles also changes, so monotonic latency is
 not a rule.
 
-### Milestone 9 as a causality and timing check
+### Matched backend, storage, and timing validation
 
-<!-- evidence:m9-checks:start -->
+<!-- evidence:timing-checks:start -->
 
 | Dataset | Candidate | ms | Comparator | ms | Paired speedup | 95% CI | Holm p | Decision |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Cora | Custom COO matched hybrid | 3.332054 | Native COO hybrid | 4.178306 | 1.25440× | [1.23957, 1.26940] | 6.215e-09 | Supported gain |
 | PubMed | SELL 2 | 14.581988 | Custom COO | 13.374672 | 0.90788× | [0.88055, 0.93605] | 0.0079761 | Supported slowdown |
 
-<!-- evidence:m9-checks:end -->
+<!-- evidence:timing-checks:end -->
 
-M9 reran selected CSB/SELL configurations and added route-matched custom
+Timing Validation reran selected CSB/SELL configurations and added route-matched custom
 and native controls plus custom unblocked COO/CSR/CSC. Its fastest
 observed forward was custom COO on all three (3.288, 9.433, and
 13.375 ms). All nine route-matched custom-versus-native forward
@@ -598,14 +596,14 @@ tested CSB or SELL configuration established a corrected whole-forward
 gain over the custom unblocked controls. PubMed SELL2 even lost to
 custom COO, while its stock-relative win replicated. This shows why
 backend, 32- versus 64-bit indices, activation fusion, dispatch, and
-traversal can confound comparisons to native DGL. A good M8 code path
+traversal can confound comparisons to native DGL. A good Sparse Storage code path
 need not imply a general blocking benefit.
 
-M8's isolated CiteSeer projection median was 9.923 ms and the CSB2
+Sparse Storage's isolated CiteSeer projection median was 9.923 ms and the CSB2
 complete-forward median was 9.126 ms; the projection median exceeded
 the forward median in all eight process rounds. That does **not** mean
 projection was timed inside the corresponding 9.126 ms call.
-M9 interleaved isolated, in-forward and direct calls and measured
+Timing Validation interleaved isolated, in-forward and direct calls and measured
 timer calibration. It obtained 8.700 ms isolated projection,
 8.574 ms in-forward projection inside the 9.529 ms instrumented
 CSB2 execution, and 9.437 ms direct CSB2 forward. Net empty-timer
@@ -615,7 +613,7 @@ execution context a credible explanation; the report does not
 identify an exact hardware cause or “correct” the original dataset.
 Keep both acquisitions and label the measurement boundary.
 
-## F. Milestone 10 — node and edge ordering
+## Graph Reordering Experiments
 
 ### What is and is not permuted
 
@@ -656,7 +654,7 @@ rows need not match because their execution contexts differ.
 The archival first acquisition reused the loader's feature tensor only
 for Original in the node sweep, while alternate node orders allocated
 new features. It is informative as a sensitivity check, not the main
-M10 experiment. When the entire experiment was repeated using matched
+Graph Reordering experiment. When the entire experiment was repeated using matched
 allocation, significant deterministic projection gains decreased
 from 11/12 to 3/12. Other time variation between acquisitions is
 possible. Use the **matched** original report and the extension; the
@@ -667,7 +665,7 @@ preserved in the corresponding directories.
 
 ### Requested complete-forward contrasts
 
-<!-- evidence:m10-forward:start -->
+<!-- evidence:reordering-forward:start -->
 
 | Dataset | Acquisition | Axis | Candidate | Original ms | Candidate ms | Paired speedup | 95% CI | Holm p | Decision |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -690,13 +688,13 @@ preserved in the corresponding directories.
 | PubMed | Extension | node | METIS (32) | 17.162624 | 16.908630 | 1.01112× | [0.99885, 1.02353] | 0.22626 | Inconclusive after Holm |
 | PubMed | Extension | edge | Destination then source | 15.864936 | 15.269934 | 1.03648× | [1.02624, 1.04682] | 0.0010826 | Meets practical gate |
 
-<!-- evidence:m10-forward:end -->
+<!-- evidence:reordering-forward:end -->
 
 Each “best observed node” row is the lowest forward median among
 nonrandom alternate node policies in that acquisition; it is not
 proof that the order beats the original. METIS is shown as its own
 extension contrast. Destination grouping qualified on **PubMed in both
-independent campaigns**, with paired speedup 1.0504× in matched M10 and
+independent campaigns**, with paired speedup 1.0504× in the matched-allocation run and
 1.0280× in the seven-policy extension. These estimates need not be equal;
 we did not test a change in effect between the acquisitions. The extension
 found Destination-then-source also qualifies versus Original on PubMed.
@@ -712,7 +710,7 @@ whole-forward win. Rankings changed among some shared policies between
 campaigns; that is not a reason to pool the timings or assume a
 universal preferred degree or bandwidth policy.
 
-<!-- evidence:m10-secondary:start -->
+<!-- evidence:reordering-secondary:start -->
 
 | Dataset | Destination-grouped ms | Destination then source ms | Paired speedup | 95% CI | Holm p | Decision |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -720,7 +718,7 @@ universal preferred degree or bandwidth policy.
 | CiteSeer | 9.792291 | 9.877807 | 0.99324× | [0.98268, 1.00391] | 1 | Inconclusive after Holm |
 | PubMed | 15.428297 | 15.269934 | 1.00825× | [0.99333, 1.02338] | 1 | Inconclusive after Holm |
 
-<!-- evidence:m10-secondary:end -->
+<!-- evidence:reordering-secondary:end -->
 
 **Do not say lexicographic destination order is faster than stable
 destination grouping.** It is fastest by observed PubMed median, but
@@ -731,7 +729,7 @@ original-style stable grouping as the simpler proven option.
 
 ### One-time costs and storage visibility
 
-<!-- evidence:m10-overhead:start -->
+<!-- evidence:reordering-overhead:start -->
 
 | Dataset (extension) | Policy | Plan / replay ms | Rebuild ms | Formats ms |
 | --- | --- | --- | --- | --- |
@@ -745,7 +743,7 @@ original-style stable grouping as the simpler proven option.
 | PubMed | Destination-grouped | 4.304770 | 0.904030 | 0.622849 |
 | PubMed | Destination then source | 5.077314 | 0.867458 | 0.650545 |
 
-<!-- evidence:m10-overhead:end -->
+<!-- evidence:reordering-overhead:end -->
 
 Planning and feature/endpoint remapping plus graph reconstruction
 and native-format materialization are timed separately. Forward
@@ -769,7 +767,7 @@ current node order until restored. Separately measured bandwidth and
 endpoint-step statistics describe adjacency locality, not cache
 counters. PubMed Destination-grouped improved both softmax and
 aggregation in the corrected **in-forward** stage comparisons. These are
-not isolated calls in M10. The observed pair of stage gains
+not isolated calls in Graph Reordering. The observed pair of stage gains
 supports a sparse-access explanation, but no measurement isolates a
 unique hardware mechanism.
 
@@ -779,7 +777,7 @@ processes, and the paired interval conditions on that seed set. The
 seed-specific table in each report distinguishes seed-to-seed timing
 variation from within-seed process variation.
 
-## G. Milestone 11 — loop ordering
+## Loop-Nest Optimization
 
 ### Fixed implementation controls
 
@@ -866,7 +864,7 @@ no stage timer.
 
 ### Measured results
 
-<!-- evidence:m11-forward:start -->
+<!-- evidence:loop-nest-forward:start -->
 
 | Dataset | Sweep | Candidate | Default | Default ms | Candidate ms | Paired speedup | 95% CI | Holm p |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -875,15 +873,15 @@ no stage timer.
 | PubMed | aggregation | D2 | D1 | 13.294048 | 12.405656 | 1.07613× | [1.06121, 1.09126] | 4.5251e-05 |
 | PubMed | aggregation | D4 | D1 | 13.294048 | 12.686727 | 1.05424× | [1.03280, 1.07613] | 0.0035121 |
 
-<!-- evidence:m11-forward:end -->
+<!-- evidence:loop-nest-forward:end -->
 
 These are **all** the practical whole-forward gains by the prespecified
 rule. No CiteSeer alternative qualifies. An order can have a favorable
-median without a supported practical gain. The complete M11 report
+median without a supported practical gain. The complete Loop-Nest Optimization report
 contains all stage medians and every paired result, including slower
 orders and estimates below the practical threshold.
 
-<!-- evidence:m11-ranks:start -->
+<!-- evidence:loop-nest-ranks:start -->
 
 | Dataset | Sweep | Fastest isolated | Fastest in-forward | Fastest forward |
 | --- | --- | --- | --- | --- |
@@ -900,7 +898,7 @@ orders and estimates below the practical threshold.
 | PubMed | softmax | C3 | C3 | C3 |
 | PubMed | aggregation | D2 | D2 | D2 |
 
-<!-- evidence:m11-ranks:end -->
+<!-- evidence:loop-nest-ranks:end -->
 
 The isolated and in-forward rank agrees for most cases. A1 and B1
 are fastest for their target stage on all three graphs, so keep them
@@ -920,7 +918,7 @@ improving choice for all new graphs.
 
 ### PubMed aggregation: the core isolated-versus-forward result
 
-<!-- evidence:m11-pubmed:start -->
+<!-- evidence:loop-nest-pubmed:start -->
 
 | Endpoint | D1 med. ms | D2 med. ms | Paired speedup | 95% CI | Holm p |
 | --- | --- | --- | --- | --- | --- |
@@ -928,7 +926,7 @@ improving choice for all new graphs.
 | in_forward | 1.475163 | 0.616297 | 2.34610× | [2.25198, 2.44416] | 2.2358e-09 |
 | forward | 13.294048 | 12.405656 | 1.07613× | [1.06121, 1.09126] | 4.5251e-05 |
 
-<!-- evidence:m11-pubmed:end -->
+<!-- evidence:loop-nest-pubmed:end -->
 
 The paired D2 gain is roughly 1.98× in isolation and 2.35× for the
 instrumented aggregation stage, but only 1.076× for the uninstrumented
@@ -955,9 +953,9 @@ Measure both to diagnose; decide from direct forward. On CiteSeer
 projection dominates, and even the supported D2/D4 aggregation
 improvements do not translate into qualified total gains.
 
-### Stock DGL context (separate acquisition schedule within M11)
+### Stock DGL context (separate acquisition schedule within Loop-Nest Optimization)
 
-<!-- evidence:m11-stock:start -->
+<!-- evidence:loop-nest-stock:start -->
 
 | Dataset | projection | terms | score | softmax | aggregation | output | forward |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -965,7 +963,7 @@ improvements do not translate into qualified total gains.
 | CiteSeer | 8.784473 | 0.150778 | 0.210618 | 0.443345 | 0.453988 | 0.027349 | 10.259409 |
 | PubMed | 7.516801 | 0.767366 | 0.703230 | 3.359760 | 3.811452 | 0.103889 | 16.668003 |
 
-<!-- evidence:m11-stock:end -->
+<!-- evidence:loop-nest-stock:end -->
 
 The stock row is the unchanged import on the exact same graph and
 seed-0 parameters, not the loop-family control. DGL and the compiled
@@ -974,21 +972,21 @@ different order, so any ratio of absolute stock and custom totals
 would be an implementation comparison. The ratios in the tuning
 tables never make that substitution.
 
-## H. Cross-milestone synthesis
+## Cross-experiment synthesis
 
 | Choice | What changes | Evidence to retain | What the data cannot establish |
 |---|---|---|---|
-| Sparse storage | Coordinate encoding, grouping and adjacency traversal; M8 may also change backend, index width, dispatch and score fusion. | CSB and small SELL rows are viable implementation candidates; M8 winners beat stock, with size sensitivity for PubMed SELL. Prefer matched custom controls in future tests. | An inherent advantage of blocking alone. M9 unblocked custom COO was fastest by observed forward median on all three. |
+| Sparse storage | Coordinate encoding, grouping and adjacency traversal; Sparse Storage may also change backend, index width, dispatch and score fusion. | CSB and small SELL rows are viable implementation candidates; Sparse Storage winners beat stock, with size sensitivity for PubMed SELL. Prefer matched custom controls in future tests. | An inherent advantage of blocking alone. Timing Validation unblocked custom COO was fastest by observed forward median on all three. |
 | Node order | Labels, feature allocation order, and compressed traversal; original EID sequence stays fixed. | Keep Original as the initial choice. Node alternatives did not meet the practical threshold after matching allocation. | General impossibility of a graph relabeling gain; current CIs and only three graphs do not establish equivalence. |
 | Edge order | EID enumeration and index/feature-access relationship. The nodes and feature tensor stay fixed. | Original, Destination-grouped, Destination-then-source. Stable grouping passed independently twice on PubMed. | Lexicographic destination order is better than stable grouping, or that PubMed predicts all datasets. |
 | Loop order | Logical traversal and generated register/memory behavior in otherwise matched custom code. | Fix A1/B1; evaluate C1/C3 and D1/D2/D4. Aggregation is the most sensitive isolated region in this family. | A direct comparison with stock isolates loop order, or C3 and D2 combine without interference. |
 
 **Independent effects** answer “what happened when this measured
-choice changed while the control conditions stayed fixed?” In M10,
+choice changed while the control conditions stayed fixed?” In Graph Reordering,
 this is particularly strong because a single imported kernel path
-sees different graph data; in M11 it is the same serial family and
-ABI with one changed loop order. M8 spans more simultaneous
-implementation differences and needs the M9 matched-backend and
+sees different graph data; in Loop-Nest Optimization it is the same serial family and
+ABI with one changed loop order. Sparse Storage spans more simultaneous
+implementation differences and needs the Timing Validation matched-backend and
 unblocked qualification.
 
 **Cross-stage observations** say which regions covary after one
@@ -1006,26 +1004,25 @@ an additive contrast would be
 $T_{11}-T_{10}-T_{01}+T_{00}$ from the four direct forwards, with
 block and process pairing retained. A multiplicative contrast
 uses the corresponding log ratios. There is no such fixed four
-cell experiment spanning an M8 custom storage choice and an M11
-loop order or the M10 winning edge policies in this submission.
+cell experiment spanning a custom storage choice and a loop order or the
+winning edge policies in these experiments.
 The older exploratory DGL-only joint matrix used its own
 compatibility and timing rules and is not evidence for these
 combined treatments. **Do not add or multiply speedups from these
 campaigns. Do not propose a measured combined winner.**
 
-The strongest paper-scale comparison is therefore not “one fastest
-GAT,” but which apparent improvements survive the progressively
+The strongest comparison is therefore which apparent improvements survive the progressively
 stricter evidence: numerical equivalence, matched graph or
 implementation control, direct latency, a process-level interval,
 and familywise-adjusted qualification. Negative and inconclusive
 measurements are essential results. They narrow the set of
 plausible future experiments and prevent reporting noisy winners.
 
-## I. Testing and correctness
+## Testing and correctness
 
-For the independently executed submission checks, exact commands,
+For the independently executed verification checks, exact commands,
 results, platform and memory-check scope, see
-[SUBMISSION_QA.md](SUBMISSION_QA.md). These checks do not replace the
+[VERIFICATION.md](VERIFICATION.md). These checks do not replace the
 committed acquisition samples. The focused unit tests and the
 smoke run use small fixtures or deliberately small process counts.
 Do not describe them as a new performance study.
@@ -1038,16 +1035,16 @@ Do not describe them as a new performance study.
   its output and attention are independently checked against that
   import. This distinguishes a stock oracle from a reimplementation
   of the same flawed candidate.
-- **Storage.** M8 builders decode physical arrays and recover exact
+- **Storage.** Sparse Storage builders decode physical arrays and recover exact
   node pairs and original EIDs. Tests exercise masks, sentinel slots,
   parallel-edge sidecars, globally normalized softmax, padding
   allocate guards, and the native fallback routes. Every measured
   format checks intermediates and final output, repeatability and
-  active destination/head sums. M8 maximum final absolute error across
+  active destination/head sums. Sparse Storage maximum final absolute error across
   datasets is approximately 1.12e−8; maximum isolated sparse
   discrepancy 4.47e−8; max reported normalization error
   4.72e−7. These are not thresholds.
-- **Ordering.** Both M10 acquisitions verify bijections and restore
+- **Ordering.** Both Graph Reordering acquisitions verify bijections and restore
   node output and EID attention against stock on the original graph.
   Tests include nontrivial feature and edge attributes, disconnected
   structure, repeat edges, self-loops, METIS replay and Morton high-bit
@@ -1082,13 +1079,13 @@ raw correctness metadata and deterministic report replays provide
 further evidence. N/A native routes and intentionally skipped
 controls remain disclosed rather than silently counted as measured.
 
-## J. Limitations
+## Limitations
 
 1. **No completed tensor-based cost model or automatic selector.**
    A future model can use these observations, but there is no
    cross-validation of cost prediction, no learned ranking error,
    and no automatic joint choice presented as an end result.
-2. **No tested joint M8/M10/M11 configuration.** Independent deltas
+2. **No tested joint storage, reordering, and loop-nest configuration.** Independent deltas
    are not compositional. Even separately supported orders should
    be measured as combinations with conversions and placement
    costs included before claiming a joint gain.
@@ -1107,7 +1104,7 @@ controls remain disclosed rather than silently counted as measured.
    register and vectorization decisions.
 5. **Separate acquisition campaigns and distinct controls.** Do
    not pool relative effects or compare absolute medians across
-   campaigns as if a controlled factor alone changed. M8/M9
+   campaigns as if a controlled factor alone changed. storage evaluation / timing validation
    differences are informative context, not a combined statistical
    population. Fixed random ordering seeds support conditional timing
    inference; three seeds do not describe all random permutations.
@@ -1126,16 +1123,16 @@ controls remain disclosed rather than silently counted as measured.
    and isolated/in-forward differences reflect context; no hardware
    counter study supports a particular miss-rate mechanism.
 
-## K. Conclusion and future work
+## Conclusion and future work
 
 The demonstrated contribution is a reproducible, correctness-checked
 performance study with stock-backed references, frozen workloads,
-raw matched blocks and explicit timing boundaries. M8 identifies
+raw matched blocks and explicit timing boundaries. Sparse Storage identifies
 supported sparse implementation wins over DGL plus severe capacity
-and latency regressions for large dense tiles. M9 shows why those
-wins are not automatically a blocking or layout win. M10 establishes
+and latency regressions for large dense tiles. Timing Validation shows why those
+wins are not automatically a blocking or layout win. Graph Reordering establishes
 PubMed's destination-oriented edge gains without evidence to retain
-node ordering under the same practical threshold. M11 identifies
+node ordering under the same practical threshold. Loop-Nest Optimization identifies
 qualifying loop-order gains in softmax and aggregation, and gives a
 clear example of a large isolated aggregation gain becoming a
 much smaller, but still supported, whole-layer speedup.
@@ -1154,46 +1151,32 @@ selection, and test transfer to alternative CPUs, feature widths,
 thread counts and graph families. Nothing here claims those steps
 are finished.
 
-### Recommended five-page paper allocation
-
-Use a short motivation and five-step math definition, then one
-methods paragraph with the paired design and timing distinctions.
-Use three compact results tables or panels: stock-relative M8
-winners plus the four-control CiteSeer distinction; matched M10
-edge contrasts including the inconclusive head-to-head; and M11's
-qualified whole-forward choices with a PubMed D2 row pair showing
-isolation versus whole forward. Use the M9 control to constrain the
-M8 causal wording. Conclude with the narrow initial choice set and
-future interaction/model work. Report the caveats alongside each
-figure. Do not squeeze in the whole candidate grid in the final
-five-page report; that grid remains accessible in the artifact.
-
-## L. Evidence index
+## Evidence index
 
 Key selectors in the JSON below identify records by field value.
 The exact form of each quoted result and its inference status are
-in [REPORT_CLAIMS.md](REPORT_CLAIMS.md). Direct timing values are
+in [EXPERIMENTAL_FINDINGS.md](EXPERIMENTAL_FINDINGS.md). Direct timing values are
 medians of process medians; paired ratios, intervals and p-values
 come from the listed contrast arrays, not from rounding report
 tables.
 
 | Result or method | Repository-relative file and location | Measurement / interpretation |
 |---|---|---|
-| Workload dimensions and counts | [M8 RESULTS.json](../benchmarks/comprehensive_sparse_formats/RESULTS.json) · `datasets.{cora,citeseer,pubmed}[0].graph` | Directed loader versus self-loop-processed graph; raw metadata. |
-| Model and platform identity | M8, [M10 RESULTS.json](../benchmarks/ordering_baselines/RESULTS.json), [extension RESULTS.json](../benchmarks/ordering_baselines/extended/RESULTS.json), [M11 RESULTS.json](../benchmarks/loop_ordering/RESULTS.json) · `datasets.<dataset>[i].{weights,edge_sha256,environment,graph.feature_sha256}` | Verified feature, edge, model fingerprints; DGL/Torch/CPU/thread provenance. |
-| M8 stock and observed best forwards | [M8 ANALYSIS.json](../benchmarks/comprehensive_sparse_formats/ANALYSIS.json) · `timings.<dataset>.forward.{stock,csb64,csb2,sell2}`; `comparisons` matching `stage=forward,control=stock` | Direct forward; each dataset's listed winner beat stock after Holm. C01–C03. |
-| Stronger M8 four-control comparison | [M8 report](../benchmarks/comprehensive_sparse_formats/REPORT.md) · Supported full-forward comparisons; M8 `comparisons[dataset=citeseer,stage=forward,format=csb2/csb16,control=stock/coo/csr/csc]` | CiteSeer CSB2's native contrasts are inconclusive; CSB16 is the sole four-control qualifier. C04–C05. |
-| Purely isolated M8 sparse results | M8 ANALYSIS · `timings.<dataset>.stage["softmax/csb64"]`, relevant `aggregation/csb64` or `aggregation/csb4`, comparator CSC; `comparisons` | Prepared operands and separately timed stages, not percentages or timings of a specific forward. C06–C08. |
-| Memory and block regressions | M8 ANALYSIS · `storage.pubmed.{dense2,dense64,sell2,sell64}`, `comparisons[pubmed,forward,dense64,stock]` and `[pubmed,forward,sell64,sell2]` | One-time build / stored bytes or allocated slots; direct regressions supported after correction. C09–C10. |
-| Native-format fallback | [M8 NA_EXPLANATIONS.md](../benchmarks/comprehensive_sparse_formats/NA_EXPLANATIONS.md); M8 raw `datasets.<dataset>[i].routes` | Supported native calls only, N/A isolation is not a missing forward sample. |
-| Backend and storage controls | [M9 ANALYSIS.json](../benchmarks/sparse_format_validation/ANALYSIS.json) · `contrasts` with `family="matched backend",cora,coo→matched_coo` and `family="matched storage",pubmed,custom_coo→sell2` | Independently paired forwards; backend win and storage candidate loss, respectively. C11–C12. |
-| Projection timing discrepancy | [M9 report](../benchmarks/sparse_format_validation/REPORT.md) · Projection discrepancy and timing overhead; M9 ANALYSIS `milestone8.citeseer` | Instrumentation and execution context measured separately. Old M8 isolated medians are not in-forward stages. |
-| M10 allocation sensitivity | [M10 report](../benchmarks/ordering_baselines/REPORT.md) · Feature allocation sensitivity; [archived RESULTS.json](../benchmarks/ordering_baselines/initial_allocation/RESULTS.json) | Earlier allocation-asymmetric run retained but not used for recommendation. |
-| Reproduced stable destination edge effect | [M10 ANALYSIS.json](../benchmarks/ordering_baselines/ANALYSIS.json) and [extension ANALYSIS.json](../benchmarks/ordering_baselines/extended/ANALYSIS.json) · `datasets.pubmed.edge.table`; `contrasts[pubmed,edge,dst,forward]` | Separate matched stock forwards. Both qualify vs Original. C13–C14. |
+| Workload dimensions and counts | [Sparse Storage RESULTS.json](../benchmarks/comprehensive_sparse_formats/RESULTS.json) · `datasets.{cora,citeseer,pubmed}[0].graph` | Directed loader versus self-loop-processed graph; raw metadata. |
+| Model and platform identity | Sparse Storage, [Graph Reordering RESULTS.json](../benchmarks/ordering_baselines/RESULTS.json), [extension RESULTS.json](../benchmarks/ordering_baselines/extended/RESULTS.json), [Loop-Nest Optimization RESULTS.json](../benchmarks/loop_ordering/RESULTS.json) · `datasets.<dataset>[i].{weights,edge_sha256,environment,graph.feature_sha256}` | Verified feature, edge, model fingerprints; DGL/Torch/CPU/thread provenance. |
+| Sparse Storage stock and observed best forwards | [Sparse Storage ANALYSIS.json](../benchmarks/comprehensive_sparse_formats/ANALYSIS.json) · `timings.<dataset>.forward.{stock,csb64,csb2,sell2}`; `comparisons` matching `stage=forward,control=stock` | Direct forward; each dataset's listed winner beat stock after Holm. C01–C03. |
+| Stronger Sparse Storage four-control comparison | [Sparse Storage report](../benchmarks/comprehensive_sparse_formats/REPORT.md) · Supported full-forward comparisons; Sparse Storage `comparisons[dataset=citeseer,stage=forward,format=csb2/csb16,control=stock/coo/csr/csc]` | CiteSeer CSB2's native contrasts are inconclusive; CSB16 is the sole four-control qualifier. C04–C05. |
+| Purely isolated Sparse Storage sparse results | Sparse Storage ANALYSIS · `timings.<dataset>.stage["softmax/csb64"]`, relevant `aggregation/csb64` or `aggregation/csb4`, comparator CSC; `comparisons` | Prepared operands and separately timed stages, not percentages or timings of a specific forward. C06–C08. |
+| Memory and block regressions | Sparse Storage ANALYSIS · `storage.pubmed.{dense2,dense64,sell2,sell64}`, `comparisons[pubmed,forward,dense64,stock]` and `[pubmed,forward,sell64,sell2]` | One-time build / stored bytes or allocated slots; direct regressions supported after correction. C09–C10. |
+| Native-format fallback | [Sparse Storage NA_EXPLANATIONS.md](../benchmarks/comprehensive_sparse_formats/NA_EXPLANATIONS.md); Sparse Storage raw `datasets.<dataset>[i].routes` | Supported native calls only, N/A isolation is not a missing forward sample. |
+| Backend and storage controls | [Timing Validation ANALYSIS.json](../benchmarks/sparse_format_validation/ANALYSIS.json) · `contrasts` with `family="matched backend",cora,coo→matched_coo` and `family="matched storage",pubmed,custom_coo→sell2` | Independently paired forwards; backend win and storage candidate loss, respectively. C11–C12. |
+| Projection timing discrepancy | [Timing Validation report](../benchmarks/sparse_format_validation/REPORT.md) · Projection discrepancy and timing overhead; Timing Validation ANALYSIS `milestone8.citeseer` | Instrumentation and execution context measured separately. Old Sparse Storage isolated medians are not in-forward stages. |
+| Graph Reordering allocation sensitivity | [Graph Reordering report](../benchmarks/ordering_baselines/REPORT.md) · Feature allocation sensitivity; [archived RESULTS.json](../benchmarks/ordering_baselines/initial_allocation/RESULTS.json) | Earlier allocation-asymmetric run retained but not used for recommendation. |
+| Reproduced stable destination edge effect | [Graph Reordering ANALYSIS.json](../benchmarks/ordering_baselines/ANALYSIS.json) and [extension ANALYSIS.json](../benchmarks/ordering_baselines/extended/ANALYSIS.json) · `datasets.pubmed.edge.table`; `contrasts[pubmed,edge,dst,forward]` | Separate matched stock forwards. Both qualify vs Original. C13–C14. |
 | Destination-then-source effect and head-to-head | Extension ANALYSIS · `contrasts[pubmed,edge,dst_src,forward]` and `new_edges_vs_dst[pubmed,dst_src]` | Qualifies against Original; inconclusive against stable destination grouping. C15–C16. |
 | METIS plan and node qualification | [METIS.json](../benchmarks/ordering_baselines/extended/METIS.json); extension ANALYSIS `contrasts[cora,node,metis,forward]`; extension report Conclusions | Saved assignments/permutations with measured build times; no node alternative qualifies. C17. |
 | Edge traversal hashes | Extension ANALYSIS · `datasets.<dataset>.edge.representations.<policy>.sparse.{coo,csr,csc}`; extension report Edge traversal details | Separates physical index, current EID map, and original-EID visitation; diagnostic, no statistical hypothesis. |
-| M11 qualifying forwards | [M11 ANALYSIS.json](../benchmarks/loop_ordering/ANALYSIS.json) · `contrasts` cases Cora D2, PubMed C3/D2/D4 and `endpoint="forward"` | Direct same-family forward; supported practical changes only. C18–C21 (ordered by dataset and sweep). |
-| Isolated versus in-forward evidence | M11 ANALYSIS · `datasets.pubmed.aggregation.timing.{D1,D2}`; `contrasts[pubmed,aggregation,D2,isolated/in_forward/forward]` and `[cora,softmax,C3,isolated/forward]` | D2 has strong stage and smaller whole gain. Cora C3 isolated gain, forward inconclusive. C22–C25. |
-| M11 compiler and native execution | M11 RESULTS · `build.{flags,binary_sha256,symbols}` and `datasets.<dataset>[i].{routes,loaded_offsets,checks}`; [M11 report](../benchmarks/loop_ordering/REPORT.md) Access order | Distinct symbols and identical arithmetic; no code-identity aliases in the benchmarked build. |
-| Correctness and independent QA | [SUBMISSION_QA.md](SUBMISSION_QA.md) plus each report's validation section and raw checks | Commands executed and limitations; never a substitute for raw performance acquisition. |
+| Loop-Nest Optimization qualifying forwards | [Loop-Nest Optimization ANALYSIS.json](../benchmarks/loop_ordering/ANALYSIS.json) · `contrasts` cases Cora D2, PubMed C3/D2/D4 and `endpoint="forward"` | Direct same-family forward; supported practical changes only. C18–C21 (ordered by dataset and sweep). |
+| Isolated versus in-forward evidence | Loop-Nest Optimization ANALYSIS · `datasets.pubmed.aggregation.timing.{D1,D2}`; `contrasts[pubmed,aggregation,D2,isolated/in_forward/forward]` and `[cora,softmax,C3,isolated/forward]` | D2 has strong stage and smaller whole gain. Cora C3 isolated gain, forward inconclusive. C22–C25. |
+| Loop-Nest Optimization compiler and native execution | Loop-Nest Optimization RESULTS · `build.{flags,binary_sha256,symbols}` and `datasets.<dataset>[i].{routes,loaded_offsets,checks}`; [Loop-Nest Optimization report](../benchmarks/loop_ordering/REPORT.md) Access order | Distinct symbols and identical arithmetic; no code-identity aliases in the benchmarked build. |
+| Correctness and independent QA | [VERIFICATION.md](VERIFICATION.md) plus each report's validation section and raw checks | Commands executed and limitations; never a substitute for raw performance acquisition. |

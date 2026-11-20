@@ -22,7 +22,7 @@ changing the DGL/PyTorch/Python combination; regenerate and review uv.lock and
 check that it contains no accelerator packages. Do not compare performance
 across dependency upgrades as if only the algorithm changed.
 
-Milestone 2 adds public-API parameter sweeps under benchmarks/dgl_baseline.
+The public-API parameter sweeps live under benchmarks/dgl_baseline.
 Keep the annotated GATConv class AST identical to installed DGL 1.1.3; retain
 DGL-LICENSE and attribution. Graph/feature transforms belong to the separate
 experiment files with adjacent EXPERIMENTAL CHANGE comments. Preserve gat.py.

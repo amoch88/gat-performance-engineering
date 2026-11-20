@@ -1,4 +1,4 @@
-# Milestone 5: four independent CPU tuning families
+# Independent CPU Tuning Experiments
 
 This directory preserves all previous modules and measurements. Runtime remains
 Python 3.11, DGL 1.1.3, PyTorch 2.2.2+cpu and the existing frozen uv.lock.

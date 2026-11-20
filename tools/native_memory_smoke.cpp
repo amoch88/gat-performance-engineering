@@ -1,4 +1,4 @@
-// Standalone Memcheck fixture for the exact source files used by M8/M11.
+// Standalone Memcheck fixture for the sparse-storage and loop-nest kernels.
 // Deliberately avoids Python, Torch, and their unrelated allocator/runtime paths.
 #include <algorithm>
 #include <array>

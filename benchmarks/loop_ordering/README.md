@@ -1,4 +1,4 @@
-# Milestone 11 — Independent CPU GAT loop ordering
+# Loop-Nest Optimization
 
 The [report](REPORT.md) contains the twelve custom timing tables, stock DGL
 reference, uncertainty, isolated-versus-in-forward comparisons and tuning
@@ -13,7 +13,7 @@ entry points, at the fixed four heads and eight features. Source and
 native symbol fingerprints and actual resolved addresses are audited.
 
 The serial kernels reuse the arithmetic and fixed tensor conventions of
-[Milestone 5](../tuning_axes/). The old OpenMP scheduling paths are
+[the independent CPU tuning experiments](../tuning_axes/). The old OpenMP scheduling paths are
 inappropriate for an experiment that holds threading fixed. Projection,
 degree guard, and bias reuse the existing PyTorch pipeline methods. The
 score family fuses add and LeakyReLU identically in both variants.
@@ -23,7 +23,7 @@ Stock DGL 1.1.3 is the unchanged correctness and performance reference.
 ## Reproduction
 
 Build the pinned CPU/compiler images as described in
-[Milestone 6](../sparse_formats/README.md). The committed acquisition used
+[the sparse kernel reference](../sparse_formats/README.md). The committed acquisition used
 the `dgl-performance-model:axes` image and the unchanged cached citation
 datasets. Run from the repository root inside the frozen CPU environment
 with GNU C++ and binutils:
@@ -33,9 +33,9 @@ p=benchmarks/loop_ordering
 uv run --frozen python benchmarks/gat.py --smoke-test
 uv run --frozen python "$p/tests.py"
 uv run --frozen python "$p/acquire_loops.py" --cpu 0 \
-  --data-dir results/datasets --output results/m11/RESULTS.json
-uv run --frozen python "$p/report.py" --input results/m11/RESULTS.json \
-  --output results/m11
+  --data-dir results/datasets --output results/loop-nest/RESULTS.json
+uv run --frozen python "$p/report.py" --input results/loop-nest/RESULTS.json \
+  --output results/loop-nest
 ~~~
 
 The output path must be fresh. CPU 0 must be in the process affinity mask;
@@ -51,9 +51,9 @@ dataset, 10 warmup blocks, and 30 measured matched blocks per sweep.
 For byte-identical replay of committed artifacts:
 
 ~~~sh
-uv run --frozen python "$p/report.py" --output results/m11-replay
-cmp "$p/REPORT.md" results/m11-replay/REPORT.md
-cmp "$p/ANALYSIS.json" results/m11-replay/ANALYSIS.json
+uv run --frozen python "$p/report.py" --output results/loop-nest-replay
+cmp "$p/REPORT.md" results/loop-nest-replay/REPORT.md
+cmp "$p/ANALYSIS.json" results/loop-nest-replay/ANALYSIS.json
 ~~~
 
 The report checks source fingerprints, stock profile consistency, native

@@ -1,11 +1,13 @@
 # Source, data, and attribution
 
-- Original research repository:
+- Research source:
   [amoch88/dgl-performance-model](https://github.com/amoch88/dgl-performance-model),
   committed source snapshot
   [9659684473a0531aa06e40f614e1fbfbbcfc5b76](https://github.com/amoch88/dgl-performance-model/tree/9659684473a0531aa06e40f614e1fbfbbcfc5b76).
-  The course wrapper, handoff and QA additions are separate from that
-  repository. This artifact does not change the original project's
+  The benchmark implementations and recorded data retain that provenance.
+  The [archived baseline notes](../RESEARCH_README.md) preserve the earlier
+  synthetic runner, dataset-access guidance, and stock DGL parameter
+  experiments. This project does not change the upstream project's
   distribution permissions.
 - The annotated DGL layer preserves its original attribution and
   [DGL license](../benchmarks/dgl_baseline/DGL-LICENSE) (Apache License
@@ -19,6 +21,6 @@
   the compiler image; Valgrind is optional for the isolated native QA.
 - Cora, CiteSeer and PubMed are acquired through the public DGL citation
   loaders at runtime. Dataset archives, intermediate caches, and model
-  binaries are not redistributed in the course repository.
+  binaries are not redistributed here.
 - Algorithm and paper citations with publication details appear in
-  [the technical handoff](FINAL_REPORT_HANDOFF.md#b-related-work-and-references).
+  [the technical analysis](TECHNICAL_ANALYSIS.md#related-work-and-references).

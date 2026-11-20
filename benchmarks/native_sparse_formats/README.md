@@ -1,16 +1,16 @@
-# Milestone 7: native DGL and blocked sparse kernels
+# Native DGL and Blocked Sparse Kernels
 
 See [REPORT.md](REPORT.md) for the measured comparison and the preliminary
-annotated/imported equivalence test. This directory extends Milestone 6 by
+annotated/imported equivalence test. This benchmark extends the sparse kernel reference by
 reusing its compiled traversal and storage representation, adding 2, 4 and 8
 node tiles, and replacing every unblocked comparison with an official DGL op.
-The Milestone 6 code, results and report remain unchanged.
+The reference kernels, observations, and report are archived unchanged.
 
 ## Reproduction
 
 Use the frozen CPU environment and dataset cache instructions in
-[Milestone 6](../sparse_formats/README.md). The dataset guard checks the
-Milestone 5 canonical EIDs, native features and exact seed-0 state_dict hashes.
+[the sparse kernel reference](../sparse_formats/README.md). The dataset guard checks the
+recorded canonical EIDs, native features and exact seed-0 state_dict hashes.
 The measurement host used the existing tuning-axes Docker image with Python
 3.11.11, torch 2.2.2+cpu, DGL 1.1.3, and uv 0.13.4. No dependency changes.
 
@@ -21,15 +21,15 @@ checkout into the existing compiler image and pass the mounted paths):
 uv run --frozen python benchmarks/gat.py --smoke-test
 uv run --frozen python benchmarks/native_sparse_formats/tests.py
 uv run --frozen python benchmarks/native_sparse_formats/acquire.py preliminary \
-  --data-dir results/datasets --output results/m7/PRELIMINARY.json
+  --data-dir results/datasets --output results/native-sparse-trial/PRELIMINARY.json
 uv run --frozen python benchmarks/native_sparse_formats/report.py \
-  --preliminary results/m7/PRELIMINARY.json
+  --preliminary results/native-sparse-trial/PRELIMINARY.json
 # Review equivalence and investigate meaningful discrepancies before proceeding.
 uv run --frozen python benchmarks/native_sparse_formats/acquire.py sparse \
-  --data-dir results/datasets --output results/m7/RESULTS.json
+  --data-dir results/datasets --output results/native-sparse-trial/RESULTS.json
 uv run --frozen python benchmarks/native_sparse_formats/report.py \
-  --preliminary results/m7/PRELIMINARY.json --input results/m7/RESULTS.json \
-  --output results/m7
+  --preliminary results/native-sparse-trial/PRELIMINARY.json --input results/native-sparse-trial/RESULTS.json \
+  --output results/native-sparse-trial
 ~~~
 
 Defaults: 8 fresh serial processes per dataset in each phase, 10 warmup

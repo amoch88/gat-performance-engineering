@@ -1,24 +1,24 @@
-# Milestone 9 — Validate sparse format speedups and kernel timing
+# Sparse Backend and Timing Validation
 
 [The report](REPORT.md) contains the three timing tables, matched comparisons,
-and the fixed Milestone 8 replication. All stage times include output
+and the replication of selected storage configurations. All stage times include output
 allocation at their stated boundary. The report records both isolation
 and timing from inside a complete execution.
 
 ## Reproduce
 
 Use the pinned CPU compiler image and cached datasets from the
-[Milestone 6 instructions](../sparse_formats/README.md). This experiment
-reuses the Milestone 8 pipeline and padded layout kernels, the Milestone 7
-native wrappers and CSB builder, and the Milestone 6 custom traversal kernel.
+[the sparse kernel setup instructions](../sparse_formats/README.md). This experiment
+reuses the storage evaluation pipeline and padded kernels, the
+native DGL wrappers and CSB builder, and the shared custom traversal kernel.
 
 ~~~sh
 uv run --frozen python benchmarks/gat.py --smoke-test
 uv run --frozen python benchmarks/sparse_format_validation/tests.py
 uv run --frozen python benchmarks/sparse_format_validation/runner.py \
-  --data-dir results/datasets --output results/m9/RESULTS.json
+  --data-dir results/datasets --output results/sparse-timing-validation/RESULTS.json
 uv run --frozen python benchmarks/sparse_format_validation/report.py \
-  --input results/m9/RESULTS.json --output results/m9
+  --input results/sparse-timing-validation/RESULTS.json --output results/sparse-timing-validation
 ~~~
 
 Use the mounted paths when running in Docker. Defaults are one pinned logical
@@ -30,9 +30,9 @@ The report converts them to milliseconds.
 
 ## Comparisons
 
-The three native hybrid views follow Milestone 8. Three added route-matched
+The three native hybrid views follow the storage evaluation. Three added route-matched
 custom hybrids use the identical per-stage COO/CSR/CSC labels with the
-Milestone 6 kernels. Custom unblocked single-format rows use one format for
+shared custom traversal kernels. Custom unblocked single-format rows use one format for
 all sparse stages and provide the controls for CSB and SELL.
 
 Each randomized block interleaves plain forwards, instrumented forwards,

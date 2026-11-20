@@ -1,4 +1,4 @@
-# Milestone 10 — Independent ordering with imported GATConv
+# Graph Reordering Experiments
 
 [REPORT.md](REPORT.md) contains the six timing tables, pairing and uncertainty,
 ordering diagnostics and interpretation. Each dataset has two independent
@@ -21,8 +21,8 @@ structural adjacency. RCMK uses the SciPy implementation on the same
 symmetric adjacency. These auxiliary adjacencies are used to compute
 permutations and never replace the measured DGL graph.
 
-Timing uses the unchanged imported GATConv. The profiled copy from
-Milestone 9 records six regions from one actual execution. Topology,
+Timing uses the unchanged imported GATConv. The profiled copy from the
+timing validation study records six regions from one actual execution. Topology,
 aligned data, restored output and attention are checked before timing.
 For parity, all node policies allocate their feature tensors using the same
 row indexing operation, including the identity control. Edge policies share
@@ -34,18 +34,18 @@ sweeps. All created views are audited against the canonical topology.
 ## Reproduction
 
 Use the pinned CPU and compiler images and cached DGL datasets described
-in [Milestone 6](../sparse_formats/README.md). In the frozen Linux environment,
+in [the sparse kernel reference](../sparse_formats/README.md). In the frozen Linux environment,
 run from repository root:
 
 ~~~sh
 uv run --frozen python benchmarks/gat.py --smoke-test
 uv run --frozen python benchmarks/ordering_baselines/tests.py
 uv run --frozen python benchmarks/ordering_baselines/benchmark.py \
-  --data-dir results/datasets --output results/m10/RESULTS.json \
-  --maps results/m10/PERMUTATIONS.json
+  --data-dir results/datasets --output results/graph-reordering/RESULTS.json \
+  --maps results/graph-reordering/PERMUTATIONS.json
 uv run --frozen python benchmarks/ordering_baselines/report.py \
-  --input results/m10/RESULTS.json --maps results/m10/PERMUTATIONS.json \
-  --output results/m10
+  --input results/graph-reordering/RESULTS.json --maps results/graph-reordering/PERMUTATIONS.json \
+  --output results/graph-reordering
 ~~~
 
 For Docker, use the corresponding mounted paths. Defaults are eight fresh
@@ -57,7 +57,7 @@ milliseconds. Permutation maps use new-to-original orientation, with
 identity maps encoded by their length.
 
 To replay the committed report and analysis byte for byte, use
-`uv run --frozen python benchmarks/ordering_baselines/report.py --output results/m10-replay`.
+`uv run --frozen python benchmarks/ordering_baselines/report.py --output results/graph-reordering-replay`.
 The default input includes the archived first acquisition for the allocation
 sensitivity check. Its raw timings and exact policy source live in
 `initial_allocation/`; its permutation maps match the primary run byte for byte.
